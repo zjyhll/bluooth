@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <TableRow android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:maxEms="10"
+            android:maxLines="2"
+            android:padding="10dp"
+            android:text="李四"
+            android:textColor="@color/ldzt"
+            android:textSize="@dimen/size16" />
+
+        <TextView
+            android:id="@+id/tv_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tv_name"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:maxEms="10"
+            android:maxLines="2"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:text="99999元"
+            android:textColor="@color/ldzt"
+            android:textSize="@dimen/size16" />
+
+        <TextView
+            android:id="@+id/tv_remarks"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/tv_hl"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:gravity="left"
+            android:maxEms="10"
+            android:maxLines="2"
+            android:padding="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="电脑一台,价值6000元"
+            android:textColor="@color/ldzt2"
+            android:textSize="@dimen/size16" />
+
+        <TextView
+            android:id="@+id/tv_hl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_ok_selector"
+            android:gravity="center"
+            android:maxEms="10"
+            android:maxLines="2"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:text="还礼"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size16" />
+
+    </TableRow>
+</TableLayout>

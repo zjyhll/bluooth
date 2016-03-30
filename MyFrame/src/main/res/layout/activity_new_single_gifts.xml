@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.keyhua.renameyourself.main.personCenter.LiDataActivity">
+
+    <include layout="@layout/include_head" />
+
+    <RelativeLayout
+        android:id="@+id/rl_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/select_item_down"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:padding="10dp"
+            android:text="收礼日期"
+            android:textColor="@color/content"
+            android:textSize="@dimen/size20" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/iv"
+            android:layout_toRightOf="@id/tv"
+            android:padding="10dp"
+            android:text="2016-03-12(二月初四)"
+            android:textColor="@color/content"
+            android:textSize="@dimen/size20" />
+
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/tensise"
+            android:background="@mipmap/right_s" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/videoview" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="4dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="收礼人物"
+            android:textColor="@color/content"
+            android:textSize="@dimen/size20" />
+
+        <com.keyhua.renameyourself.view.CleareditTextView
+            android:id="@+id/ctv_event"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:hint="此处为必填项目"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="@color/content"
+            android:textColorHint="@color/transparent3"
+            android:textSize="@dimen/size20" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/videoview" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="4dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="收礼类型"
+            android:textColor="@color/content"
+            android:textSize="@dimen/size20" />
+
+        <com.keyhua.renameyourself.view.CleareditTextView
+            android:id="@+id/ctv_lijin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:hint="此处为选填项目"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="@color/content"
+            android:textColorHint="@color/transparent3"
+            android:textSize="@dimen/size20" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/videoview" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="4dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="收礼地点"
+            android:textColor="@color/content"
+            android:textSize="@dimen/size20" />
+
+        <com.keyhua.renameyourself.view.CleareditTextView
+            android:id="@+id/ctv_liwu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:hint="此处为选填项目"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:textColor="@color/content"
+            android:textColorHint="@color/transparent3"
+            android:textSize="@dimen/size20" />
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/videoview" />
+
+    <TextView
+        android:id="@+id/tv_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_ok_selector"
+        android:gravity="center"
+        android:padding="14dp"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="@dimen/size18" />
+
+
+</LinearLayout>

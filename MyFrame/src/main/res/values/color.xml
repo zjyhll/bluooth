@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#ef5656</color>
+    <color name="colorPrimaryDark">#ef5656</color>
+    <color name="appallbackground">#fafafa</color>
+    <color name="sld">#eb2f30</color>
+    <color name="hld">#f91697</color>
+    <color name="kbsj">#ff8329</color>
+    <color name="ldzt">#333333</color>
+    <color name="ldzt2">#666666</color>
+    <!-- 当按钮为文字时 设置textview按钮属性 -->
+    <drawable name="black">#646464</drawable>
+    <drawable name="gray">#ff7700</drawable>
+    <drawable name="white">#FFFFFFFF</drawable>
+    <drawable name="drawable_green">#64c885</drawable>
+    <drawable name="drawable_content">#787878</drawable>
+
+    <color name="allbackground">#f0f0f0</color>
+    <color name="zuzhi_join">#e6e6e6</color>
+    <color name="lefttvdianji">#ef5656</color>
+    <color name="lefttvmoren">#636262</color>
+    <color name="grey">#C1CDCD</color>
+    <color name="yellow">#ff7300</color>
+    <color name="time_line_bg">#b3b3b3</color>
+    <color name="head_line_bg">#cccccc</color>
+    <color name="huangse">#F4A460</color>
+    <color name="lefttv">#ff5500</color>
+    <color name="title">#323232</color>
+    <color name="head_edit">#969696</color>
+    <color name="content">#646464</color>
+    <color name="content_set">#d2d2d2</color>
+    <color name="fenhong">#FFAEB9</color>
+    <color name="lv">#9BCD9B</color>
+    <color name="black">#ff000000</color>
+    <color name="blue">#ff003399</color>
+    <color name="newgreen">#ffccff66</color>
+    <color name="buttonbackground">#ffffffcc</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="chense">#ffaa33</color>
+    <color name="down_share">#AAAAAA</color>
+    <!-- 边框色 -->
+    <color name="videoview">#d2d2d2</color>
+    <color name="red">#EE2C2C</color>
+    <color name="shenred">#8B0000</color>
+    <color name="lightgreen">#29cc29</color>
+    <!-- 点击色 -->
+    <color name="down">#f0f0f0</color>
+    <!-- 二维码 -->
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
+    <color name="transparent_item">#40000000</color>
+    <!-- 透明 -->
+    <color name="transparent">#00000000</color>
+    <color name="transparent2">#80000000</color>
+    <color name="transparent3">#30000000</color>
+    <color name="transparent4">#10000000</color>
+    <!-- 活动详情底部颜色 -->
+    <color name="buttonbac">#4b4b4b</color>
+    <!-- 标题字体色 -->
+    <color name="biaoti">#141414</color>
+    <!-- 描述文字 -->
+    <color name="miaoshu">#8c8c8c</color>
+    <!-- 辅助文字 -->
+    <color name="fuzhu">#8c8c8c</color>
+    <!-- 橙色、主色 -->
+    <color name="app_green">#ff7700</color>
+    <!-- 线 -->
+    <color name="line">#d2d2d2</color>
+    <color name="linebac">#dcdcdc</color>
+    <!-- 主页类型颜色 -->
+    <!-- 登山 -->
+    <color name="dengshan">#323232</color>
+    <!-- 徒步 -->
+    <color name="tubu">#323232</color>
+    <!-- 骑行 -->
+    <color name="qixing">#323232</color>
+    <!-- 自驾 -->
+    <color name="zijia">#323232</color>
+    <!-- 摄影 -->
+    <color name="sheying">#323232</color>
+    <!-- 休闲 -->
+    <color name="xiuxian">#323232</color>
+    <!-- 露营 -->
+    <color name="luying">#323232</color>
+    <!-- 亲子 -->
+    <color name="qinzi">#323232</color>
+    <!-- ok -->
+    <color name="ok1">#f4000a</color>
+    <color name="ok2">#dd0009</color>
+    <!-- cancel -->
+    <color name="cancel1">#cdcdcd</color>
+    <color name="cancel2">#c6c6c6</color>
+    <!-- 活动详情底部颜色 -->
+    <!-- 绿 -->
+    <color name="huodong1">#29cc29</color>
+    <!-- 黄 -->
+    <color name="huodong2">#ff8c1a</color>
+    <!-- 其余状态 -->
+    <color name="state_1">#ff7700</color>
+    <!-- 审核失败 -->
+    <color name="state_2">#e52e2e</color>
+    <!-- 审核中 -->
+    <color name="state_3">#29cc29</color>
+</resources>

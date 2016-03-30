@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/allbackground"
+    android:orientation="vertical"
+    tools:context="com.keyhua.renameyourself.main.personCenter.LiDataActivity">
+
+    <include layout="@layout/include_head" />
+
+    <com.keyhua.renameyourself.view.CleareditTextView
+        android:id="@+id/ctv_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/white"
+        android:ems="10"
+        android:gravity="center_vertical"
+        android:hint="请输入您的手机号"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textSize="@dimen/size20" />
+
+    <com.keyhua.renameyourself.view.CleareditTextView
+        android:id="@+id/ctv_pwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/white"
+        android:ems="10"
+        android:gravity="center_vertical"
+        android:hint="请设置密码"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textSize="@dimen/size20" />
+
+    <com.keyhua.renameyourself.view.CleareditTextView
+        android:id="@+id/ctv_pwd_ag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:ems="10"
+        android:gravity="center_vertical"
+        android:hint="请输确认密码"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textSize="@dimen/size20" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="0"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="密码长度至少6个字符，最多32个字符"
+        android:textColor="@color/content"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_ok_selector"
+        android:gravity="center"
+        android:padding="14dp"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="@dimen/size18" />
+
+
+</LinearLayout>

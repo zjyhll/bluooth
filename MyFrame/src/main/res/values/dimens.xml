@@ -1,0 +1,33 @@
+<resources>
+
+    <dimen name="shadow_width">15dp</dimen>
+    <dimen name="slidingmenu_offset">80dp</dimen>
+    <dimen name="size24">24sp</dimen>
+    <dimen name="size28">28sp</dimen>
+    <dimen name="size22">22sp</dimen>
+    <dimen name="size20">20sp</dimen>
+    <dimen name="size18">18sp</dimen>
+    <dimen name="size16">16sp</dimen>
+    <dimen name="size15">15sp</dimen>
+    <dimen name="size14">14sp</dimen>
+    <dimen name="size13">13sp</dimen>
+    <dimen name="size12">12sp</dimen>
+    <dimen name="size10">10sp</dimen>
+    <dimen name="size8">8sp</dimen>
+    <dimen name="margin_items_baoliao_lv">5dp</dimen>
+    <dimen name="main_radiobutton">16sp</dimen>
+    <dimen name="zjy_xiaochaguan_margin">5dp</dimen>
+    <dimen name="ui_10_dip">10dip</dimen>
+    <!--  -->
+    <dimen name="minsise">5dp</dimen>
+    <dimen name="nomalsise">12sp</dimen>
+    <dimen name="tensise">10dp</dimen>
+    <dimen name="bigsise">16dp</dimen>
+    <dimen name="nomalbigsise">14dp</dimen>
+    <!--  -->
+    <dimen name="image_size">100dp</dimen>
+    <dimen name="space_size">4dp</dimen>
+    <dimen name="folder_cover_size">72dp</dimen>
+    <dimen name="spacing">24dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+</resources>
