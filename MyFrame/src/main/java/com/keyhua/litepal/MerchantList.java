@@ -7,12 +7,17 @@ import org.litepal.crud.DataSupport;
  * 商家表
  */
 public class MerchantList extends DataSupport {
+    private long id = 0;
     private String merchant_uid = "";//商家uuid
     private String merchant_img = "";//商家图片地址
     private String merchant_desc = "";//商家介绍
     private String merchant_phone = "";//商家电话
     private String merchant_location = "";//商家地址
     private String merchant_score = "";//商家评分
+
+    public long getId() {
+        return id;
+    }
 
     public String getMerchant_uid() {
         return merchant_uid;

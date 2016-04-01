@@ -7,12 +7,17 @@ import org.litepal.crud.DataSupport;
  * 送礼单表
  */
 public class RepayList extends DataSupport {
+    private long id = 0;
     private String repay_uid = "";//还礼uuid
     private String repay_person = "";//还礼人
     private String repay_money = "";//礼金额
     private String repay_remark = "";//备注
     private String gift_uid = "";//收礼单id
     private String event_uid = "";//还礼单对应的事件id
+
+    public long getId() {
+        return id;
+    }
 
     public String getRepay_uid() {
         return repay_uid;

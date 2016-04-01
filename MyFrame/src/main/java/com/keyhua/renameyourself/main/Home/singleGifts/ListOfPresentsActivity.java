@@ -7,11 +7,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
@@ -20,6 +22,8 @@ import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnDismissListener;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.example.importotherlib.R;
+import com.keyhua.litepal.Event;
+import com.keyhua.litepal.GiftList;
 import com.keyhua.renameyourself.app.App;
 import com.keyhua.renameyourself.base.BaseActivity;
 import com.keyhua.renameyourself.main.Home.singleGifts.presentsDetail.AddDetailActivity;
@@ -28,7 +32,10 @@ import com.keyhua.renameyourself.util.CommonUtility;
 import com.keyhua.renameyourself.util.DensityUtils;
 import com.keyhua.renameyourself.util.NetUtil;
 
+import org.litepal.crud.DataSupport;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import in.srain.cube.loadmore.LoadMoreContainer;
 import in.srain.cube.loadmore.LoadMoreHandler;
@@ -47,16 +54,31 @@ public class ListOfPresentsActivity extends BaseActivity implements OnItemClickL
     public int index = 0;
     public int count = 10;
     // 服务器返回提示信息
-    private ArrayList mers = null;
-    private ArrayList mersTemp = null;
+    private List<GiftList> mers = null;
+    private List<GiftList> mersTemp = null;
     private AlertView deleteAlertView;//避免创建重复View，先创建View，然后需要的时候show出来，推荐这个做法
+    private long id = 0;//事件id
+    private long giftId = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_of_presents);
+        id = getIntent().getLongExtra("id", 0);
         initHeaderOther("2016.3.12结婚收礼单", titleStr, true, true, true);
         init();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        //由id查询当前事件
+        mersTemp = DataSupport.where("event_uid=?", String.valueOf(id)).find(GiftList.class);
+        if (mersTemp.size() > 0) {
+            mers.clear();
+            mers.addAll(mersTemp);
+            listadapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -64,6 +86,7 @@ public class ListOfPresentsActivity extends BaseActivity implements OnItemClickL
         deleteAlertView = new AlertView("温馨提示", "确定要删除该条记录吗", "取消", new String[]{"确定"}, null, this, AlertView.Style.Alert, this).setCancelable(true).setOnDismissListener(this);
         //end
         mers = new ArrayList<>();
+        mersTemp = new ArrayList<>();
         lv_home = (SwipeMenuListView) findViewById(R.id.lv_home);
         listadapter = new MYAdpter(this, mers);
         lv_home.setAdapter(listadapter);
@@ -130,9 +153,13 @@ public class ListOfPresentsActivity extends BaseActivity implements OnItemClickL
                 switch (index) {
                     case 0:
                         // open
-                        openActivity(ModifyDetailActivity.class);
+                        Bundle b = new Bundle();
+                        giftId = mers.get(position).getId();
+                        b.putLong("id", giftId);
+                        openActivity(ModifyDetailActivity.class, b);
                         break;
                     case 1:
+                        giftId = mers.get(position).getId();
                         // delete
                         deleteAlertView.show();
                         break;
@@ -150,7 +177,12 @@ public class ListOfPresentsActivity extends BaseActivity implements OnItemClickL
 
     @Override
     public void onItemClick(Object o, int position) {
-        if (o == deleteAlertView) {
+        if (o == deleteAlertView&& position != AlertView.CANCELPOSITION) {
+            DataSupport.delete(GiftList.class, giftId);
+            mersTemp = DataSupport.where("event_uid=?", String.valueOf(id)).find(GiftList.class);
+            mers.clear();
+            mers.addAll(mersTemp);
+            listadapter.notifyDataSetChanged();
         } else {
         }
     }
@@ -169,7 +201,9 @@ public class ListOfPresentsActivity extends BaseActivity implements OnItemClickL
                 showToast("查询");
                 break;
             case R.id.toolbar_right_r:
-                openActivity(AddDetailActivity.class);
+                Bundle b = new Bundle();
+                b.putLong("id", id);
+                openActivity(AddDetailActivity.class, b);
                 break;
         }
     }
@@ -315,17 +349,16 @@ public class ListOfPresentsActivity extends BaseActivity implements OnItemClickL
 
     public class MYAdpter extends BaseAdapter {
         private Context context = null;
-        public ArrayList mDatas = null;
+        public List<GiftList> mers = null;
 
-        public MYAdpter(Context context, ArrayList list) {
+        public MYAdpter(Context context, List<GiftList> mers) {
             this.context = context;
-            this.mDatas = list;
+            this.mers = mers;
         }
 
         @Override
         public int getCount() {
-//            return mDatas != null ? mDatas.size() : 0;
-            return 3;
+            return mers != null ? mers.size() : 0;
         }
 
         @Override
@@ -352,19 +385,23 @@ public class ListOfPresentsActivity extends BaseActivity implements OnItemClickL
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-//            holder.tv_name.setText((String) mDatas.get(position).getCompanyname());
-//            holder.tv_time.setText((String) mDatas.get(position).getAddtime());
-//            holder.tv_num.setText(mDatas.get(position).getBillnum() + "");
-//            convertView.setOnLongClickListener(new View.OnLongClickListener() {
-//                @Override
-//                public boolean onLongClick(View v) {
-//                    return true;
-//                }
-//            });
+            holder.tv_name.setText(mers.get(position).getGift_person());
+            holder.tv_remarks.setText(mers.get(position).getGift_remark());
+            holder.tv_money.setText(mers.get(position).getGift_money());
+            if (TextUtils.equals(mers.get(position).getGift_status(), CommonUtility.TYPEGIFTGIVING_WHL)) {
+                holder.tv_hl.setText("还礼");
+                holder.tv_hl.setBackgroundResource(R.drawable.btn_ok_selector);
+
+            } else {
+                holder.tv_hl.setText(mers.get(position).getGift_hl_money());
+                holder.tv_hl.setBackgroundColor(getResources().getColor(R.color.white));
+            }
             holder.tv_hl.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showToast("还礼");
+                    if (TextUtils.equals(mers.get(position).getGift_status(), CommonUtility.TYPEGIFTGIVING_WHL)) {
+                        showToast("还礼");
+                    }
                 }
             });
             return convertView;

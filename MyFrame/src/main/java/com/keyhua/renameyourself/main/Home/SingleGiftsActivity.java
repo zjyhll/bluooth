@@ -75,8 +75,9 @@ public class SingleGiftsActivity extends BaseActivity implements OnItemClickList
     @Override
     public void onStart() {
         super.onStart();
-        mersTemp = DataSupport.where("event_type=?", "0").find(Event.class);
+        mersTemp = DataSupport.where("event_type=?", CommonUtility.TYPESINGLEGIFT).find(Event.class);
         if (mersTemp.size() > 0) {
+            mers.clear();
             mers.addAll(mersTemp);
             listadapter.notifyDataSetChanged();
         }
@@ -164,15 +165,15 @@ public class SingleGiftsActivity extends BaseActivity implements OnItemClickList
         lv_home.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                long id = mers.get(position).getId();
+                Bundle b=new Bundle();
+                b.putLong("id", id);
                 switch (index) {
                     case 0:
-                        // open
-                        openActivity(ListOfPresentsActivity.class);
+                        openActivity(ListOfPresentsActivity.class,b);
                         break;
                     case 1:
-                        // delete
-//                        deleteAlertView.show();
-                        openActivity(ChangeSingleGiftsActivity.class);
+                        openActivity(ChangeSingleGiftsActivity.class, b);
                         break;
                 }
                 // false : close the menu; true : not close the menu
@@ -369,21 +370,21 @@ public class SingleGiftsActivity extends BaseActivity implements OnItemClickList
             if (convertView == null) {
                 convertView = LayoutInflater.from(context).inflate(R.layout.item_lv, null);
                 holder = new ViewHolder();
-                holder.tv_name = (TextView) convertView.findViewById(R.id.tv_name);
+                holder.tv_event = (TextView) convertView.findViewById(R.id.tv_event);
                 holder.tv_time = (TextView) convertView.findViewById(R.id.tv_time);
                 holder.tv_num = (TextView) convertView.findViewById(R.id.tv_nums);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            holder.tv_name.setText(mers.get(position).getEvent_name());
+            holder.tv_event.setText(mers.get(position).getEvent_name());
             holder.tv_time.setText(mers.get(position).getEvent_time());
 //            holder.tv_num.setText(mers.get(position).getEvent_location() + "");
             return convertView;
         }
 
         private class ViewHolder {
-            private TextView tv_name = null;
+            private TextView tv_event = null;
             private TextView tv_time = null;
             private TextView tv_num = null;
         }

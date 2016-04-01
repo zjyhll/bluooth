@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.importotherlib.R;
 import com.keyhua.litepal.Event;
 import com.keyhua.renameyourself.base.BaseActivity;
+import com.keyhua.renameyourself.util.CommonUtility;
 import com.keyhua.renameyourself.view.CleareditTextView;
 
 import cn.aigestudio.datepicker.cons.DPMode;
@@ -75,7 +76,7 @@ public class NewSingleGiftsActivity extends BaseActivity {
             case R.id.tv_ok:
                 //收礼人物
                 String eventStr = ctv_event.getText().toString();
-                //收礼类型
+                //收礼类型、备注
                 String giftStr = ctv_lijin.getText().toString();
                 //收礼地点
                 String locationStr = ctv_liwu.getText().toString();
@@ -84,13 +85,15 @@ public class NewSingleGiftsActivity extends BaseActivity {
                 } else {
                     Event event = new Event();
                     event.setEvent_location(locationStr);
-                    event.setEvent_type("0");
+                    event.setEvent_type(CommonUtility.TYPESINGLEGIFT);
+                    event.setEvent_remarks(giftStr);
                     event.setEvent_name(eventStr);
                     event.setEvent_time(timeStr);
                     event.save();
+                    showToast("保存成功");
+                    finish();
                 }
-                showToast("保存成功");
-                finish();
+
                 break;
             case R.id.rl_time:
                 final AlertDialog dialog = new AlertDialog.Builder(NewSingleGiftsActivity.this).create();

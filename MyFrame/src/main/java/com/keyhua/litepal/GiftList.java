@@ -7,16 +7,30 @@ import org.litepal.crud.DataSupport;
  * 收礼单表
  */
 public class GiftList extends DataSupport {
+    private long id = 0;
     private String gift_uid = "";//礼单uuid
     private String gift_person = "";//礼单参与人
     private String gift_money = "";//礼金额
+    private String gift_hl_money = "";//还礼礼金额
     private String gift_remark = "";//备注
     private String event_uid = "";//收礼单对应的事件id
-    private String gift_status = "";//收礼单对应的状态
+    private String gift_status = "";//收礼单对应的状态,是否还礼(0未还礼，1已还礼)
     private String user_uid = "";//用户id
+
+    public String getGift_hl_money() {
+        return gift_hl_money;
+    }
+
+    public void setGift_hl_money(String gift_hl_money) {
+        this.gift_hl_money = gift_hl_money;
+    }
 
     public String getGift_status() {
         return gift_status;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public void setGift_status(String gift_status) {

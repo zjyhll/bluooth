@@ -7,8 +7,13 @@ import org.litepal.crud.DataSupport;
  * 用户商家中间表
  */
 public class UserMerchant extends DataSupport {
+    private long id = 0;
     private String user_uid = "";//用户uuid
     private String merchant_uid = "";//商家uuid
+
+    public long getId() {
+        return id;
+    }
 
     public String getUser_uid() {
         return user_uid;

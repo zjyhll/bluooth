@@ -50,6 +50,10 @@ public class CommonUtility {
     public static final int ZHUCE = 1111;
     public static final int WANGJIMIMA = 1112;
     public static final int XIUGAIMIMA = 1113;
+    public static final String TYPESINGLEGIFT = "0";//收礼类型0
+    public static final String TYPEGIFTGIVING = "1";//送礼类型1
+    public static final String TYPEGIFTGIVING_WHL = "0";//未还礼
+    public static final String TYPEGIFTGIVING_YHL = "1";//已还礼
     // 跳转活动详情标识
     public static final int XianShiTab_False = 1102;// 显示下方的tab
     public static final int XianShiTab_SheZhi = 1103;// 整队出行活动管理
@@ -101,7 +105,7 @@ public class CommonUtility {
     public final static String URLsyncUpload = URL + "/service/syncUpload.json?data=";
     // 云下载数据接口
     public final static String URLsyncDownload = URL + "/service/syncDownload.json?data=";
-     // 保存反馈信息接口
+    // 保存反馈信息接口
     public final static String URLsaveFeedBck = URL + "/service/saveFeedBck.json?data=";
     // 保存商家信息接口
     public final static String URLsaveMerchant = URL + "/service/saveMerchant.json?data=";
@@ -109,7 +113,7 @@ public class CommonUtility {
     public final static String URLfindMerchantList = URL + "/service/findMerchantList.json?data=";
     // 正式服w
 //	public final static String URL = "http://115.29.247.170:8080/OutdoorServer/Main";
-	public final static String URLIMAIGN = "http://115.29.247.170";
+    public final static String URLIMAIGN = "http://115.29.247.170";
     // 活动开始状态
     public final static String SHENHESHIBAIStr = "审核失败";
     public final static int SHENHESHIBAIInt = -1;
@@ -255,7 +259,7 @@ public class CommonUtility {
         DefaultHttpClient httpClient = new DefaultHttpClient();
         /* 连接超时 */
         HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 10000);
-		/* 请求超时 */
+        /* 请求超时 */
         HttpConnectionParams.setSoTimeout(httpClient.getParams(), 10000);
 
         HttpPost httpPost = new HttpPost(URL);

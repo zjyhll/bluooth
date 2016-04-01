@@ -10,6 +10,7 @@ import java.util.List;
  * 用户表
  */
 public class User extends DataSupport {
+    private long id = 0;
     private String user_uid = "";//用户uuid
     private String user_name = "";//用户名称
     private String user_sex = "";//用户性别
@@ -19,6 +20,10 @@ public class User extends DataSupport {
     private String user_head = "";//用户头像
     //一个用户对应多个事件
     private List<Event> eventList = new ArrayList<>();
+
+    public long getId() {
+        return id;
+    }
 
     public List<Event> getEventList() {
         return eventList;
