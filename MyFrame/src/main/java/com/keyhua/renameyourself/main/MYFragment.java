@@ -2,12 +2,16 @@ package com.keyhua.renameyourself.main;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.importotherlib.R;
+import com.keyhua.renameyourself.app.App;
 import com.keyhua.renameyourself.base.BaseFragment;
 import com.keyhua.renameyourself.main.personCenter.AboutActivity;
 import com.keyhua.renameyourself.main.personCenter.FeedbackActivity;
@@ -23,6 +27,8 @@ public class MYFragment extends BaseFragment {
     private RelativeLayout rl_wdsc = null;
     private RelativeLayout rl_yjfk = null;
     private RelativeLayout rl_gywm = null;
+    private ImageView tv_userpic = null;
+    private TextView tv_name = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +43,19 @@ public class MYFragment extends BaseFragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        String userName = App.getInstance().getUserName();
+        String phoneNum = App.getInstance().getPhonenum();
+        if (!TextUtils.isEmpty(phoneNum)) {
+            tv_name.setText(phoneNum);
+        }
+    }
+
+    @Override
     protected void onInitData() {
+        tv_userpic = (ImageView) getActivity().findViewById(R.id.tv_userpic);
+        tv_name = (TextView) getActivity().findViewById(R.id.tv_name);
         rl_personcenter = (RelativeLayout) getActivity().findViewById(R.id.rl_personcenter);
         rl_ybf = (RelativeLayout) getActivity().findViewById(R.id.rl_ybf);
         rl_slzs = (RelativeLayout) getActivity().findViewById(R.id.rl_slzs);

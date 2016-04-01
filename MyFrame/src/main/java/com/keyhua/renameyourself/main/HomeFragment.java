@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.importotherlib.R;
+import com.keyhua.renameyourself.app.App;
 import com.keyhua.renameyourself.base.BaseFragment;
 import com.keyhua.renameyourself.main.Home.GiftGivingActivity;
 import com.keyhua.renameyourself.main.Home.SingleGiftsActivity;
@@ -82,11 +84,21 @@ public class HomeFragment extends BaseFragment {
         switch (v.getId()) {
             case R.id.iv_into_should:
                 //收礼单
-                openActivity(SingleGiftsActivity.class);
+//                if(!TextUtils.isEmpty(App.getInstance().getPhonenum())){
+                    openActivity(SingleGiftsActivity.class);
+//                }else{
+//                    showToast("请先登录");
+//                }
+
                 break;
             case R.id.iv_into_songld:
                 //送礼单
-                openActivity(GiftGivingActivity.class);
+//                if(!TextUtils.isEmpty(App.getInstance().getPhonenum())){
+                    openActivity(GiftGivingActivity.class);
+
+//                }
+
+
                 break;
             case R.id.iv_into_kbsj:
                 break;

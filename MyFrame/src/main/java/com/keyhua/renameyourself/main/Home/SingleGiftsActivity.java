@@ -24,6 +24,7 @@ import com.bigkoo.alertview.AlertView;
 import com.bigkoo.alertview.OnDismissListener;
 import com.bigkoo.alertview.OnItemClickListener;
 import com.example.importotherlib.R;
+import com.keyhua.litepal.Event;
 import com.keyhua.renameyourself.app.App;
 import com.keyhua.renameyourself.base.BaseActivity;
 import com.keyhua.renameyourself.main.Home.singleGifts.ChangeSingleGiftsActivity;
@@ -32,9 +33,11 @@ import com.keyhua.renameyourself.main.Home.singleGifts.NewSingleGiftsActivity;
 import com.keyhua.renameyourself.util.CommonUtility;
 import com.keyhua.renameyourself.util.DensityUtils;
 import com.keyhua.renameyourself.util.NetUtil;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import in.srain.cube.loadmore.LoadMoreContainer;
 import in.srain.cube.loadmore.LoadMoreHandler;
@@ -56,8 +59,8 @@ public class SingleGiftsActivity extends BaseActivity implements OnItemClickList
     public int index = 0;
     public int count = 10;
     // 服务器返回提示信息
-    private ArrayList mers = null;
-    private ArrayList mersTemp = null;
+    private List<Event> mers = null;
+    private List<Event> mersTemp = null;
     private FloatingActionButton fab = null;
     private AlertView deleteAlertView;//避免创建重复View，先创建View，然后需要的时候show出来，推荐这个做法
 
@@ -70,11 +73,22 @@ public class SingleGiftsActivity extends BaseActivity implements OnItemClickList
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        mersTemp = DataSupport.where("event_type=?", "0").find(Event.class);
+        if (mersTemp.size() > 0) {
+            mers.addAll(mersTemp);
+            listadapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
     protected void onInitData() {
         deleteAlertView = new AlertView("温馨提示", "确定要删除该条记录吗", "取消", new String[]{"确定"}, null, this, AlertView.Style.Alert, this).setCancelable(true).setOnDismissListener(this);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         mers = new ArrayList<>();
+        mersTemp = new ArrayList<>();
         lv_home = (SwipeMenuListView) findViewById(R.id.lv_home);
         listadapter = new MYAdpter(this, mers);
         lv_home.setAdapter(listadapter);
@@ -327,23 +341,16 @@ public class SingleGiftsActivity extends BaseActivity implements OnItemClickList
 
     public class MYAdpter extends BaseAdapter {
         private Context context = null;
-        public ArrayList mDatas = null;
-        //    private ImageLoader imageLoader = null;
-//    private com.nostra13.universalimageloader.core.ImageLoader mImageLoader = null;
-        private DisplayImageOptions options;
+        public List<Event> mers = null;
 
-        public MYAdpter(Context context, ArrayList list) {
+        public MYAdpter(Context context, List<Event> mers) {
             this.context = context;
-            this.mDatas = list;
-//        this.imageLoader = imageLoader;
-//        this.mImageLoader = mImageLoader;
-//        this.options = options;
+            this.mers = mers;
         }
 
         @Override
         public int getCount() {
-//            return mDatas != null ? mDatas.size() : 0;
-            return 3;
+            return mers != null ? mers.size() : 0;
         }
 
         @Override
@@ -369,9 +376,9 @@ public class SingleGiftsActivity extends BaseActivity implements OnItemClickList
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-//            holder.tv_name.setText((String) mDatas.get(position).getCompanyname());
-//            holder.tv_time.setText((String) mDatas.get(position).getAddtime());
-//            holder.tv_num.setText(mDatas.get(position).getBillnum() + "");
+            holder.tv_name.setText(mers.get(position).getEvent_name());
+            holder.tv_time.setText(mers.get(position).getEvent_time());
+//            holder.tv_num.setText(mers.get(position).getEvent_location() + "");
             return convertView;
         }
 

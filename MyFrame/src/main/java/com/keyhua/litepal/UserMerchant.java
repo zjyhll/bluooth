@@ -4,10 +4,11 @@ import org.litepal.crud.DataSupport;
 
 /**
  * Created by 曾金叶 on 2016/3/30.
+ * 用户商家中间表
  */
 public class UserMerchant extends DataSupport {
-    private String user_uid = "";
-    private String merchant_uid = "";
+    private String user_uid = "";//用户uuid
+    private String merchant_uid = "";//商家uuid
 
     public String getUser_uid() {
         return user_uid;

@@ -4,13 +4,32 @@ import org.litepal.crud.DataSupport;
 
 /**
  * Created by 曾金叶 on 2016/3/29.
+ * 收礼单表
  */
 public class GiftList extends DataSupport {
-    private String gift_uid = "";
-    private String gift_person = "";
-    private String gift_money = "";
-    private String gift_remark = "";
-    private String event_uid = "";
+    private String gift_uid = "";//礼单uuid
+    private String gift_person = "";//礼单参与人
+    private String gift_money = "";//礼金额
+    private String gift_remark = "";//备注
+    private String event_uid = "";//收礼单对应的事件id
+    private String gift_status = "";//收礼单对应的状态
+    private String user_uid = "";//用户id
+
+    public String getGift_status() {
+        return gift_status;
+    }
+
+    public void setGift_status(String gift_status) {
+        this.gift_status = gift_status;
+    }
+
+    public String getUser_uid() {
+        return user_uid;
+    }
+
+    public void setUser_uid(String user_uid) {
+        this.user_uid = user_uid;
+    }
 
     public String getGift_uid() {
         return gift_uid;

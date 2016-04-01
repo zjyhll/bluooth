@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.importotherlib.R;
-import com.keyhua.renameyourself.main.MainActivity;
 import com.keyhua.renameyourself.util.MyLogger;
 import com.keyhua.renameyourself.view.CustomProgressDialog;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
@@ -41,13 +37,7 @@ import in.srain.cube.image.impl.DefaultImageLoadHandler;
  * @category 跟BaseActivity相同功能
  */
 public abstract class BaseFragment extends Fragment implements OnClickListener {
-	protected ImageLoader imageLoader = null;
-	protected ImageLoader imageLoaderRectF = null;
 	protected BackHandledInterface mBackHandledInterface;
-	protected com.nostra13.universalimageloader.core.ImageLoader mImageLoader = com.nostra13.universalimageloader.core.ImageLoader
-			.getInstance();
-	protected DisplayImageOptions options;
-	protected DisplayImageOptions optionsrenwu;
 	// log
 	public MyLogger loghxd = MyLogger.hxdLog();
 	public MyLogger logzt = MyLogger.ztLog();
@@ -57,48 +47,6 @@ public abstract class BaseFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		imageLoader = ImageLoaderFactory.create(getActivity());
-		imageLoaderRectF = ImageLoaderFactory.create(getActivity());
-		DefaultImageLoadHandler handler = new DefaultImageLoadHandler(getActivity());
-		// pick one of the following method
-		// handler.setLoadingBitmap(Bitmap loadingBitmap);
-		// handler.setLoadingResources(int loadingBitmap);
-		// handler.setLoadingImageColor(int color);
-		// handler.setLoadingImageColor(String colorString);
-		handler.setLoadingImageColor(getResources().getColor(R.color.white));
-		handler.setErrorResources(R.mipmap.dmbg_default);
-		imageLoader.setImageLoadHandler(handler);
-
-		DefaultImageLoadHandler handler1 = new DefaultImageLoadHandler(getActivity());
-		// pick one of the following method
-		// handler.setLoadingBitmap(Bitmap loadingBitmap);
-		// handler.setLoadingResources(int loadingBitmap);
-		// handler.setLoadingImageColor(int color);
-		// handler.setLoadingImageColor(String colorString);
-		handler1.setLoadingImageColor(getResources().getColor(R.color.white));
-		handler1.setErrorResources(R.mipmap.dmbg_default);
-		handler1.setImageRounded(true, 8);
-		imageLoaderRectF.setImageLoadHandler(handler1);
-		options = new DisplayImageOptions.Builder()
-				// 设置图片下载期间显示的图片
-				.showImageForEmptyUri(R.mipmap.dmbg_default)
-				// 设置图片URL为空或是错误的时候显示的图片
-				.showImageOnFail(R.mipmap.dmbg_default)
-				// 设置图片加载或解码过程中发生错误显示的图片
-				.displayer(new RoundedBitmapDisplayer(0)) // 设置成圆角图片
-				.displayer(new FadeInBitmapDisplayer(100)).cacheInMemory(true) // 设置下载的图片是否缓存在内存中
-				.cacheOnDisc(true) // 设置下载的图片是否缓存在SD卡中
-				.build(); // 创建配置过得DisplayImageOption对象
-		optionsrenwu = new DisplayImageOptions.Builder()
-				// 设置图片下载期间显示的图片
-				.showImageForEmptyUri(R.mipmap.dmbg_default)
-				// 设置图片URL为空或是错误的时候显示的图片
-				.showImageOnFail(R.mipmap.dmbg_default)
-				// 设置图片加载或解码过程中发生错误显示的图片
-				.displayer(new RoundedBitmapDisplayer(8)) // 设置成圆角图片
-				.displayer(new FadeInBitmapDisplayer(100)).cacheInMemory(true) // 设置下载的图片是否缓存在内存中
-				.cacheOnDisc(true) // 设置下载的图片是否缓存在SD卡中
-				.build(); // 创建配置过得DisplayImageOption对象
 		init();
 	}
 

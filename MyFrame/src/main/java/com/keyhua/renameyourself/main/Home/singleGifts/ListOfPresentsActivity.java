@@ -6,15 +6,12 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
@@ -25,14 +22,11 @@ import com.bigkoo.alertview.OnItemClickListener;
 import com.example.importotherlib.R;
 import com.keyhua.renameyourself.app.App;
 import com.keyhua.renameyourself.base.BaseActivity;
-import com.keyhua.renameyourself.main.Home.giftGiving.ChangeGiftGivingActivity;
-import com.keyhua.renameyourself.main.Home.giftGiving.NewGiftGivingActivity;
 import com.keyhua.renameyourself.main.Home.singleGifts.presentsDetail.AddDetailActivity;
 import com.keyhua.renameyourself.main.Home.singleGifts.presentsDetail.ModifyDetailActivity;
 import com.keyhua.renameyourself.util.CommonUtility;
 import com.keyhua.renameyourself.util.DensityUtils;
 import com.keyhua.renameyourself.util.NetUtil;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import java.util.ArrayList;
 
@@ -78,7 +72,7 @@ public class ListOfPresentsActivity extends BaseActivity implements OnItemClickL
 
     @Override
     protected void onResload() {
-//        toolbar_right_r.setBackgroundResource(R.mipmap.tianjia_tongxingbao);
+        toolbar_right_r.setImageResource(R.mipmap.iv_add);
         SwipeMenuCreator creator = new SwipeMenuCreator() {
 
             @Override
@@ -322,16 +316,10 @@ public class ListOfPresentsActivity extends BaseActivity implements OnItemClickL
     public class MYAdpter extends BaseAdapter {
         private Context context = null;
         public ArrayList mDatas = null;
-        //    private ImageLoader imageLoader = null;
-//    private com.nostra13.universalimageloader.core.ImageLoader mImageLoader = null;
-        private DisplayImageOptions options;
 
         public MYAdpter(Context context, ArrayList list) {
             this.context = context;
             this.mDatas = list;
-//        this.imageLoader = imageLoader;
-//        this.mImageLoader = mImageLoader;
-//        this.options = options;
         }
 
         @Override

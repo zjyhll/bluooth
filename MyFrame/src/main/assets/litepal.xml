@@ -36,5 +36,7 @@
         <mapping class="com.keyhua.litepal.Event"></mapping>
         <mapping class="com.keyhua.litepal.GiftList"></mapping>
         <mapping class="com.keyhua.litepal.RepayList"></mapping>
+        <mapping class="com.keyhua.litepal.MerchantList"></mapping>
+        <mapping class="com.keyhua.litepal.UserMerchant"></mapping>
     </list>
 </litepal>

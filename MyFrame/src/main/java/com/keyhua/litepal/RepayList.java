@@ -4,14 +4,15 @@ import org.litepal.crud.DataSupport;
 
 /**
  * Created by 曾金叶 on 2016/3/29.
+ * 送礼单表
  */
 public class RepayList extends DataSupport {
-    private String repay_uid = "";
-    private String repay_person = "";
-    private String repay_money = "";
-    private String repay_remark = "";
-    private String gift_uid = "";
-    private String event_uid = "";
+    private String repay_uid = "";//还礼uuid
+    private String repay_person = "";//还礼人
+    private String repay_money = "";//礼金额
+    private String repay_remark = "";//备注
+    private String gift_uid = "";//收礼单id
+    private String event_uid = "";//还礼单对应的事件id
 
     public String getRepay_uid() {
         return repay_uid;

@@ -24,11 +24,8 @@ import com.bigkoo.alertview.OnItemClickListener;
 import com.example.importotherlib.R;
 import com.keyhua.renameyourself.app.App;
 import com.keyhua.renameyourself.base.BaseActivity;
-import com.keyhua.renameyourself.main.Home.singleGifts.presentsDetail.ModifyDetailActivity;
 import com.keyhua.renameyourself.util.CommonUtility;
-import com.keyhua.renameyourself.util.DensityUtils;
 import com.keyhua.renameyourself.util.NetUtil;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import java.util.ArrayList;
 
@@ -264,16 +261,10 @@ public class MyCollectionActivity extends BaseActivity implements OnItemClickLis
     public class MYAdpter extends BaseAdapter {
         private Context context = null;
         public ArrayList mDatas = null;
-        //    private ImageLoader imageLoader = null;
-//    private com.nostra13.universalimageloader.core.ImageLoader mImageLoader = null;
-        private DisplayImageOptions options;
 
         public MYAdpter(Context context, ArrayList list) {
             this.context = context;
             this.mDatas = list;
-//        this.imageLoader = imageLoader;
-//        this.mImageLoader = mImageLoader;
-//        this.options = options;
         }
 
         @Override

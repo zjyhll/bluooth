@@ -62,6 +62,7 @@
         android:theme="@style/AppThemeToolBar">
         <activity
             android:name="com.keyhua.renameyourself.main.MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -83,6 +84,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.keyhua.renameyourself.main.personCenter.login.LoginActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.keyhua.renameyourself.main.personCenter.AboutActivity"
@@ -101,9 +103,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.keyhua.renameyourself.main.personCenter.login.RegistActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.keyhua.renameyourself.main.personCenter.login.ForgetPwdActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.keyhua.renameyourself.main.Home.giftGiving.ChangeGiftGivingActivity"

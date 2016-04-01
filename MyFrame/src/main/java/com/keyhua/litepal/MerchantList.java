@@ -4,14 +4,15 @@ import org.litepal.crud.DataSupport;
 
 /**
  * Created by 曾金叶 on 2016/3/30.
+ * 商家表
  */
 public class MerchantList extends DataSupport {
-    private String merchant_uid = "";
-    private String merchant_img = "";
-    private String merchant_desc = "";
-    private String merchant_phone = "";
-    private String merchant_location = "";
-    private String merchant_score = "";
+    private String merchant_uid = "";//商家uuid
+    private String merchant_img = "";//商家图片地址
+    private String merchant_desc = "";//商家介绍
+    private String merchant_phone = "";//商家电话
+    private String merchant_location = "";//商家地址
+    private String merchant_score = "";//商家评分
 
     public String getMerchant_uid() {
         return merchant_uid;

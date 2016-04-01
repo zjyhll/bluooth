@@ -2,15 +2,31 @@ package com.keyhua.litepal;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by 曾金叶 on 2016/3/29.
+ * 用户表
  */
 public class User extends DataSupport {
-    private String user_uid = "";
-    private String user_name = "";
-    private String user_sex = "";
-    private String user_phone = "";
-    private String user_location = "";
+    private String user_uid = "";//用户uuid
+    private String user_name = "";//用户名称
+    private String user_sex = "";//用户性别
+    private String user_phone = "";//用户手机
+    private String user_location = "";//用户地址
+    private String user_password = "";//用户密码
+    private String user_head = "";//用户头像
+    //一个用户对应多个事件
+    private List<Event> eventList = new ArrayList<>();
+
+    public List<Event> getEventList() {
+        return eventList;
+    }
+
+    public void setEventList(List<Event> eventList) {
+        this.eventList = eventList;
+    }
 
     public String getUser_uid() {
         return user_uid;
@@ -50,5 +66,21 @@ public class User extends DataSupport {
 
     public void setUser_location(String user_location) {
         this.user_location = user_location;
+    }
+
+    public String getUser_password() {
+        return user_password;
+    }
+
+    public void setUser_password(String user_password) {
+        this.user_password = user_password;
+    }
+
+    public String getUser_head() {
+        return user_head;
+    }
+
+    public void setUser_head(String user_head) {
+        this.user_head = user_head;
     }
 }

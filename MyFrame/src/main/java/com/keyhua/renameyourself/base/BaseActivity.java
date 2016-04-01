@@ -2,6 +2,8 @@ package com.keyhua.renameyourself.base;
 
 import java.util.ArrayList;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.example.importotherlib.R;
 import com.keyhua.renameyourself.util.CommonUtility;
 import com.keyhua.renameyourself.util.MyLogger;
@@ -41,14 +43,12 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
     // 屏幕分辨率
     protected static int displayWidth = 0;
     protected static int displayHeight = 0;
-    // 图片加载
-    protected com.nostra13.universalimageloader.core.ImageLoader mImageLoader = com.nostra13.universalimageloader.core.ImageLoader
-            .getInstance();
 
     // log
     public MyLogger loghxd = MyLogger.hxdLog();
     public MyLogger logzt = MyLogger.ztLog();
     public MyLogger logzjy = MyLogger.zjyLog();
+    protected RequestQueue requestQueue = null;
 
     /**
      * 当构造Activity时将来调用, 主要用做数据初始化 , 在onResload之前调用
@@ -98,6 +98,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
     }
 
     public void init() {
+        requestQueue = Volley.newRequestQueue(this);//这里的this指的是Context
         onInitData();
         onResload();
         setMyViewClick();

@@ -34,16 +34,16 @@ public class MainActivity extends Activity {
 //        mSVProgressHUD.showWithMaskType(SVProgressHUD.SVProgressHUDMaskType.GradientCancel);
     }
     public void showWithStatus(View view){
-        mSVProgressHUD.showWithStatus("¼ÓÔØÖĞ...");
+        mSVProgressHUD.showWithStatus("åŠ è½½ä¸­...");
     }
     public void showInfoWithStatus(View view){
-        mSVProgressHUD.showInfoWithStatus("ÕâÊÇÌáÊ¾", SVProgressHUD.SVProgressHUDMaskType.None);
+        mSVProgressHUD.showInfoWithStatus("è¿™æ˜¯æç¤º", SVProgressHUD.SVProgressHUDMaskType.None);
     }
     public void showSuccessWithStatus(View view){
-        mSVProgressHUD.showSuccessWithStatus("¹§Ï²£¬Ìá½»³É¹¦£¡");
+        mSVProgressHUD.showSuccessWithStatus("æ­å–œï¼Œæäº¤æˆåŠŸï¼");
     }
     public void showErrorWithStatus(View view){
-        mSVProgressHUD.showErrorWithStatus("²»Ô¼£¬ÊåÊåÎÒÃÇ²»Ô¼¡«", SVProgressHUD.SVProgressHUDMaskType.GradientCancel);
+        mSVProgressHUD.showErrorWithStatus("ä¸çº¦ï¼Œå”å”æˆ‘ä»¬ä¸çº¦ï½", SVProgressHUD.SVProgressHUDMaskType.GradientCancel);
     }
 
     private Handler mHandler = new Handler(){
@@ -53,7 +53,7 @@ public class MainActivity extends Activity {
             progress = progress + 5;
             if (mSVProgressHUD.getProgressBar().getMax() != mSVProgressHUD.getProgressBar().getProgress()) {
                 mSVProgressHUD.getProgressBar().setProgress(progress);
-                mSVProgressHUD.setText("½ø¶È "+progress+"%");
+                mSVProgressHUD.setText("è¿›åº¦ "+progress+"%");
 
                 mHandler.sendEmptyMessageDelayed(0,500);
             }
@@ -65,8 +65,8 @@ public class MainActivity extends Activity {
     };
     public void showWithProgress(View view){
         progress = 0;
-        mSVProgressHUD.getProgressBar().setProgress(progress);//ÏÈÖØÉèÁË½ø¶ÈÔÙÏÔÊ¾£¬±ÜÃâÏÂ´ÎÔÙshow»áÏÈÏÔÊ¾ÉÏÒ»´ÎµÄ½ø¶ÈÎ»ÖÃËùÒÔÒªÏÈ½«½ø¶È¹é0
-        mSVProgressHUD.showWithProgress("½ø¶È " + progress + "%", SVProgressHUD.SVProgressHUDMaskType.Black);
+        mSVProgressHUD.getProgressBar().setProgress(progress);//å…ˆé‡è®¾äº†è¿›åº¦å†æ˜¾ç¤ºï¼Œé¿å…ä¸‹æ¬¡å†showä¼šå…ˆæ˜¾ç¤ºä¸Šä¸€æ¬¡çš„è¿›åº¦ä½ç½®æ‰€ä»¥è¦å…ˆå°†è¿›åº¦å½’0
+        mSVProgressHUD.showWithProgress("è¿›åº¦ " + progress + "%", SVProgressHUD.SVProgressHUDMaskType.Black);
         mHandler.sendEmptyMessageDelayed(0,500);
     }
 

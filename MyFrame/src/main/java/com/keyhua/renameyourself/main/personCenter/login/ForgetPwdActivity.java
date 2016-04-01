@@ -5,13 +5,21 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.importotherlib.R;
 import com.keyhua.renameyourself.base.BaseActivity;
+import com.keyhua.renameyourself.main.MainActivity;
 import com.keyhua.renameyourself.util.CommonUtility;
 import com.keyhua.renameyourself.view.CleareditTextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,6 +33,10 @@ public class ForgetPwdActivity extends BaseActivity {
     private static Integer timerTicket = 0;
     private Handler handler = new Handler();
     private Timer delayTimer = null;
+
+    private String newPass = "";
+
+    private String code = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,8 +75,8 @@ public class ForgetPwdActivity extends BaseActivity {
     protected void setMyViewClick() {
 
 //        top_itv_back.setOnClickListener(this);
-//        tv_yzm.setOnClickListener(this);
-//        tv_login.setOnClickListener(this);
+        tv_yzm.setOnClickListener(this);
+        tv_login.setOnClickListener(this);
     }
 
     @Override
@@ -74,7 +86,6 @@ public class ForgetPwdActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_yzm:
-                username = "18202811358";
                 tv_yzm.setClickable(false);
                 tv_yzm.setBackgroundResource(R.drawable.btn_ok_selector_hui);
 
@@ -103,20 +114,32 @@ public class ForgetPwdActivity extends BaseActivity {
                     }
                 };
                 delayTimer.schedule(delayTask, 0, 1000);
-                sendAsynSendMSG();
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put("phone", "18202811358");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                //验证码
+                sendDataToServer(CommonUtility.SERVEROK1, CommonUtility.URLsendPhoneCode, obj.toString());
                 break;
             case R.id.tv_login:
-                oldPass = ctv_pwd.getText().toString();
+                newPass = ctv_pwd.getText().toString();
                 code = ctv_yzm.getText().toString();
-                if (!TextUtils.isEmpty(code) && !TextUtils.isEmpty(username) && !TextUtils.isEmpty(oldPass) && !TextUtils.isEmpty(newPass)) {
-                    if (TextUtils.equals(oldPass, newPass)) {
-                        sendAsyn();
-                    } else {
-                        showToast("密码不相同");
-                    }
-
+                if (TextUtils.isEmpty(code)) {
+                    showToast("请输入验证码");
+                } else if (TextUtils.isEmpty(newPass)) {
+                    showToast("请输入新密码");
                 } else {
-                    showToast("密码或用户名不能为空");
+
+                    JSONObject obj1 = new JSONObject();
+                    try {
+                        obj1.put("code", code);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    //用户中心检测手机验证码是否正确接口
+                    sendDataToServer(CommonUtility.SERVEROK3, CommonUtility.URLcheckPhoneCode, obj1.toString());
                 }
 
                 break;
@@ -126,93 +149,59 @@ public class ForgetPwdActivity extends BaseActivity {
         }
     }
 
-    private Thread thread = null;
+    /**
+     * 发送数据到后台
+     *
+     * @param which   具体哪个按钮的操作
+     * @param strdata 发送给后台的数据
+     * @param url     对应的url
+     */
+    public void sendDataToServer(final int which, String url, String strdata) {
 
-    public void sendAsyn() {
-        thread = new Thread() {
-            public void run() {
-                Action();
-            }
-        };
-        thread.start();
-    }
-
-    private String oldPass = "";
-    private String newPass = "";
-
-    private String code = "";
-    // 服务器返回提示信息
-    private Integer state = Integer.valueOf(0);
-    private String msgStr = "";
-
-    public void Action() {
-    }
-
-    private String username = "";
-
-    //请求服务器发送短信验证码
-    public void sendAsynSendMSG() {
-        thread = new Thread() {
-            public void run() {
-                ActionSendMSG();
-            }
-        };
-        thread.start();
-    }
-
-    public void ActionSendMSG() {
-    }
-
-    @SuppressLint("HandlerLeak")
-    Handler handlerlist = new Handler() {
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case CommonUtility.SERVEROK1:
-                    // "state":0   // 和msg对应 1：成功，0：失败
-                    showToast(msgStr);
-                    switch (state) {
-                        case 0:
-
-                            break;
-                        case 1:
-//                            App.getInstance().setAut("");
-                            finish();
-                            break;
+        JsonObjectRequest jsonObjectRequest1 = new JsonObjectRequest(url + strdata, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        switch (which) {
+                            case CommonUtility.SERVEROK1://验证码
+                                showToast("发送成功");
+                                break;
+                            case CommonUtility.SERVEROK2:
+                                showToast("修改成功");
+                                finish();
+                                openActivity(MainActivity.class);
+                                break;
+                            case CommonUtility.SERVEROK3:
+                                JSONObject obj1 = new JSONObject();
+                                try {
+                                    obj1.put("userPhone", "18202811358");
+                                    obj1.put("userPwd", newPass);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                //修改密码
+                                sendDataToServer(CommonUtility.SERVEROK2, CommonUtility.URLsaveUser, obj1.toString());
+                                break;
+                        }
                     }
-                    break;
-                case CommonUtility.SERVEROK2:
-                    // "state":0   // 和msg对应 1：成功，0：失败
-                    showToast(msgStr);
-                    switch (state) {
-                        case 0:
-                            break;
-                        case 1:
-                            break;
-                    }
-                    break;
-                case CommonUtility.SERVEROK3:
-                    break;
-                case CommonUtility.SERVEROK4:
-                    break;
-                case CommonUtility.ChANNELRSERVERERROR:
-                    break;
-                case CommonUtility.SERVERERRORLOGIN:
-                    showToastLogin();
-//                    App.getInstance().setAut("");
-                    break;
-                case CommonUtility.SERVERERROR:
-                    break;
-                case CommonUtility.KONG:
-                    break;
-                case CommonUtility.SERVEROKYAN:
-                    closedialog();
-                    tv_yzm.setClickable(true);
-                    tv_yzm.setBackgroundResource(R.drawable.btn_ok_selector_huang);
-                    showToast("发送验证码上限，请与明日重试");
-                    break;
-                default:
-                    break;
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                switch (which) {
+                    case CommonUtility.SERVEROK1:
+                        showToast("发送失败");
+                        break;
+                    case CommonUtility.SERVEROK2:
+                        showToast("修改失败，请重试");
+                        break;
+                    case CommonUtility.SERVEROK3:
+                        showToast("验证码错误，请重新获取");
+                        break;
+                }
             }
-        }
-    };
+        });
+        requestQueue.add(jsonObjectRequest1);
+    }
+
+
 }
