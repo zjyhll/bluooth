@@ -40,6 +40,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.CoordinateConverter;
+
 /**
  * @author 曾金叶
  * @2015-8-5 @下午2:22:05
@@ -50,10 +53,14 @@ public class CommonUtility {
     public static final int ZHUCE = 1111;
     public static final int WANGJIMIMA = 1112;
     public static final int XIUGAIMIMA = 1113;
-    public static final String TYPESINGLEGIFT = "0";//收礼类型0
-    public static final String TYPEGIFTGIVING = "1";//送礼类型1
-    public static final String TYPEGIFTGIVING_WHL = "0";//未还礼
-    public static final String TYPEGIFTGIVING_YHL = "1";//已还礼
+    public static final int LIDUI = 1;//离队
+    public static final int GUIDUI = 2;//归队
+    public static final int DUIYUAN = 1;//队员身份
+    public static final int LINGDUI = 2;//领队身份
+    public static final int SELF = 1;//当前设备上对应的自己
+    public static final String LINGDUISTR = "是否离队";//是否离队
+    public static final String GUIDUISTR = "是否归队";//归队
+    public static final String DUIWUGUANLI = "请先关联领队机";//
     // 跳转活动详情标识
     public static final int XianShiTab_False = 1102;// 显示下方的tab
     public static final int XianShiTab_SheZhi = 1103;// 整队出行活动管理
@@ -92,25 +99,7 @@ public class CommonUtility {
     public static final int ChANNELRSERVERERROR = 5005;// 连接服务器出现错误
     public static final int SERVERERRORLOGIN = 5011;// 连接服务器5011出现错误
     // 正式服
-    public final static String URL = "http://120.25.194.214:8080/lijinli";
-    //用户中心保存接口、注册
-    public final static String URLsaveUser = URL + "/user/saveUser.json?data=";
-    //用户中心检测用户接口
-    public final static String URLcheckUser = URL + "/user/checkUser.json?data=";
-    //用户中心发送手机验证码接口
-    public final static String URLsendPhoneCode = URL + "/user/sendPhoneCode.json?data=";
-    //用户中心检测手机验证码是否正确接口
-    public final static String URLcheckPhoneCode = URL + "/user/checkPhoneCode.json?data=";
-    // 云上传数据接口
-    public final static String URLsyncUpload = URL + "/service/syncUpload.json?data=";
-    // 云下载数据接口
-    public final static String URLsyncDownload = URL + "/service/syncDownload.json?data=";
-    // 保存反馈信息接口
-    public final static String URLsaveFeedBck = URL + "/service/saveFeedBck.json?data=";
-    // 保存商家信息接口
-    public final static String URLsaveMerchant = URL + "/service/saveMerchant.json?data=";
-    //查询商家列表接口
-    public final static String URLfindMerchantList = URL + "/service/findMerchantList.json?data=";
+    public final static String URL = "http://www.17hwtx.com/Main";
     // 正式服w
 //	public final static String URL = "http://115.29.247.170:8080/OutdoorServer/Main";
     public final static String URLIMAIGN = "http://115.29.247.170";
@@ -133,6 +122,21 @@ public class CommonUtility {
     public final static int JIESHUInt = 6;
     // 二维码
     public final static int SCANNIN_GREQUEST_CODE = 1;
+
+    /**
+     * 转换gps偏移
+     */
+    public static LatLng convertGps(double gpsLatitude,
+                                    double gpsLongitude) {
+        LatLng sourceLatLng = new LatLng(gpsLatitude, gpsLongitude);
+        // 将GPS设备采集的原始GPS坐标转换成百度坐标
+        CoordinateConverter converter = new CoordinateConverter();
+        converter.from(CoordinateConverter.CoordType.GPS);
+        // sourceLatLng待转换坐标
+        converter.coord(sourceLatLng);
+        LatLng desLatLng = converter.convert();
+        return desLatLng;
+    }
 
     /**
      * 判断GPS是否开启，GPS或者AGPS开启一个就认为是开启的
@@ -300,7 +304,7 @@ public class CommonUtility {
     }
 
 	/*
-	 * public static void showLoader(Handler handler, final ProgressDialog
+     * public static void showLoader(Handler handler, final ProgressDialog
 	 * loader) { handler.post(new Runnable() { public void run() {
 	 * Toast.makeText(context, text, duration).show(); } }); }
 	 */

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#ef5656</color>
-    <color name="colorPrimaryDark">#ef5656</color>
+    <color name="colorPrimary">#ff7700</color>
+    <color name="colorPrimaryDark">#ff7700</color>
     <color name="appallbackground">#fafafa</color>
     <color name="sld">#eb2f30</color>
     <color name="hld">#f91697</color>
@@ -18,7 +18,7 @@
 
     <color name="allbackground">#f0f0f0</color>
     <color name="zuzhi_join">#e6e6e6</color>
-    <color name="lefttvdianji">#ef5656</color>
+    <color name="lefttvdianji">#ff7700</color>
     <color name="lefttvmoren">#636262</color>
     <color name="grey">#C1CDCD</color>
     <color name="yellow">#ff7300</color>

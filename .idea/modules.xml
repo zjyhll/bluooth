@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ImportOtherLib.iml" filepath="$PROJECT_DIR$/ImportOtherLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Log/Log.iml" filepath="$PROJECT_DIR$/Log/Log.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Log/Log.iml" filepath="$PROJECT_DIR$/Log/Log.iml" />
       <module fileurl="file://$PROJECT_DIR$/MyFrame/MyFrame.iml" filepath="$PROJECT_DIR$/MyFrame/MyFrame.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SNnum/SNnum.iml" filepath="$PROJECT_DIR$/SNnum/SNnum.iml" />
       <module fileurl="file://$PROJECT_DIR$/pickerview/pickerview.iml" filepath="$PROJECT_DIR$/pickerview/pickerview.iml" />
     </modules>
   </component>

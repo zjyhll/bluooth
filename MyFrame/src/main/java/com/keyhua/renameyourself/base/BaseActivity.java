@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.importotherlib.R;
+import com.keyhua.renameyourself.app.App;
+import com.keyhua.renameyourself.main.le.BleCommon;
 import com.keyhua.renameyourself.util.CommonUtility;
 import com.keyhua.renameyourself.util.MyLogger;
 import com.keyhua.renameyourself.view.CustomProgressDialog;
@@ -228,7 +230,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
         long secondtime = System.currentTimeMillis();
         // 连续点击两次时间少于2秒退出
         if (secondtime - firstTime > 2000) {
-            showToast("再按一次返回键退出");
+//            showToast("再按一次返回键退出");
             // 保存第一次按下的时间
             firstTime = secondtime;
         } else {
@@ -350,6 +352,25 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
             list.add(element);
         }
         return list;
+    }
+
+    /**
+     * 取消与蓝牙的关联
+     */
+    public void cancleContact() {
+        App.getInstance().setTb_phonelocation(true);
+        App.getInstance().setBleLingDuiAddress("");
+        App.getInstance().setBleLingDuiName("");
+        try {
+            unregisterReceiver(BleCommon.getInstance().mGattUpdateReceiver);
+            unbindService(BleCommon.getInstance().mServiceConnection);
+            if (BleCommon.getInstance().mBluetoothLeService != null) {
+                BleCommon.getInstance().mBluetoothLeService.disconnect();
+                BleCommon.getInstance().mBluetoothLeService.close();
+                BleCommon.getInstance().mBluetoothLeService = null;
+            }
+        } catch (Exception e) {
+        }
     }
 
     protected void getWidthHeight() {

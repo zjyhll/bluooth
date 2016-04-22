@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ public class CustomProgressDialog extends ProgressDialog {
 	private ImageView mImageView;
 	private String mLoadingTip;
 	private TextView mLoadingTv;
+	private TextView tv_cancle;
 	private int count = 0;
 	private String oldLoadingTip;
 	private int mResid;
@@ -64,6 +66,7 @@ public class CustomProgressDialog extends ProgressDialog {
 	private void initView() {
 		setContentView(R.layout.progress_dialog);
 		mLoadingTv = (TextView) findViewById(R.id.loadingTv);
+		tv_cancle = (TextView) findViewById(R.id.tv_cancle);
 		mImageView = (ImageView) findViewById(R.id.loadingIv);
 	}
 

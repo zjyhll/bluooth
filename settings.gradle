@@ -1,1 +1,1 @@
-include ':MyFrame', ':pickerview'
+include ':MyFrame', ':pickerview', ':Log', ':SNnum'

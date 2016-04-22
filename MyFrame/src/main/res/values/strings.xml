@@ -1,10 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name">礼金理</string>
+    <string name="app_name">户外同行单机版</string>
     <string name="should">收礼单</string>
     <string name="songld">送礼单</string>
     <string name="sjtj">商家推荐</string>
-
+    <!-- liftFragment -->
+    <string name="left_zhuye">主页</string>
+    <string name="left_huodong">活动</string>
+    <string name="left_name">户外同行</string>
+    <string name="left_tuzhong">途中</string>
+    <string name="left_sehzhi">设置</string>
+    <string name="left_gongju">领队工具</string>
+    <!-- 关联领队宝 -->
+    <string name="left_gongju_myguardian_tocontact_toptitle">关联领队宝</string>
+    <string name="left_gongju_myguardian_tocontact_lanyastatus">请确认手机蓝牙功能处于开启状态</string>
+    <string name="left_gongju_myguardian_tocontact_lanyatitle">通过蓝牙发现</string>
+    <string name="left_gongju_myguardian_tocontact_ok">关联</string>
+    <string name="left_gongju_myguardian_tocontact_pop_cancle">取消</string>
+    <!-- 蓝牙设备 -->
+    <string name="ble_not_supported">您的设备不支持蓝牙4.0！</string>
+    <string name="label_data">Data:</string>
+    <string name="label_device_address">Device address:</string>
+    <string name="label_state">State:</string>
+    <string name="no_data">No data</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="title_devices">BLE Device Scan</string>
+    <string name="error_bluetooth_not_supported">Bluetooth not supported.</string>
+    <string name="unknown_device">未命名</string>
+    <string name="unknown_characteristic">Unknown characteristic</string>
+    <string name="unknown_service">Unknown service</string>
+    <string name="tong_xing_name">同行宝名称</string>
     <!-- 没有数据提示内容 -->
     <!--  -->
     <string name="sinaweibo">新浪微博</string>

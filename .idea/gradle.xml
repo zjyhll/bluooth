@@ -9,7 +9,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Log" />
             <option value="$PROJECT_DIR$/MyFrame" />
+            <option value="$PROJECT_DIR$/SNnum" />
             <option value="$PROJECT_DIR$/pickerview" />
           </set>
         </option>

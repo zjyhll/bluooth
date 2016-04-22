@@ -52,7 +52,8 @@ public class ParseOject {
 	public static String StringToDouble(Double str) {
 		if (str != null) {
 			// 保留两位数
-			java.text.DecimalFormat df = new java.text.DecimalFormat("0.0");
+//			java.text.DecimalFormat df = new java.text.DecimalFormat("0.0");
+			java.text.DecimalFormat df = new java.text.DecimalFormat("0");
 			return df.format(str);
 		} else {
 			return "0";

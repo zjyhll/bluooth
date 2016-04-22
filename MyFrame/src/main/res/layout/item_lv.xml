@@ -2,27 +2,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/tv_event"
+        android:id="@+id/tv_bianhao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:padding="10dp"
-        android:text="姥姥生日"
+        android:paddingBottom="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="20dp"
+        android:text="编号：1"
         android:textColor="@color/ldzt"
         android:textSize="@dimen/size16" />
 
     <TextView
-        android:id="@+id/tv_time"
+        android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_event"
-        android:paddingBottom="10dp"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
-        android:text="2016.12.20（适十一月二十）"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="80dp"
+        android:padding="10dp"
+        android:maxLength="10"
+        android:singleLine="true"
+        android:text="队员1"
         android:textColor="@color/ldzt2"
         android:textSize="@dimen/size16" />
 
@@ -31,43 +37,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         android:padding="10dp"
-        android:text="133人"
+        android:text="SN：123456"
         android:textColor="@color/ldzt2"
         android:textSize="@dimen/size16" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/tv_nums"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="礼金:"
-            android:textColor="@color/ldzt2"
-            android:textSize="@dimen/size16" />
-
-        <TextView
-            android:id="@+id/tv_money"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:text="99999"
-            android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/size16" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="元"
-            android:textColor="@color/ldzt2"
-            android:textSize="@dimen/size16" />
-    </LinearLayout>
-
 </RelativeLayout>
