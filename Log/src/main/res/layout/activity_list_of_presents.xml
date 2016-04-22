@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/allbackground"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_head" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:maxEms="10"
+                android:maxLines="2"
+                android:padding="10dp"
+                android:text="姓名"
+                android:textColor="@color/title"
+                android:textSize="@dimen/size18" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/transparent4" />
+
+            <TextView
+                android:id="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/tv_name"
+                android:layout_weight="1"
+                android:drawableRight="@mipmap/paixu"
+                android:gravity="center"
+                android:maxEms="10"
+                android:maxLines="2"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:text="金额"
+                android:textColor="@color/title"
+                android:textSize="@dimen/size18" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/transparent4" />
+
+            <TextView
+                android:id="@+id/tv_remarks"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/tv_hl"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxEms="10"
+                android:maxLines="2"
+                android:padding="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="备注"
+                android:textColor="@color/title"
+                android:textSize="@dimen/size18" />
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/transparent4" />
+
+            <TextView
+                android:id="@+id/tv_hl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:maxEms="10"
+                android:maxLines="2"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp"
+                android:text="还礼"
+                android:textColor="@color/title"
+                android:textSize="@dimen/size18" />
+        </TableRow>
+    </TableLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/transparent4" />
+
+    <in.srain.cube.ptr.PtrClassicFrameLayout
+        android:id="@+id/load_more_list_view_ptr_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/allbackground"
+        android:overScrollMode="never">
+
+        <in.srain.cube.loadmore.LoadMoreListViewContainer
+            android:id="@+id/load_more_list_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/allbackground">
+
+            <com.baoyz.swipemenulistview.SwipeMenuListView
+                android:id="@+id/lv_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:cacheColorHint="@color/transparent"
+                android:descendantFocusability="blocksDescendants"
+                android:divider="@color/transparent4"
+                android:dividerHeight="0.5dp"
+                android:listSelector="@color/transparent"
+                android:overScrollMode="never" />
+        </in.srain.cube.loadmore.LoadMoreListViewContainer>
+    </in.srain.cube.ptr.PtrClassicFrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="0.5dp"
+        android:layout_weight="0"
+        android:background="@color/white"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerHorizontal="true"
+            android:text="共计3条记录"
+            android:textColor="@color/content"
+            android:textSize="@dimen/size14" />
+
+        <LinearLayout
+            android:id="@+id/ll11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="收礼:"
+                android:textColor="@color/content"
+                android:textSize="@dimen/size14" />
+
+            <TextView
+                android:id="@+id/tv_sl_times"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="10dp"
+                android:text="10次"
+                android:textColor="@color/content"
+                android:textSize="@dimen/size14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:text="总计:"
+                android:textColor="@color/content"
+                android:textSize="@dimen/size14" />
+
+            <TextView
+                android:id="@+id/tv_sl_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="10dp"
+                android:text="99999"
+                android:textColor="@color/red"
+                android:textSize="@dimen/size14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="元"
+                android:textColor="@color/content"
+                android:textSize="@dimen/size14" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

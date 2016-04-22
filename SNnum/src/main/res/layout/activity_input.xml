@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.keyhua.renameyourself.main.InputActivity">
+
+    <include layout="@layout/include_head"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="当前SN号：100003"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.keyhua.renameyourself.view.CleareditTextView
+                android:id="@+id/ctv_bianhao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:hint="请填写SN号"
+                android:inputType="number"
+                android:maxLength="6"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@color/content"
+                android:textColorHint="@color/transparent3"
+                android:textSize="@dimen/size20" />
+
+            <TextView
+                android:id="@+id/tv_jia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="0"
+                android:background="@drawable/btn_ok_selector"
+                android:gravity="center"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="+"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size18" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_ok"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_ok_selector"
+            android:gravity="center"
+            android:padding="14dp"
+            android:text="烧录"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size18" />
+    </LinearLayout>
+</LinearLayout>

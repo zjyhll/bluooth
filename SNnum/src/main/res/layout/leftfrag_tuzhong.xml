@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/allbackground"
+    android:orientation="vertical" >
+
+    <com.keyhua.renameyourself.view.ReboundScrollView
+        android:id="@+id/rsv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <com.keyhua.renameyourself.view.MyListView
+                android:id="@+id/lv_shilian"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:cacheColorHint="@color/transparent"
+                android:descendantFocusability="blocksDescendants"
+                android:divider="@color/transparent"
+                android:dividerHeight="0dp"
+                android:listSelector="@color/transparent" >
+            </com.keyhua.renameyourself.view.MyListView>
+
+            <com.keyhua.renameyourself.view.MyListView
+                android:id="@+id/lv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:cacheColorHint="@color/transparent"
+                android:descendantFocusability="blocksDescendants"
+                android:divider="@color/transparent"
+                android:dividerHeight="0dp"
+                android:listSelector="@color/transparent" >
+            </com.keyhua.renameyourself.view.MyListView>
+        </LinearLayout>
+    </com.keyhua.renameyourself.view.ReboundScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/bmapView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:clickable="true" />
+
+        <ImageView
+            android:id="@+id/iv_local"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="40dip"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/select_dt_1" />
+
+        <ImageView
+            android:id="@+id/iv_xianshisuoyouren"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tv_refresh"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/select_dt_3" />
+
+        <ImageView
+            android:id="@+id/iv_xiazai"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/iv_xianshisuoyouren"
+            android:layout_marginBottom="5dp"
+            android:visibility="gone"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/select_dt_5" />
+
+        <ImageView
+            android:id="@+id/iv_kaishihuaguiji"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_above="@+id/iv_dituleixing"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/select_dt_21" />
+
+        <ImageView
+            android:id="@+id/iv_zantinghuaguiji"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_above="@+id/iv_dituleixing"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/select_dt_23"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_tingzhi"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_above="@+id/iv_dituleixing"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/select_dt_24"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_jilutinghuaguiji"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_above="@+id/iv_dituleixing"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/select_dt_22"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/iv_dituleixing"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_above="@id/iv_local"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="55dp"
+            android:background="@drawable/select_dt_4" />
+
+        <RelativeLayout
+            android:id="@+id/ZoomControlView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10.0dip"
+            android:layout_marginRight="10.0dip" >
+
+            <Button
+                android:id="@+id/zoomin"
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:background="@drawable/zoomin_seletor" />
+
+            <Button
+                android:id="@+id/zoomout"
+                android:layout_width="40dip"
+                android:layout_height="40dip"
+                android:layout_below="@+id/zoomin"
+                android:background="@drawable/zoomout_seletor" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_dtlx"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="40dp"
+            android:background="@color/transparent2"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:visibility="gone" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:text="地图类型切换"
+                    android:textColor="@color/white" >
+                </TextView>
+
+                <TextView
+                    android:id="@+id/tv_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:gravity="right"
+                    android:padding="10dp"
+                    android:text="关闭"
+                    android:textColor="@color/white" >
+                </TextView>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/tv_ptdt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:drawablePadding="10dp"
+                    android:padding="10dp"
+                    android:drawableRight="@mipmap/sousuo_c"
+                    android:text="普通图"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/tv_wxdt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:padding="10dp"
+                     android:drawablePadding="10dp"
+                    android:text="卫星图"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/tv_jtdt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:text="交通图    "
+                    android:textColor="@color/white" />
+
+                <ToggleButton
+                    android:id="@+id/tb_jtdt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:button="@drawable/toggle_btn"
+                    android:checked="false"
+                    android:text=""
+                    android:textOff=""
+                    android:textOn="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:visibility="gone"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        android:text="计划轨迹"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/size14" />
+
+                    <ToggleButton
+                        android:id="@+id/tb_jhgj"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:button="@drawable/toggle_btn"
+                        android:checked="false"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn="" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:singleLine="true"
+                        android:text="我的轨迹"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/size14" />
+
+                    <ToggleButton
+                        android:id="@+id/tb_wdgj"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:button="@drawable/toggle_btn"
+                        android:checked="false"
+                        android:text=""
+                        android:textOff=""
+                        android:textOn="" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_ckgj"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/videoview"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_ckgj"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/transparent3"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:text="参考轨迹"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size14" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/tv_refresh"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/select_dt_r" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/tv_tishi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:background="@color/transparent2"
+            android:paddingBottom="6dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="6dp"
+            android:text="【失联】 某某某，12:10"
+            android:textColor="@color/app_green"
+            android:textSize="@dimen/size16"
+            android:visibility="gone" >
+        </TextView>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.keyhua.renameyourself.main.personCenter.LiDataActivity">
+
+    <include layout="@layout/include_head" />
+
+    <in.srain.cube.ptr.PtrClassicFrameLayout
+        android:id="@+id/load_more_list_view_ptr_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@color/allbackground"
+        android:overScrollMode="never">
+
+        <in.srain.cube.loadmore.LoadMoreListViewContainer
+            android:id="@+id/load_more_list_view_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/allbackground">
+
+            <com.baoyz.swipemenulistview.SwipeMenuListView
+                android:id="@+id/lv_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:cacheColorHint="@color/transparent"
+                android:descendantFocusability="blocksDescendants"
+                android:divider="@color/transparent4"
+                android:dividerHeight="0.5dp"
+                android:listSelector="@color/transparent"
+                android:overScrollMode="never" />
+        </in.srain.cube.loadmore.LoadMoreListViewContainer>
+    </in.srain.cube.ptr.PtrClassicFrameLayout>
+    <TextView
+        android:id="@+id/tv_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/btn_ok_selector"
+        android:gravity="center"
+        android:padding="14dp"
+        android:layout_weight="0"
+        android:visibility="gone"
+        android:text="删除"
+        android:textColor="@color/white"
+        android:textSize="@dimen/size18" />
+</LinearLayout>

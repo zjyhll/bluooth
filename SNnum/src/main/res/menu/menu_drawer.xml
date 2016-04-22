@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_sf"
+        android:checked="true"
+        android:title="更换身份" />
+    <item
+        android:id="@+id/menu_tz"
+        android:checked="true"
+        android:icon="@drawable/select_leftfrg_tuzhong"
+        android:title="途中" />
+
+    <item
+        android:id="@+id/menu_lxdt"
+        android:checked="true"
+        android:icon="@drawable/select_leftfrg_baoliao"
+        android:title="离线地图" />
+
+    <item
+        android:id="@+id/menu_ldgj"
+        android:checked="true"
+        android:icon="@drawable/select_leftfrg_kefu"
+        android:title="领队工具" />
+</menu>

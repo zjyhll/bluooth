@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/allbackground"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_personcenter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/select_item_down">
+
+        <ImageView
+            android:id="@+id/tv_userpic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/tensise"
+            android:background="@mipmap/iv_default" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/tv_userpic"
+            android:text="请点击登录"
+            android:textSize="@dimen/size16" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/tensise"
+            android:background="@mipmap/right_s" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_ybf"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tensise"
+        android:background="@drawable/select_item_down">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@mipmap/iv_yun"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:padding="@dimen/tensise"
+
+            android:text="我的云备份"
+            android:textSize="@dimen/size16" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/tensise"
+            android:background="@mipmap/right_s" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_slzs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/select_item_down">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@mipmap/iv_sl"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:padding="@dimen/tensise"
+            android:text="送礼数据"
+            android:textSize="@dimen/size16" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/tensise"
+            android:background="@mipmap/right_s" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_wdsc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/select_item_down">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@mipmap/iv_sc"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:padding="@dimen/tensise"
+            android:text="我的收藏"
+            android:textSize="@dimen/size16" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/tensise"
+            android:background="@mipmap/right_s" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_yjfk"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tensise"
+        android:background="@drawable/select_item_down">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@mipmap/iv_yjfk"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:padding="@dimen/tensise"
+            android:text="意见反馈"
+            android:textSize="@dimen/size16" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/tensise"
+            android:background="@mipmap/right_s" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_gywm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@drawable/select_item_down">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@mipmap/iv_about"
+            android:drawablePadding="5dp"
+            android:gravity="center"
+            android:padding="@dimen/tensise"
+            android:text="关于我们"
+            android:textSize="@dimen/size16" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/tensise"
+            android:background="@mipmap/right_s" />
+    </RelativeLayout>
+</LinearLayout>

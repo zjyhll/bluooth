@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pull_refresh_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/allbackground"
+    android:orientation="vertical" >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/videoview">
+
+        <TextView
+            android:id="@+id/tv_glldj"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="60dp"
+            android:padding="10dp"
+            android:text="队员机"
+            android:textColor="@color/content"
+            android:textSize="@dimen/size16" />
+
+
+        <TextView
+            android:id="@+id/tv_dk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_ok_selector_hui"
+            android:gravity="center_vertical"
+            android:paddingBottom="4dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:singleLine="true"
+            android:visibility="gone"
+            android:text="断开"
+            android:textColor="@color/white"
+            android:textColorHint="@color/transparent3"
+            android:textSize="@dimen/size14" />
+
+        <TextView
+            android:id="@+id/tv_gl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/btn_ok_selector_hui"
+            android:gravity="center_vertical"
+            android:paddingBottom="4dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:singleLine="true"
+            android:text="未关联"
+            android:textColor="@color/white"
+            android:textColorHint="@color/transparent3"
+            android:textSize="@dimen/size14" />
+
+    </RelativeLayout>
+    <com.keyhua.renameyourself.view.ReboundScrollView
+        android:id="@+id/rsv_youji"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/tv_clear_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp" >
+
+                <TextView
+                    android:id="@+id/tv_clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:padding="10dp"
+                    android:text="@string/left_gongju_myguardian_tocontact_lanyatitle"
+                    android:textColor="@color/app_green"
+                    android:textSize="@dimen/size18" />
+
+                <TextView
+                    android:id="@+id/tv_tocontact_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/solid_video"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:text="搜索"
+                    android:textColor="@color/app_green"
+                    android:textSize="@dimen/size16" />
+            </RelativeLayout>
+
+            <com.keyhua.renameyourself.view.MyListView
+                android:id="@+id/lv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:cacheColorHint="@color/transparent"
+                android:descendantFocusability="blocksDescendants"
+                android:divider="@color/transparent"
+                android:dividerHeight="0dp"
+                android:listSelector="@color/transparent" >
+            </com.keyhua.renameyourself.view.MyListView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:text="@string/left_gongju_myguardian_tocontact_lanyastatus"
+                android:textColor="@color/content"
+                android:textSize="@dimen/size16" />
+        </LinearLayout>
+    </com.keyhua.renameyourself.view.ReboundScrollView>
+
+</LinearLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="44dp"
+    android:background="@color/app_green" >
+
+    <TextView
+        android:id="@+id/top_itv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:drawableLeft="@drawable/select_back_down_frg"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text=""
+        android:textColor="@drawable/select_wenzi_mainfrg"
+        android:textSize="@dimen/size16" />
+
+    <TextView
+        android:id="@+id/top_tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/size18"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/top_tv_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:padding="10dp"
+        android:textColor="@drawable/select_wenzi_mainfrg"
+        android:textSize="@dimen/size16" />
+
+    <LinearLayout
+        android:id="@+id/top_tv_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:visibility="gone" >
+
+        <ImageView
+            android:id="@+id/top_tv_shoucang"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/select_bt_shoucang" />
+
+        <ImageView
+            android:id="@+id/top_tv_fenxiang"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/select_bt_fenxiang" />
+    </LinearLayout>
+
+</RelativeLayout>
