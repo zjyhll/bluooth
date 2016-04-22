@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/videoview">
+
+            <TextView
+                android:id="@+id/tv_dynums"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:padding="10dp"
+                android:text="队伍人数"
+                android:textColor="@color/content"
+                android:textSize="@dimen/size16" />
+
+            <TextView
+                android:id="@+id/tv_glldj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/tv_dynums"
+                android:padding="10dp"
+                android:text="领队机"
+                android:textColor="@color/content"
+                android:textSize="@dimen/size16" />
+
+
+            <TextView
+                android:id="@+id/tv_dk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/tv_hq"
+                android:background="@drawable/btn_ok_selector_hui"
+                android:gravity="center_vertical"
+                android:paddingBottom="4dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="4dp"
+                android:singleLine="true"
+                android:text="断开"
+                android:textColor="@color/white"
+                android:textColorHint="@color/transparent3"
+                android:textSize="@dimen/size14"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_gl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/tv_hq"
+                android:background="@drawable/btn_ok_selector"
+                android:gravity="center_vertical"
+                android:paddingBottom="4dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="4dp"
+                android:singleLine="true"
+                android:text="关联"
+                android:textColor="@color/white"
+                android:textColorHint="@color/transparent3"
+                android:textSize="@dimen/size14" />
+
+            <TextView
+                android:id="@+id/tv_hq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/btn_ok_selector"
+                android:gravity="center_vertical"
+                android:paddingBottom="4dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="4dp"
+                android:singleLine="true"
+                android:text="获取"
+                android:textColor="@color/white"
+                android:textColorHint="@color/transparent3"
+                android:textSize="@dimen/size14" />
+
+        </RelativeLayout>
+
+        <com.baoyz.swipemenulistview.SwipeMenuListView
+            android:id="@+id/lv_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:cacheColorHint="@color/transparent"
+            android:descendantFocusability="blocksDescendants"
+            android:divider="@color/videoview"
+            android:dividerHeight="0.5dp"
+            android:listSelector="@color/transparent"
+            android:overScrollMode="never" />
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@mipmap/tianjia_tongxingbao"
+        app:backgroundTint="#aaaaaa" />
+</android.support.design.widget.CoordinatorLayout>

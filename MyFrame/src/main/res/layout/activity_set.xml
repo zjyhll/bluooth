@@ -1,0 +1,460 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/allbackground" >
+
+
+    <com.keyhua.renameyourself.view.ReboundScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp" >
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@mipmap/set_lingduibao"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:text="领队宝"
+                    android:textColor="@color/content"
+                    android:textSize="@dimen/size14" />
+
+                <TextView
+                    android:id="@+id/tv_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="SN:123456789abc"
+                    android:textColor="@color/content"
+                    android:textSize="@dimen/size14" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/videoview" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp" >
+
+                <TextView
+                    android:id="@+id/tv_22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@mipmap/set_beidou"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:text="GPS工作间隔"
+                    android:textColor="@color/content"
+                    android:textSize="@dimen/size14" />
+
+                <EditText
+                    android:id="@+id/et2"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/tv_23"
+                    android:background="@color/content_set"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:text="5"
+                    android:textColor="@color/content"
+                    android:textColorHint="@color/content"
+                    android:textSize="@dimen/size12" />
+
+                <TextView
+                    android:id="@+id/tv_23"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="min"
+                    android:textColor="@color/content"
+                    android:textSize="@dimen/size14" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/videoview" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp" >
+
+                <TextView
+                    android:id="@+id/tv_32"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@mipmap/set_shijianjiange"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:text="广播时间间隔"
+                    android:textColor="@color/content"
+                    android:textSize="@dimen/size14" />
+
+                <EditText
+                    android:id="@+id/et3"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/tv_33"
+                    android:background="@color/content_set"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:text="5"
+                    android:textColor="@color/content"
+                    android:textColorHint="@color/content"
+                    android:textSize="@dimen/size12" />
+
+                <TextView
+                    android:id="@+id/tv_33"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="min"
+                    android:textColor="@color/content"
+                    android:textSize="@dimen/size14" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/videoview" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/tv_42"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@mipmap/set_weitongshijian"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:text="卫通时间间隔"
+                    android:textColor="@color/content"
+                    android:textSize="@dimen/size14" />
+
+                <EditText
+                    android:id="@+id/et4"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/tv_43"
+                    android:background="@color/content_set"
+                    android:gravity="center"
+                    android:hint="5"
+                    android:textColor="@color/content"
+                    android:textColorHint="@color/content"
+                    android:textSize="@dimen/size12" />
+
+                <TextView
+                    android:id="@+id/tv_43"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="min"
+                    android:textColor="@color/content"
+                    android:textSize="@dimen/size14" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp" >
+
+                <TextView
+                    android:id="@+id/tv_52"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@mipmap/set_shiliancishu"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:text="失联次数"
+                    android:textColor="@color/content"
+                    android:textSize="@dimen/size14" />
+
+                <EditText
+                    android:id="@+id/et5"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/tv_53"
+                    android:background="@color/content_set"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:text="3"
+                    android:textColor="@color/content"
+                    android:textColorHint="@color/content"
+                    android:textSize="@dimen/size12" />
+
+                <TextView
+                    android:id="@+id/tv_53"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="次"
+                    android:textColor="@color/content"
+                    android:textSize="@dimen/size14" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/videoview" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp" >
+
+                <TextView
+                    android:id="@+id/tv_62"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@mipmap/set_juli"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:text="黄色警告距离"
+                    android:textColor="@color/content"
+                    android:textSize="@dimen/size14" />
+
+                <EditText
+                    android:id="@+id/et6"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/tv_63"
+                    android:background="@color/content_set"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="1000"
+                    android:textColor="@color/content"
+                    android:textColorHint="@color/content"
+                    android:textSize="@dimen/size12" />
+
+                <TextView
+                    android:id="@+id/tv_63"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="m"
+                    android:textColor="@color/content"
+                    android:textSize="@dimen/size14" />
+            </RelativeLayout>
+  <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/videoview" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp" >
+
+                <TextView
+                    android:id="@+id/tv_621"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@mipmap/set_juli"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:text="红色警告距离"
+                    android:textColor="@color/content"
+                    android:textSize="@dimen/size14" />
+
+                <EditText
+                    android:id="@+id/et61"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/tv_631"
+                    android:background="@color/content_set"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="1500"
+                    android:textColor="@color/content"
+                    android:textColorHint="@color/content"
+                    android:textSize="@dimen/size12" />
+
+                <TextView
+                    android:id="@+id/tv_631"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="m"
+                    android:textColor="@color/content"
+                    android:textSize="@dimen/size14" />
+            </RelativeLayout>
+  <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/videoview" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp" >
+
+                <TextView
+                    android:id="@+id/tv_622"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@mipmap/set_juli"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:text="失联警告距离"
+                    android:textColor="@color/content"
+                    android:textSize="@dimen/size14" />
+
+                <EditText
+                    android:id="@+id/et62"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/tv_632"
+                    android:background="@color/content_set"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="2000"
+                    android:textColor="@color/content"
+                    android:textColorHint="@color/content"
+                    android:textSize="@dimen/size12" />
+
+                <TextView
+                    android:id="@+id/tv_632"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="m"
+                    android:textColor="@color/content"
+                    android:textSize="@dimen/size14" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/videoview" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:visibility="gone"
+                android:padding="10dp" >
+
+                <TextView
+                    android:id="@+id/tv_72"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:drawableLeft="@mipmap/set_dianliang"
+                    android:drawablePadding="10dp"
+                    android:gravity="center"
+                    android:text="电量告警"
+                    android:textColor="@color/content"
+                    android:textSize="@dimen/size14" />
+
+                <EditText
+                    android:id="@+id/et7"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/tv_73"
+                    android:background="@color/content_set"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:text="15"
+                    android:textColor="@color/content"
+                    android:textColorHint="@color/content"
+                    android:textSize="@dimen/size12" />
+
+                <TextView
+                    android:id="@+id/tv_73"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="%"
+                    android:textColor="@color/content"
+                    android:textSize="@dimen/size14" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="0.5dp"
+                android:background="@color/videoview" />
+
+
+
+        </LinearLayout>
+    </com.keyhua.renameyourself.view.ReboundScrollView>
+
+</RelativeLayout>

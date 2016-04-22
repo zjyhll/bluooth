@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/allbackground"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_shenfen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="60dp"
+        android:gravity="center">
+
+        <com.keyhua.renameyourself.view.CircleImageView
+            android:id="@+id/left_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="10dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/temphead" />
+
+        <TextView
+            android:id="@+id/tv_shenfen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="领队或队员身份"
+            android:gravity="center_vertical"
+            android:paddingLeft="10.0dip"
+            android:paddingRight="0dp"
+            android:textColor="@drawable/select_leftfrg_tv_color"
+            android:textSize="@dimen/size24" />
+    </LinearLayout>
+
+</RelativeLayout>
