@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
         android:gravity="center"
-        android:text="户外同行"
+        android:text="同行伴侣"
         android:textColor="#FF6347"
         android:textSize="28sp" />
 

@@ -42,6 +42,7 @@ import android.widget.Toast;
 
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.CoordinateConverter;
+import com.keyhua.renameyourself.main.protocol.HwtxCommandUtility;
 
 /**
  * @author 曾金叶
@@ -414,5 +415,21 @@ public class CommonUtility {
         nonce = random.nextInt(100000);
 
         return nonce;
+    }
+
+
+    // android默认字符是utf-8，计算当前输入值的长度
+    public static int getByteLength(String value) {
+        byte gb2312byte[] = null;
+        String strUtf8 = null;
+        try {
+            strUtf8 = new String(value.getBytes("UTF-8"));
+            gb2312byte =
+                    strUtf8.getBytes("GB2312");
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return gb2312byte.length;
     }
 }

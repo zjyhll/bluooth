@@ -82,6 +82,7 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
     private AlertView tiplertView;//是否添加入组成功
     private int status = 0;//同步结果
     private int duiyuanMode = 0;
+    private boolean isConnect = false;//是否关联成功
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -162,6 +163,7 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
     public void onEventMainThread(ConnectBean event) {
         boolean mConnected = event.ismConnected();//是否关联成功
         if (mConnected) {//关联成功
+            isConnect = true;
             //领队机设备状态
             mDeviceName = App.getInstance().getBleLingDuiName();
             mDeviceAddress = App.getInstance().getBleLingDuiDuiAddress();
@@ -169,6 +171,7 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
             //更新领队的设备号
             SignUpUser s = new SignUpUser();
             s.setStrDeviceSN(strDeviceSN);
+            s.setDeviceReady(1);
             s.updateAll("tps_type = ?", String.valueOf(CommonUtility.LINGDUI));
             tv_glldj.setText("领队机:" + strDeviceSN);
             tv_dk.setVisibility(View.VISIBLE);
@@ -176,9 +179,11 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
             BleCommon.getInstance().queryMode();
             App.getInstance().setTb_phonelocation(false);
         } else {//关联失败
+            isConnect = false;
             //清空领队的设备号
             SignUpUser s = new SignUpUser();
             s.setStrDeviceSN("");
+            s.setDeviceReady(2);
             s.updateAll("tps_type = ?", String.valueOf(CommonUtility.LINGDUI));
             //
             cancleContact();
@@ -286,28 +291,30 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
 
             @Override
             public void run() {
-                //STEP 2
-                try {
-                    getActivity().unregisterReceiver(BleCommon.getInstance().mGattUpdateReceiver);
-                    getActivity().unbindService(BleCommon.getInstance().mServiceConnection);
-                    if (BleCommon.getInstance().mBluetoothLeService != null) {
-                        BleCommon.getInstance().mBluetoothLeService.disconnect();
-                        BleCommon.getInstance().mBluetoothLeService.close();
-                        BleCommon.getInstance().mBluetoothLeService = null;
+                if (isConnect == false) {
+                    //STEP 2
+                    try {
+                        getActivity().unregisterReceiver(BleCommon.getInstance().mGattUpdateReceiver);
+                        getActivity().unbindService(BleCommon.getInstance().mServiceConnection);
+                        if (BleCommon.getInstance().mBluetoothLeService != null) {
+                            BleCommon.getInstance().mBluetoothLeService.disconnect();
+                            BleCommon.getInstance().mBluetoothLeService.close();
+                            BleCommon.getInstance().mBluetoothLeService = null;
+                        }
+                    } catch (Exception e) {
+                        //需要完全断开连接才能再次关联
                     }
-                } catch (Exception e) {
-                    //需要完全断开连接才能再次关联
+                    //STEP 3
+                    // 蓝牙相关
+                    BleCommon.getInstance().setCharacteristic(mDeviceAddress);
+                    // 广播接收器
+                    getActivity().registerReceiver(BleCommon.getInstance().mGattUpdateReceiver,
+                            BleCommon.getInstance().makeGattUpdateIntentFilter());
+                    Intent gattServiceIntentAgin = new Intent(getActivity(),
+                            BluetoothLeService.class);
+                    getActivity().bindService(gattServiceIntentAgin, BleCommon.getInstance().mServiceConnection,
+                            Context.BIND_AUTO_CREATE);
                 }
-                //STEP 3
-                // 蓝牙相关
-                BleCommon.getInstance().setCharacteristic(mDeviceAddress);
-                // 广播接收器
-                getActivity().registerReceiver(BleCommon.getInstance().mGattUpdateReceiver,
-                        BleCommon.getInstance().makeGattUpdateIntentFilter());
-                Intent gattServiceIntentAgin = new Intent(getActivity(),
-                        BluetoothLeService.class);
-                getActivity().bindService(gattServiceIntentAgin, BleCommon.getInstance().mServiceConnection,
-                        Context.BIND_AUTO_CREATE);
             }
         }, 2500);
 
@@ -471,10 +478,24 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
                 if (TextUtils.isEmpty(App.getInstance().getBleLingDuiDuiAddress())) {
                     showToast("请先关联领队机");
                 } else {
-                    tblertView.show();
+                    int lInt = 0;
+                    List<SignUpUser> l = DataSupport.where("tps_type=?", String.valueOf(CommonUtility.DUIYUAN)).find(SignUpUser.class);
+                    for (int i = 0; i < l.size(); i++) {
+                        if (TextUtils.isEmpty(l.get(i).getStrDeviceSN())) {
+                            lInt++;
+                        }
+                    }
+                    if (lInt != 0) {
+//                        showToast("存在队员未添加设备，请先指定设备或删除该队员");
+                        status = 5;
+                        showTipDialog("存在队员未添加设备，请先指定设备或删除该队员");
+                    } else {
+                        tblertView.show();
+                    }
                 }
                 break;
             case R.id.tv_dk:
+                isConnect = false;
                 //更新领队的设备号
                 SignUpUser s = new SignUpUser();
                 s.setStrDeviceSN("");

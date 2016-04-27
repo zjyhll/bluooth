@@ -5,6 +5,7 @@ import org.litepal.crud.DataSupport;
 
 public class SignUpUser extends DataSupport {
     private long id;//自增id
+    private Integer deviceReady = null;//是否有设备 1有设备,2无设备
     private Integer tps_type = null;// 人员类型：1普通队员，2领队
     private Integer tps_id = null;// 物理id
     private String phonenum = null;// 队员手机号
@@ -17,6 +18,14 @@ public class SignUpUser extends DataSupport {
     private double distance = 0;
     private String location_time = "";
     private Integer isUsedByCurrentDevice = 0;//判断该tps_id是否是当前手机使用,列表中代表自己,1为自己，整个数据表中只会存在一个为1,0为其他人.每台手机只会指定一个用户
+
+    public Integer getDeviceReady() {
+        return deviceReady;
+    }
+
+    public void setDeviceReady(Integer deviceReady) {
+        this.deviceReady = deviceReady;
+    }
 
     public Integer getIsUsedByCurrentDevice() {
         return isUsedByCurrentDevice;

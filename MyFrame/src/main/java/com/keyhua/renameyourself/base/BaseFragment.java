@@ -5,8 +5,10 @@ import java.util.List;
 
 import com.bigkoo.alertview.AlertView;
 import com.example.importotherlib.R;
+import com.keyhua.litepal.SignUpUser;
 import com.keyhua.renameyourself.app.App;
 import com.keyhua.renameyourself.main.le.BleCommon;
+import com.keyhua.renameyourself.util.CommonUtility;
 import com.keyhua.renameyourself.util.MyLogger;
 import com.keyhua.renameyourself.view.CustomProgressDialog;
 
@@ -126,6 +128,10 @@ public abstract class BaseFragment extends Fragment implements OnClickListener {
         App.getInstance().setBleLingDuiName("");
         App.getInstance().setBleDuiYuanAddress("");
         App.getInstance().setBleDuiYuanName("");
+        //更新领队的设备号
+        SignUpUser s = new SignUpUser();
+        s.setStrDeviceSN("");
+        s.updateAll("tps_type = ?", String.valueOf(CommonUtility.LINGDUI));
         if (getActivity() != null) {
             try {
                 getActivity().unregisterReceiver(BleCommon.getInstance().mGattUpdateReceiver);

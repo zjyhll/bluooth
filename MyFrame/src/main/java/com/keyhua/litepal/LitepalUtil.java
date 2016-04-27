@@ -36,15 +36,15 @@ public class LitepalUtil {
         return DataSupport.where("tps_type=?", String.valueOf(CommonUtility.DUIYUAN)).find(SignUpUser.class);
     }
 
-    //查找所有未离队的队员
+    //查找所有未离队并且有设备的的队员
     public static List<SignUpUser> getAllUserByActisleave() {
-        return DataSupport.where("act_isleave= ?", String.valueOf(CommonUtility.GUIDUI)).order("distance").find(SignUpUser.class);
+        return DataSupport.where("act_isleave= ? and deviceReady= ?", String.valueOf(CommonUtility.GUIDUI), String.valueOf(1)).order("distance DESC").find(SignUpUser.class);
     }
 
     //查找所有队员以距离排序
     public static List<SignUpUser> getAllUserByActisleaveDrderByDistance() {
         //不加DESC就是降序
-        return DataSupport.order("distance DESC").find(SignUpUser.class);
+        return DataSupport.where("deviceReady= ?", String.valueOf(1)).order("distance DESC").find(SignUpUser.class);
     }
 
     //清除指定用户

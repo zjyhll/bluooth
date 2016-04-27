@@ -59,8 +59,11 @@ public class NewDuiYuanActivity extends BaseActivity {
                 String giftStr = ctv_lijin.getText().toString();
                 //sn
                 String locationStr = tv_snnum.getText().toString();
+                int a = CommonUtility.getByteLength(eventStr);
                 if (TextUtils.isEmpty(eventStr)) {
                     showToast("队员姓名为必填项");
+                } else if (a > 10) {
+                    showToast("队员姓名需小于10个字节");
                 } else {
                     int numInt = 0;
                     try {
@@ -76,13 +79,13 @@ public class NewDuiYuanActivity extends BaseActivity {
                     event.setAct_isleave(CommonUtility.GUIDUI);//默认为归队
                     event.setTps_id(numInt);
                     event.setTps_type(CommonUtility.DUIYUAN);
-                    if (numInt == 2) {
-                        event.setUser_longitude("104.06");
-                        event.setUser_latitude("30.67");
-                    }  if (numInt == 3) {
-                        event.setUser_longitude("104.067329");
-                        event.setUser_latitude("30.482487");
-                    }
+//                    if (numInt == 2) {
+//                        event.setUser_longitude("104.06");
+//                        event.setUser_latitude("30.67");
+//                    }  if (numInt == 3) {
+//                        event.setUser_longitude("104.067329");
+//                        event.setUser_latitude("30.482487");
+//                    }
                     event.save();
                     showToast("添加成功");
                     finish();

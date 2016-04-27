@@ -35,7 +35,10 @@ import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.keyhua.renameyourself.main.eventBusBean.ConnectBean;
 import com.keyhua.renameyourself.main.protocol.HwtxCommandUtility;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -283,7 +286,7 @@ public class BluetoothLeService extends Service {
             Log.w(TAG, "BluetoothAdapter not initialized");
             return;
         }
-        if(mBluetoothGatt!=null){
+        if (mBluetoothGatt != null) {
             mBluetoothGatt.disconnect();
         }
 
@@ -296,7 +299,7 @@ public class BluetoothLeService extends Service {
     public void close() {
         if (mBluetoothGatt == null) {
             return;
-        }else{
+        } else {
             mBluetoothGatt.close();
             mBluetoothGatt = null;
         }
@@ -366,7 +369,7 @@ public class BluetoothLeService extends Service {
      * 发送数据
      *
      * @param characteristic
-     * @param bb
+     * @param bbb
      * @return
      */
     public Boolean write(final BluetoothGattCharacteristic characteristic,
@@ -406,7 +409,9 @@ public class BluetoothLeService extends Service {
                     characteristic.setValue(bb);
                     f = mBluetoothGatt.writeCharacteristic(characteristic);
                     System.out.println("是否发送成功：" + f);
+                    int fInt = 0;//发送失败的次数，10次则停止发送
                     if (f) {// 发送成功时减20
+                        fInt = 0;//发送成功置为0
                         if (len <= 20) {
 
                         } else {
@@ -414,6 +419,13 @@ public class BluetoothLeService extends Service {
                         }
 
                         len -= 20;
+                    } else {
+                        fInt++;//连续10次发送失败判定为连接断开
+                        if (fInt == 30) {
+                            EventBus.getDefault().post(
+                                    new ConnectBean(false));
+                            break;
+                        }
                     }
 
                 } while (len > 0);

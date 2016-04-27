@@ -464,17 +464,31 @@ public class TongXingBaoFragment extends BaseFragment implements OnItemClickList
         //告诉用户获取所有数据完毕
         mSVProgressHUD.dismiss();
         showTipDialog("获取队员信息表和设备参数表成功");
+        isAddSuccess = true;
     }
 
     /**
      * 获取队员表等
      */
+    private boolean isAddSuccess = false;
+
     public void getInfo() {
+        isAddSuccess = false;
         mSVProgressHUD.showWithStatus("正在获取数据...");
 //            initBluetoothConnet();
         //需先删除所有数据
         LitepalUtil.deleteAll();
         BleCommon.getInstance().getSetingGetTable();
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                if (isAddSuccess == false) {
+                    mSVProgressHUD.dismiss();
+                    showTipDialog("获取队员信息表和设备参数表失败，请重试");
+                }
+            }
+        }, 60 * 1000);
     }
 
     @Override

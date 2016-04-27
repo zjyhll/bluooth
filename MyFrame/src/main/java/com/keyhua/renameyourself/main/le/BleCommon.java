@@ -603,17 +603,17 @@ public class BleCommon {
      */
     private short getGroupIDShort(String endNum) {
         //第一位
-        short max = 2;
-        short min = -2;
-        Random random = new Random();
-        String firstStr = String.valueOf(random.nextInt(max) % (max - min + 1) + min);
-        //第2、3位
-        Calendar calendar = Calendar.getInstance();
-        String secondStr = String.valueOf(calendar.get(Calendar.SECOND));
+//        short max = 2;
+//        short min = -2;
+//        Random random = new Random();
+//        String firstStr = String.valueOf(random.nextInt(max) % (max - min + 1) + min);
+//        //第2、3位
+//        Calendar calendar = Calendar.getInstance();
+//        String secondStr = String.valueOf(calendar.get(Calendar.SECOND));
         //第4、5位
-        String endStr = endNum.substring(endNum.length() - 2);
+        String endStr = endNum.substring(endNum.length() - 5);
 
-        return Short.valueOf(firstStr + secondStr + endStr);
+        return Short.valueOf(endStr);
     }
 
     private HwtxDataGroupInfoAllBtApp groupInfoAllBtApp2 = null;
@@ -1285,17 +1285,24 @@ public class BleCommon {
             String strNickName = indexMemberInfoArray.get(i).getNickNameString();
             String strDeviceSN = indexMemberInfoArray.get(i).gethWTXMemberInfoMap().getMemberInfo().getDeviceSnString();
             Integer uDevNumInGroup = indexMemberInfoArray.get(i).gethWTXMemberInfoMap().getMemberInfo().getDevInfo().getDevNumInGroup();
+            boolean deviceReady = indexMemberInfoArray.get(i).gethWTXMemberInfoMap().getMemberInfo().getDevInfo().getDeviceReady();
             //存入本地数据库中
             SignUpUser s = new SignUpUser();
             s.setU_nickname(strNickName);
             s.setStrDeviceSN(strDeviceSN);
+            if(deviceReady){
+                s.setDeviceReady(1);
+            }else{
+                s.setDeviceReady(2);
+            }
             s.setTps_id(uDevNumInGroup);
+
             if (uDevNumInGroup == 1) {//等于1时为领队
                 s.setTps_type(CommonUtility.LINGDUI);
             } else {
                 s.setTps_type(CommonUtility.DUIYUAN);
             }
-            String duiYuanNameStr=App.getInstance().getBleDuiYuanName();
+            String duiYuanNameStr = App.getInstance().getBleDuiYuanName();
             if (TextUtils.equals(duiYuanNameStr, strDeviceSN)) {//相等则是自己
                 s.setIsUsedByCurrentDevice(CommonUtility.SELF);
             } else if (TextUtils.equals(App.getInstance().getBleLingDuiName(), strDeviceSN)) {

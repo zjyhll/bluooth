@@ -24,6 +24,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -75,10 +76,12 @@ import com.keyhua.renameyourself.main.eventBusBean.ActivitySetBean;
 import com.keyhua.renameyourself.main.eventBusBean.ConnectBean;
 import com.keyhua.renameyourself.main.eventBusBean.GetMemberInfoBean;
 import com.keyhua.renameyourself.main.eventBusBean.GpsBean;
+import com.keyhua.renameyourself.main.eventBusBean.InitBluetoothBean;
 import com.keyhua.renameyourself.main.eventBusBean.LengthZero;
 import com.keyhua.renameyourself.main.eventBusBean.QueryModeBean;
 import com.keyhua.renameyourself.main.eventBusBean.TestGps;
 import com.keyhua.renameyourself.main.le.BleCommon;
+import com.keyhua.renameyourself.main.le.BluetoothLeService;
 import com.keyhua.renameyourself.main.protocol.HwtxCommandUtility;
 import com.keyhua.renameyourself.main.protocol.HwtxDataGpsInfoDataComp;
 import com.keyhua.renameyourself.main.protocol.HwtxDataGrpGpsInfoItem;
@@ -594,7 +597,13 @@ public class DiTuFragment extends BaseFragment implements
                 // ll_dtlx.setVisibility(View.GONE);
                 break;
             case R.id.iv_xianshisuoyouren:
-                showAllPeople();
+                tuZhongUserListGet = LitepalUtil.getAllUserByActisleave();
+                if (tuZhongUserListGet.size() <= 1) {
+                    showToast("当前没有队员，请添加队员后重试");
+                } else {
+                    showAllPeople();
+                }
+
                 break;
             case R.id.tv_ptdt:// 普通地图
                 // ll_dtlx.setVisibility(View.GONE);
@@ -613,7 +622,12 @@ public class DiTuFragment extends BaseFragment implements
                  */
 //                byte[] buffer = getFromAssets("HWTX_GroupGPSInfo_Table1.bin");
 //                BleCommon.getInstance().displayData(buffer);
-                BleCommon.getInstance().getGPSDataTable();
+                if (TextUtils.isEmpty(mDeviceAddress)) {
+                    showToast("请先关联设备");
+                } else {
+                    BleCommon.getInstance().getGPSDataTable();
+                }
+
                 break;
             case R.id.tv_wxdt:// 卫星地图
                 // ll_dtlx.setVisibility(View.GONE);
@@ -629,7 +643,7 @@ public class DiTuFragment extends BaseFragment implements
                 break;
             case R.id.toolbar_tv_right_cancle:
                 // 展示人员列表，这个列表对于队员来讲是来自蓝牙设备的，通过领队宝同步到同行宝 TODO
-                tuZhongUserListGet = LitepalUtil.getAllUserByActisleave();
+                tuZhongUserListGet = LitepalUtil.getAllUserByActisleaveDrderByDistance();
                 if (rsv.getVisibility() == View.GONE) {
                     //
                     rsv.setVisibility(View.VISIBLE);
@@ -780,6 +794,9 @@ public class DiTuFragment extends BaseFragment implements
         // 队员
         mDeviceName = App.getInstance().getBleDuiYuanName();
         mDeviceAddress = App.getInstance().getBleDuiYuanAddress();
+        if (TextUtils.isEmpty(mDeviceAddress)) {
+            mDeviceAddress = App.getInstance().getBleLingDuiDuiAddress();
+        }
         // 当前界面的广播接收器
         if (!TextUtils.isEmpty(mDeviceName)) {
             // tv_contact.setText("已关联同行宝:" + mDeviceName + "\t\t点击断开");
@@ -824,8 +841,11 @@ public class DiTuFragment extends BaseFragment implements
 //                }
             } else {// GPS关闭状态
 
+                if (TextUtils.isEmpty(mDeviceAddress)) {
+                } else {
+                    BleCommon.getInstance().getGPSDataTable();
+                }
 
-                BleCommon.getInstance().getGPSDataTable();
                 // getGPSDataTable();
                 // map view 销毁后不在处理新接收的位置
                 latitude = App.getInstance().getGpsLatitude();
@@ -845,11 +865,11 @@ public class DiTuFragment extends BaseFragment implements
                     p2 = new LatLng(latitude, longitude);
                     MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(p2);
                     mBaiduMap.animateMapStatus(u);
-                    //更新使用当前手机的队员（或领队）的gps数据
-//                    SignUpUser s = new SignUpUser();
-//                    s.setUser_latitude(String.valueOf(latitude));
-//                    s.setUser_longitude(String.valueOf(longitude));
-//                    s.updateAll("isUsedByCurrentDevice = ?", String.valueOf(CommonUtility.SELF));
+//                    更新使用当前手机的队员（或领队）的gps数据
+                    SignUpUser s = new SignUpUser();
+                    s.setUser_latitude(String.valueOf(latitude));
+                    s.setUser_longitude(String.valueOf(longitude));
+                    s.updateAll("isUsedByCurrentDevice = ?", String.valueOf(CommonUtility.SELF));
                 } else {
                     // map view 销毁后不在处理新接收的位置
                     if (location == null || mMapView == null)
@@ -1568,7 +1588,7 @@ public class DiTuFragment extends BaseFragment implements
 
             if (TextUtils.equals(user_latitude, "")
                     || TextUtils.equals(user_longitude, "")) {
-                holder.tv_juli.setText("该队员尚未使用地图功能");
+                holder.tv_juli.setText("该队员尚未定位成功");
             } else {
                 // 显示距离
                 int licheng = (int) distance;
@@ -1803,7 +1823,7 @@ public class DiTuFragment extends BaseFragment implements
         //----------------------------------------------《队员APP不需要显示失联END》---------------------------------------------------------
         // 获取失联信息表暂时放这里
         // getAlarmLostContactList();
-        tuZhongUserListGet = LitepalUtil.getAllUserByActisleave();
+
         tv_tishi.setText("");
         // 失联队员列表
         listShilianbean = new ArrayList<Shilianbean>();
@@ -1811,13 +1831,20 @@ public class DiTuFragment extends BaseFragment implements
         // 算出与离其他队员最近的距离
         int lichengOther = 0;
         int lichengOtherTemp = 0;
-
+        int muchUnLocal = 0;//多少个队员未定位
+//        boolean xianshiBool = false;
         Shilianbean shilianbean = null;
         if (tuZhongUserListGet != null) {
 
             for (int i = 0; i < tuZhongUserListGet.size(); i++) {
+//                if (tuZhongUserListGet.get(i).getIsUsedByCurrentDevice() == CommonUtility.SELF && tuZhongUserListGet.get(i).getTps_type() == CommonUtility.DUIYUAN) {//队员则不显示提示
+//                    xianshiBool = false;
+//                } else if (tuZhongUserListGet.get(i).getIsUsedByCurrentDevice() == CommonUtility.SELF && tuZhongUserListGet.get(i).getTps_type() == CommonUtility.LINGDUI) {
+//                    xianshiBool = true;
+//                }
                 if (!TextUtils.isEmpty(tuZhongUserListGet.get(i)
                         .getUser_latitude())) {
+
                     lichengOther = (int) DistanceUtil.getDistance(
                             p2,
                             new LatLng(Double.valueOf(tuZhongUserListGet
@@ -1841,22 +1868,39 @@ public class DiTuFragment extends BaseFragment implements
                         listShilianbean.add(shilianbean);
                     }
 
+                } else {
+                    muchUnLocal++;
                 }
+            }
+            //得到最大的那个
+            double doubleL = 0;
+            int positionL = 0;
+            for (int i = 0; i < listShilianbean.size(); i++) {
+                double l = listShilianbean
+                        .get(i).getLichengOtherTempLong();
+                if (doubleL < l) {
+                    doubleL = l;
+                    positionL = i;
+                }
+
             }
             // 展示所有失联人员
-            if (listShilianbean.size() > 0) {
-                for (int i = 0; i < listShilianbean.size(); i++) {
-                    tv_tishi.append("\n【失联】\t"
-                            + listShilianbean.get(i).getNameTempLong()
-                            + " \t距离:"
-                            + ParseOject.StringToDouble(listShilianbean
-                            .get(i).getLichengOtherTempLong())
-                            + "m\n");
+            if (listShilianbean.size() > 0) {//当有队员处于失联，与目前失联提示一样，多个队员失联的时候显示最严重的。
+                tv_tishi.setText("\n【失联】\t"
+                        + listShilianbean.get(positionL).getNameTempLong()
+                        + " \t距离:"
+                        + ParseOject.StringToDouble(listShilianbean
+                        .get(positionL).getLichengOtherTempLong())
+                        + "m\n");
+            } else if (muchUnLocal != 0) {//领队刚刚切换过来，如果还没有获得过队员信息，则提示“x个队员尚未定位”；
+                tv_tishi.setText(muchUnLocal + "个队员尚未定位");
+            } else {//只有获得过所有队员的位置信息了，则显示距离领队最远的队员：“x ：300m”；
+                if (tuZhongUserListGet.size() > 0) {
+                    tv_tishi.setText("距离领队最远的队员：" + tuZhongUserListGet.get(0).getU_nickname() + ":" + tuZhongUserListGet.get(0).getDistance());
+                } else {
+                    tv_tishi.setText("状态良好");
                 }
-            } else {
-                tv_tishi.setText("状态良好");
             }
-
             if (tv_tishi.getVisibility() == View.GONE) {
                 iv_xianshisuoyouren
                         .setBackgroundResource(R.mipmap.select_dt_31);
@@ -1945,6 +1989,7 @@ public class DiTuFragment extends BaseFragment implements
             // } else {
             // showToast("正在加载数据，请稍等");
             // }
+
         }
 
     }
@@ -1952,26 +1997,28 @@ public class DiTuFragment extends BaseFragment implements
     private void allPeople() {
         iv_xianshisuoyouren
                 .setBackgroundResource(R.mipmap.select_dt_31);
-        // 判断当前是手机定位优先还是设备定位优先，更新指定的经纬度
+        // 获取失联信息表暂时放这里
+        // getAlarmLostContactList();
         tuZhongUserListGet = LitepalUtil.getAllUserByActisleave();
-        //
         tv_tishi.setText("");
+        // 失联队员列表
+        listShilianbean = new ArrayList<Shilianbean>();
         // if (showDuiyuan) {// 先判断地图是否绘制完成
         // 算出与离其他队员最近的距离
         int lichengOther = 0;
         int lichengOtherTemp = 0;
-        // 失联队员列表
-        listShilianbean = new ArrayList<Shilianbean>();
+        int muchUnLocal = 0;//多少个队员未定位
         Shilianbean shilianbean = null;
         if (tuZhongUserListGet != null) {
 
             for (int i = 0; i < tuZhongUserListGet.size(); i++) {
+
                 if (!TextUtils.isEmpty(tuZhongUserListGet.get(i)
                         .getUser_latitude())) {
                     lichengOther = (int) DistanceUtil.getDistance(
                             p2,
-                            new LatLng(Double.valueOf(tuZhongUserListGet.get(i)
-                                    .getUser_latitude()), Double
+                            new LatLng(Double.valueOf(tuZhongUserListGet
+                                    .get(i).getUser_latitude()), Double
                                     .valueOf(tuZhongUserListGet.get(i)
                                             .getUser_longitude())));
                     if (lichengOtherTemp == 0) {
@@ -1979,29 +2026,50 @@ public class DiTuFragment extends BaseFragment implements
                         lichengOtherTemp = lichengOther;
                         lichengOtherTempLong = lichengOther;
                     }
-                    // 假设大于3000就报失联
+                    // 假设大于1000就报失联
                     if (lichengOther > wWarningDistance3) {
                         shilianbean = new Shilianbean();
                         lichengOtherTemp = lichengOther;
-                        nameTempLong = tuZhongUserListGet.get(i).getU_nickname();
-                        shilianbean.setLichengOtherTempLong(lichengOtherTemp);
+                        nameTempLong = tuZhongUserListGet.get(i)
+                                .getU_nickname();
+                        shilianbean
+                                .setLichengOtherTempLong(lichengOtherTemp);
                         shilianbean.setNameTempLong(nameTempLong);
                         listShilianbean.add(shilianbean);
                     }
 
+                } else {
+                    muchUnLocal++;
                 }
             }
-            // 展示所有失联人员
-            if (listShilianbean.size() > 0) {
-                for (int i = 0; i < listShilianbean.size(); i++) {
-                    tv_tishi.append("\n【失联】\t"
-                            + listShilianbean.get(i).getNameTempLong()
-                            + " \t距离:"
-                            + ParseOject.StringToDouble(listShilianbean.get(i)
-                            .getLichengOtherTempLong()) + "m\n");
+            //得到最大的那个
+            double doubleL = 0;
+            int positionL = 0;
+            for (int i = 0; i < listShilianbean.size(); i++) {
+                double l = listShilianbean
+                        .get(i).getLichengOtherTempLong();
+                if (doubleL < l) {
+                    doubleL = l;
+                    positionL = i;
                 }
-            } else {
-                tv_tishi.setText("状态良好");
+
+            }
+            // 展示所有失联人员
+            if (listShilianbean.size() > 0) {//当有队员处于失联，与目前失联提示一样，多个队员失联的时候显示最严重的。
+                tv_tishi.setText("\n【失联】\t"
+                        + listShilianbean.get(positionL).getNameTempLong()
+                        + " \t距离:"
+                        + ParseOject.StringToDouble(listShilianbean
+                        .get(positionL).getLichengOtherTempLong())
+                        + "m\n");
+            } else if (muchUnLocal != 0) {//领队刚刚切换过来，如果还没有获得过队员信息，则提示“x个队员尚未定位”；
+                tv_tishi.setText(muchUnLocal + "个队员尚未定位");
+            } else {//只有获得过所有队员的位置信息了，则显示距离领队最远的队员：“x ：300m”；
+                if (tuZhongUserListGet.size() > 0) {
+                    tv_tishi.setText("距离领队最远的队员：" + tuZhongUserListGet.get(0).getU_nickname() + ":" + tuZhongUserListGet.get(0).getDistance());
+                } else {
+                    tv_tishi.setText("状态良好");
+                }
             }
 
             tv_tishi.setVisibility(View.VISIBLE);
@@ -2050,6 +2118,32 @@ public class DiTuFragment extends BaseFragment implements
                 }
             }).start();
         }
+
+        // 地图记录状态
+//        switch ((Integer) SPUtils
+//                .get(getActivity(), "dt_status", 1)) {
+//            case WEIKAISHI:// 未开始状态
+//                if (mBaiduMap != null) {
+//                    mBaiduMap.clear();
+//                    // 关联地图中的默认值，应用退出时未停止画轨迹的情况
+//                    // SPUtils.put(getActivity(), "dt_status", 0);
+//                }
+//                break;
+//            case JILUZHONG:// 记录状态
+//                // 开启服务，记录轨迹到数据库
+//                showTrack();
+//                break;
+//            case ZANTING:// 暂停状态
+//                showTrack();
+//                break;
+//            default:
+//                if (mBaiduMap != null) {
+//                    mBaiduMap.clear();
+//                    // 关联地图中的默认值，应用退出时未停止画轨迹的情况
+//                    // SPUtils.put(getActivity(), "dt_status", 0);
+//                }
+//                break;
+//        }
     }
 
     //获取到的gps数据
@@ -2070,14 +2164,18 @@ public class DiTuFragment extends BaseFragment implements
         App.getInstance().setGpsLatitude(gpsLatitude);
         App.getInstance().setGpsLongitude(gpsLongitude);
         //拿到经纬度之后进行地图的绘制
-//        MyLocationData locData = new MyLocationData.Builder()
-//                // // 此处设置开发者获取到的方向信息，顺时针0-360
-//                .direction(100).latitude(gpsLatitude)
-//                .longitude(gpsLongitude).build();
-//        mBaiduMap.setMyLocationData(locData);
-//        p2 = new LatLng(gpsLatitude, gpsLongitude);
-//        MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(p2);
-//        mBaiduMap.animateMapStatus(u);
+        int latitudeInt = (int) gpsLatitude;
+        int longitudeInt = (int) gpsLongitude;
+        if (latitudeInt != 0 && longitudeInt != 0) {//当拿到的gps数据有效的时候还是拿当前的
+            MyLocationData locData = new MyLocationData.Builder()
+                    // // 此处设置开发者获取到的方向信息，顺时针0-360
+                    .direction(100).latitude(gpsLatitude)
+                    .longitude(gpsLongitude).build();
+            mBaiduMap.setMyLocationData(locData);
+            p2 = new LatLng(gpsLatitude, gpsLongitude);
+            MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(p2);
+            mBaiduMap.animateMapStatus(u);
+        }
 
         gps_start_time = (String) SPUtils.get(getActivity(),
                 "gps_start_time", "");
@@ -2108,32 +2206,34 @@ public class DiTuFragment extends BaseFragment implements
                 longitude = gpsLongitude;
                 latitude = gpsLatitude;
                 info = new GpsInfo();
-
-
-                try {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("longitude", longitude);// 经度
-                    jsonObject.put("latitude", latitude);// 纬度
-                    jsonObject.put("name", "");// 地点名称
-                    jsonObject.put("describe", "");// 地点描述
-                    arrayLocationInfo.put(jsonObject);
-                    /***
-                     * 轨迹数据内容模板： [ { "name": "",//地点名称 "describe": "",地点描述
-                     * "longitude": "",//经度 "latitude": ""//纬度 } ]
-                     */
-                    info.setLocationInfo(arrayLocationInfo.toString());
-                    GpsInfo g = new GpsInfo();
-                    g.setLocationInfo(arrayLocationInfo.toString());
-                    try {//如果是第一条数据则会在异常中保存
-                        g.update(mGpSinfoDao.get(0).getId());
-                    } catch (Exception e) {
-                        g.save();
+                //当坐标不为0时保存
+                int longitudeTmp = (int) longitude;
+                if (longitudeTmp != 0) {
+                    try {
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("longitude", longitude);// 经度
+                        jsonObject.put("latitude", latitude);// 纬度
+                        jsonObject.put("name", "");// 地点名称
+                        jsonObject.put("describe", "");// 地点描述
+                        arrayLocationInfo.put(jsonObject);
+                        /***
+                         * 轨迹数据内容模板： [ { "name": "",//地点名称 "describe": "",地点描述
+                         * "longitude": "",//经度 "latitude": ""//纬度 } ]
+                         */
+                        info.setLocationInfo(arrayLocationInfo.toString());
+                        GpsInfo g = new GpsInfo();
+                        g.setLocationInfo(arrayLocationInfo.toString());
+                        try {//如果是第一条数据则会在异常中保存
+                            g.update(mGpSinfoDao.get(0).getId());
+                        } catch (Exception e) {
+                            g.save();
+                        }
+                    } catch (JSONException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    info = null;
                 }
-                info = null;
             }
         }
 
@@ -2223,10 +2323,17 @@ public class DiTuFragment extends BaseFragment implements
                     //判断是否有效
                     byte[] valid = HwtxCommandUtility
                             .extractBitsFromBytes(gpsMisc, 1,
-                                    1);
+                                    1);  //判断是否有效
+                    //秒
+                    byte[] Second = HwtxCommandUtility
+                            .extractBitsFromBytes(gpsMisc, 2,
+                                    6);
                     String validStr = String
                             .valueOf(HwtxCommandUtility
                                     .bytesToInt32(valid));
+                    String secondStr = String
+                            .valueOf(HwtxCommandUtility
+                                    .bytesToInt32(Second));
                     // unsigned Year : 12; //00~2xxx.(max4095)
                     // unsigned Month : 4; //01~12
                     // unsigned Day : 5; //01~31
@@ -2266,14 +2373,14 @@ public class DiTuFragment extends BaseFragment implements
                                     .bytesToInt32(gpsTimeDay));
                     String gpsTimeHourStr = String
                             .valueOf(HwtxCommandUtility
-                                    .bytesToInt32(gpsTimeHour));
+                                    .bytesToInt32(gpsTimeHour) + 8);
                     String gpsTimeMinuteStr = String
                             .valueOf(HwtxCommandUtility
                                     .bytesToInt32(gpsTimeMinute));
-                    String gpsTime = gpsTimeYearStr + "-"
-                            + gpsTimeMonthStr + "-" + gpsTimeDayStr
-                            + "-" + gpsTimeHourStr + "-"
-                            + gpsTimeMinuteStr;
+                    String gpsTime = gpsTimeYearStr + "年"
+                            + gpsTimeMonthStr + "月" + gpsTimeDayStr
+                            + "日" + gpsTimeHourStr + "点"
+                            + gpsTimeMinuteStr + "分" + secondStr + "秒";
                     // unsigned Sign:1 ; //符号位
                     // unsigned Integral : 10; //整数部分: 0~511
                     // unsigned Decimal : 21; //小数部分: 0~2097152
@@ -2477,17 +2584,59 @@ public class DiTuFragment extends BaseFragment implements
 
     }
 
+    private boolean isConnect = false;//是否关联成功
+    private int connectTimes = 0;//重新关联次数
+
     /**
      * 提示设备已断开连接
      */
     @Subscribe
     public void onEventMainThread(ConnectBean event) {
         boolean mConnected = event.ismConnected();//是否关联成功
+        mSVProgressHUD.dismiss();
         if (mConnected) {//关联成功
+            isConnect = true;
+
+            showTipSuccessDialog("设备已重新关联成功！");
+
         } else {//关联失败
-            showToast("设备已断开，请重新连接");
-            cancleContact();
-            mSVProgressHUD.dismiss();
+            if (connectTimes == 2) {//自动重连两次，不成功就取消
+                connectTimes = 0;
+                isConnect = true;//防止10秒钟后天出关联对话框
+                if (getActivity() != null) {
+                    showTipSuccessDialog("自动重新关联失败，请手动关联");
+                }
+                cancleContact();
+            } else if (connectTimes == 0) {
+                connectTimes++;
+                isConnect = false;
+                //断开连接后自动重连
+                showToast("设备已断开");
+                //cancleContact();
+                initBluetoothConnet();
+                mSVProgressHUD.showWithStatus("正在尝试重新关联中..");
+                new Handler().postDelayed(new Runnable() {//10秒钟关联失败则提示重新关联失败
+
+                    @Override
+                    public void run() {
+                        if (isConnect == false) {
+                            mSVProgressHUD.dismiss();
+                            if (getActivity() != null) {
+                                showTipSuccessDialog("自动重新关联失败，请手动关联");
+                            }
+                            cancleContact();
+                        }
+                    }
+                }, 10000);
+            } else {
+                connectTimes++;
+                isConnect = false;
+                //断开连接后自动重连
+                showToast("设备已断开");
+                //cancleContact();
+                initBluetoothConnet();
+                mSVProgressHUD.showWithStatus("正在尝试重新关联中..");
+            }
         }
     }
 
@@ -2506,6 +2655,57 @@ public class DiTuFragment extends BaseFragment implements
                 break;
         }
     }
+
+    /**
+     * 初始化蓝牙相关
+     */
+    private void initBluetoothConnet() {
+        if (TextUtils.isEmpty(mDeviceAddress)) {
+            //STEP 1
+            // 蓝牙相关
+            BleCommon.getInstance().setCharacteristic(mDeviceAddress);
+            // 广播接收器
+            getActivity().registerReceiver(BleCommon.getInstance().mGattUpdateReceiver,
+                    BleCommon.getInstance().makeGattUpdateIntentFilter());
+            Intent gattServiceIntent = new Intent(getActivity(),
+                    BluetoothLeService.class);
+            getActivity().bindService(gattServiceIntent, BleCommon.getInstance().mServiceConnection,
+                    Context.BIND_AUTO_CREATE);
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    if (isConnect == false) {
+                        //STEP 2
+                        try {
+                            getActivity().unregisterReceiver(BleCommon.getInstance().mGattUpdateReceiver);
+                            getActivity().unbindService(BleCommon.getInstance().mServiceConnection);
+                            if (BleCommon.getInstance().mBluetoothLeService != null) {
+                                BleCommon.getInstance().mBluetoothLeService.disconnect();
+                                BleCommon.getInstance().mBluetoothLeService.close();
+                                BleCommon.getInstance().mBluetoothLeService = null;
+                            }
+                        } catch (Exception e) {
+                            //需要完全断开连接才能再次关联
+                        }
+                        //STEP 3
+                        // 蓝牙相关
+                        BleCommon.getInstance().setCharacteristic(mDeviceAddress);
+                        // 广播接收器
+                        getActivity().registerReceiver(BleCommon.getInstance().mGattUpdateReceiver,
+                                BleCommon.getInstance().makeGattUpdateIntentFilter());
+                        Intent gattServiceIntentAgin = new Intent(getActivity(),
+                                BluetoothLeService.class);
+                        getActivity().bindService(gattServiceIntentAgin, BleCommon.getInstance().mServiceConnection,
+                                Context.BIND_AUTO_CREATE);
+                    }
+
+                }
+            }, 3000);
+
+        }
+    }
+
     // ------------------------------------end------------------------
 
     /**
@@ -2536,14 +2736,16 @@ public class DiTuFragment extends BaseFragment implements
         if (tiplertView != null) {
             tiplertView = null;
         }
-        tiplertView = new AlertView("温馨提示", str, null, new String[]{"确定"}, null, getActivity(), AlertView.Style.Alert, this).setCancelable(true).setOnDismissListener(this);
-        new Handler().postDelayed(new Runnable() {
+        if (getActivity() != null) {
+            tiplertView = new AlertView("温馨提示", str, null, new String[]{"确定"}, null, getActivity(), AlertView.Style.Alert, this).setCancelable(true).setOnDismissListener(this);
+            new Handler().postDelayed(new Runnable() {
 
-            @Override
-            public void run() {
-                tiplertView.show();
-            }
-        }, 1000);
+                @Override
+                public void run() {
+                    tiplertView.show();
+                }
+            }, 1000);
+        }
     }
 
     private AlertView TipSuccesslertView;//
@@ -2554,14 +2756,17 @@ public class DiTuFragment extends BaseFragment implements
         if (TipSuccesslertView != null) {
             TipSuccesslertView = null;
         }
-        TipSuccesslertView = new AlertView("温馨提示", str, null, new String[]{"确定"}, null, getActivity(), AlertView.Style.Alert, this).setCancelable(true).setOnDismissListener(this);
-        new Handler().postDelayed(new Runnable() {
+        if (getActivity() != null) {
 
-            @Override
-            public void run() {
-                TipSuccesslertView.show();
-            }
-        }, 1000);
+            TipSuccesslertView = new AlertView("温馨提示", str, null, new String[]{"确定"}, null, getActivity(), AlertView.Style.Alert, this).setCancelable(true).setOnDismissListener(this);
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    TipSuccesslertView.show();
+                }
+            }, 1000);
+        }
     }
 
     @Override
@@ -2587,5 +2792,14 @@ public class DiTuFragment extends BaseFragment implements
                     break;
             }
         }
+    }
+
+    public static boolean onKeyDown(int keyCode, KeyEvent event) {
+        // TODO Auto-generated method stub
+        if (keyCode == event.KEYCODE_BACK) {
+
+            mSVProgressHUD.dismiss();
+        }
+        return true;
     }
 }

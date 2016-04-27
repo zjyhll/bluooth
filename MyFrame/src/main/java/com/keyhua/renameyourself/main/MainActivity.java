@@ -203,10 +203,12 @@ public class MainActivity extends BaseActivity implements
             case CommonUtility.LINGDUI:
                 tv_gongju.setVisibility(View.VISIBLE);
                 tv_shenfen.setText("领队");
+                rg_button.setVisibility(View.GONE);
                 break;
             case CommonUtility.DUIYUAN:
                 tv_gongju.setVisibility(View.GONE);
                 tv_shenfen.setText("队员");
+                rg_button.setVisibility(View.VISIBLE);
                 break;
         }
         //默认显示为
@@ -330,7 +332,7 @@ public class MainActivity extends BaseActivity implements
                 break;
             case R.id.tv_clean:
                 status = 1;
-                showTipDialog("是否清楚队员表数据？");
+                showTipDialog("是否清除队员表数据？");
                 break;
 
         }
@@ -357,6 +359,8 @@ public class MainActivity extends BaseActivity implements
             DuiWuGuanLiFragment.onKeyDown(keyCode, event);
         } else if (frgContent instanceof TongXingBaoFragment) {
             TongXingBaoFragment.onKeyDown(keyCode, event);
+        } else if (frgContent instanceof DiTuFragment) {
+            DiTuFragment.onKeyDown(keyCode, event);
         }
         //只要点返回就取消发送或接收数据
         BleCommon.getInstance().setCharacteristic(false);

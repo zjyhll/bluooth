@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.importotherlib.R;
+import com.keyhua.litepal.SignUpUser;
 import com.keyhua.renameyourself.app.App;
 import com.keyhua.renameyourself.main.le.BleCommon;
 import com.keyhua.renameyourself.util.CommonUtility;
@@ -358,9 +359,15 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
      * 取消与蓝牙的关联
      */
     public void cancleContact() {
+        //更新领队的设备号
+        SignUpUser s = new SignUpUser();
+        s.setStrDeviceSN("");
+        s.updateAll("tps_type = ?", String.valueOf(CommonUtility.LINGDUI));
         App.getInstance().setTb_phonelocation(true);
         App.getInstance().setBleLingDuiAddress("");
         App.getInstance().setBleLingDuiName("");
+        App.getInstance().setBleDuiYuanAddress("");
+        App.getInstance().setBleDuiYuanName("");
         try {
             unregisterReceiver(BleCommon.getInstance().mGattUpdateReceiver);
             unbindService(BleCommon.getInstance().mServiceConnection);

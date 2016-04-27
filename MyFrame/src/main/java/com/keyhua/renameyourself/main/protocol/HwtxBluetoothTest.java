@@ -5,14 +5,21 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import android.content.res.AssetManager;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.keyhua.renameyourself.main.le.Utile;
+import com.keyhua.renameyourself.util.CommonUtility;
 
 public class HwtxBluetoothTest {
 
@@ -301,17 +308,55 @@ public class HwtxBluetoothTest {
         command.setWarningBatteryPercentInteger(0x18);
         return command.toBytes();
     }
+    /**
+     * 生成groupid
+     */
+    private static short getGroupIDShort(String endNum) {
+        //第一位
+        short max = 2;
+        short min = -2;
+        Random random = new Random();
+        String firstStr = String.valueOf(random.nextInt(max) % (max - min + 1) + min);
+        //第2、3位
+        Calendar calendar = Calendar.getInstance();
+        String secondStr = String.valueOf(calendar.get(Calendar.SECOND));
+        //第4、5位
+        String endStr = endNum.substring(endNum.length() - 2);
 
+        return Short.valueOf(firstStr + secondStr + endStr);
+    }
     public static void main(String[] args) {
+//       String hexStr= Utile.hexStr2Str("d2");
+//        System.out.println(hexStr);
+//        Date date=new Date(); // 创建日期对象
+//        for (int i=0;i<100;i++)
+//        System.out.printf("\n"+getGroupIDShort("100002"));//格式化输出日期或时间
+//        int a = CommonUtility.getByteLength("");
+//        System.out.println("-------长度-------"+a);
+        String str = "钟宇"; //默认环境，已是UTF-8编码
         try {
-            byte[] b = readFile("E:\\outdoor\\硬件单机版\\独立APP联调数据\\BtAPP2.bin");
-            String s=  HwtxCommandUtility.bytesToHexText(b);
-            System.out.println(s);
-        } catch (IOException e) {
+            String strGBK = URLEncoder.encode(str, "GB2312");
+            System.out.println("GB2312:"+strGBK);
+            String strUTF8 = URLDecoder.decode(str, "UTF-8");
+            System.out.println("UTF-8:" + strUTF8);
+            byte [] b=str.getBytes("GB2312");
+            System.out.println("GB2312:"+b);
+//            byte nickName[] =  new byte[]{(byte) 0xB3,(byte) 0xBD,(byte) 0xD0,(byte) 0xA1,(byte) 0xC5, (byte) 0xB5,0x00,0x00,0x00,0x00};
+//            System.out.println(new String(
+//                    new String(nickName, "GB2312").getBytes("UTF-8")));
+
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+//        try {
+//            byte[] b = readFile("E:\\outdoor\\硬件单机版\\独立APP联调数据\\BtAPP2.bin");
+//            String s = HwtxCommandUtility.bytesToHexText(b);
+//            System.out.println(s);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 //		InformationTableAll();
-        InformationTable();
+//        InformationTable();
 //		equipmentParameterListAll();
 //
 //		// 查询模式

@@ -8,7 +8,7 @@ android {
         applicationId "com.hwacreate.outdoorstandalone"
         minSdkVersion 18
         targetSdkVersion 21
-        versionCode 6
+        versionCode 12
         versionName "1.0"
     }
     buildTypes {
