@@ -275,6 +275,8 @@ public class HuoDongSheZhiFragment extends BaseFragment implements OnItemClickLi
             case R.id.toolbar_tv_right_cancle:// 保存
                 if (TextUtils.isEmpty(App.getInstance().getBleLingDuiDuiAddress())) {
                     showToast("请先关联领队机");
+                } else if ((boolean) SPUtils.get(getActivity(), "istongbu", false)==false) {
+                    showToast("请先同步队员信息表");
                 } else {
                     /**
                      * 2) 设备参数表：APP向UUID为0x0025特性写数据发送设备参数表，设备参数表数据格式参看hwtx_ext.
@@ -317,7 +319,7 @@ public class HuoDongSheZhiFragment extends BaseFragment implements OnItemClickLi
                             showToast("黄色警告范围为10到5000");// 范围[10, 5000]
                             return;
                         }
-                        if (wWarningDistance2 > wWarningDistance1) {
+                        if (wWarningDistance2 >= wWarningDistance1) {
                             if (wWarningDistance2 < 10 || wWarningDistance2 > 5000) {
                                 showToast("红色警告范围为10到5000");// 范围[10, 5000]
                                 return;
@@ -326,7 +328,7 @@ public class HuoDongSheZhiFragment extends BaseFragment implements OnItemClickLi
                             showToast("黄色警告范围大于红色警告范围");
                             return;
                         }
-                        if (wWarningDistance2 > wWarningDistance1) {
+                        if (wWarningDistance3 >= wWarningDistance2) {
                             if (wWarningDistance3 < 10 || wWarningDistance3 > 5000) {
                                 showToast("失联警告范围为10到5000");// 范围[10, 5000]
                                 return;
@@ -364,17 +366,18 @@ public class HuoDongSheZhiFragment extends BaseFragment implements OnItemClickLi
 
     //提示框
     public void showTipDialog(String str) {
-
-        if (tiplertView != null) {
-            tiplertView = null;
-        }
-        tiplertView = new AlertView("温馨提示", str, null, new String[]{"确定"}, null, getActivity(), AlertView.Style.Alert, this).setCancelable(true).setOnDismissListener(this);
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                tiplertView.show();
+        if (getActivity() != null) {
+            if (tiplertView != null) {
+                tiplertView = null;
             }
-        }, 1000);
+            tiplertView = new AlertView("温馨提示", str, null, new String[]{"确定"}, null, getActivity(), AlertView.Style.Alert, this).setCancelable(true).setOnDismissListener(this);
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    tiplertView.show();
+                }
+            }, 1000);
+        }
     }
 }

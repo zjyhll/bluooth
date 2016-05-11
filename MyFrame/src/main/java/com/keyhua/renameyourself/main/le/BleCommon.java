@@ -1275,44 +1275,48 @@ public class BleCommon {
     }
 
     private void getReceiveMember(byte[] returenByte) {
-        //每次同步的时候先清空数据库
-        DataSupport.deleteAll(SignUpUser.class);
-        HwtxDataGroupInfoAllBtApp hdg = new HwtxDataGroupInfoAllBtApp();
-        hdg.fromBytes(returenByte);
-        ArrayList<HwtxDataMemberInfoBtApp> indexMemberInfoArray = hdg.getIndexMemberInfoArray();
-        for (int i = 0; i < indexMemberInfoArray.size(); i++) {
-            //目前只app端只需要这三个参数
-            String strNickName = indexMemberInfoArray.get(i).getNickNameString();
-            String strDeviceSN = indexMemberInfoArray.get(i).gethWTXMemberInfoMap().getMemberInfo().getDeviceSnString();
-            Integer uDevNumInGroup = indexMemberInfoArray.get(i).gethWTXMemberInfoMap().getMemberInfo().getDevInfo().getDevNumInGroup();
-            boolean deviceReady = indexMemberInfoArray.get(i).gethWTXMemberInfoMap().getMemberInfo().getDevInfo().getDeviceReady();
-            //存入本地数据库中
-            SignUpUser s = new SignUpUser();
-            s.setU_nickname(strNickName);
-            s.setStrDeviceSN(strDeviceSN);
-            if(deviceReady){
-                s.setDeviceReady(1);
-            }else{
-                s.setDeviceReady(2);
-            }
-            s.setTps_id(uDevNumInGroup);
+        try {
+            //每次同步的时候先清空数据库
+            DataSupport.deleteAll(SignUpUser.class);
+            HwtxDataGroupInfoAllBtApp hdg = new HwtxDataGroupInfoAllBtApp();
+            hdg.fromBytes(returenByte);
+            ArrayList<HwtxDataMemberInfoBtApp> indexMemberInfoArray = hdg.getIndexMemberInfoArray();
+            for (int i = 0; i < indexMemberInfoArray.size(); i++) {
+                //目前只app端只需要这三个参数
+                String strNickName = indexMemberInfoArray.get(i).getNickNameString();
+                String strDeviceSN = indexMemberInfoArray.get(i).gethWTXMemberInfoMap().getMemberInfo().getDeviceSnString();
+                Integer uDevNumInGroup = indexMemberInfoArray.get(i).gethWTXMemberInfoMap().getMemberInfo().getDevInfo().getDevNumInGroup();
+                boolean deviceReady = indexMemberInfoArray.get(i).gethWTXMemberInfoMap().getMemberInfo().getDevInfo().getDeviceReady();
+                //存入本地数据库中
+                SignUpUser s = new SignUpUser();
+                s.setU_nickname(strNickName);
+                s.setStrDeviceSN(strDeviceSN);
+                if (deviceReady) {
+                    s.setDeviceReady(1);
+                } else {
+                    s.setDeviceReady(2);
+                }
+                s.setTps_id(uDevNumInGroup);
 
-            if (uDevNumInGroup == 1) {//等于1时为领队
-                s.setTps_type(CommonUtility.LINGDUI);
-            } else {
-                s.setTps_type(CommonUtility.DUIYUAN);
+                if (uDevNumInGroup == 1) {//等于1时为领队
+                    s.setTps_type(CommonUtility.LINGDUI);
+                } else {
+                    s.setTps_type(CommonUtility.DUIYUAN);
+                }
+                String duiYuanNameStr = App.getInstance().getBleDuiYuanName();
+                if (TextUtils.equals(duiYuanNameStr, strDeviceSN)) {//相等则是自己
+                    s.setIsUsedByCurrentDevice(CommonUtility.SELF);
+                } else if (TextUtils.equals(App.getInstance().getBleLingDuiName(), strDeviceSN)) {
+                    s.setIsUsedByCurrentDevice(CommonUtility.SELF);
+                }
+                s.setAct_isleave(CommonUtility.GUIDUI);
+                s.save();
             }
-            String duiYuanNameStr = App.getInstance().getBleDuiYuanName();
-            if (TextUtils.equals(duiYuanNameStr, strDeviceSN)) {//相等则是自己
-                s.setIsUsedByCurrentDevice(CommonUtility.SELF);
-            } else if (TextUtils.equals(App.getInstance().getBleLingDuiName(), strDeviceSN)) {
-                s.setIsUsedByCurrentDevice(CommonUtility.SELF);
-            }
-            s.setAct_isleave(CommonUtility.GUIDUI);
-            s.save();
+            EventBus.getDefault().post(
+                    new GetMemberInfoBean());
+        } catch (Exception e) {
+
         }
-        EventBus.getDefault().post(
-                new GetMemberInfoBean());
     }
 
     /**
@@ -1437,15 +1441,15 @@ public class BleCommon {
                     newByte, 9, 6);
             int lengthInt = HwtxCommandUtility.bytesToInt32(lengthByte);
             System.out.println("lengthInt:----------" + lengthInt);
-            if (newByte.length == (15 + lengthInt)) {// 如果总长度等于准备传输的长度+gps数据长度时执行
+            if (lengthInt == 0) {
+                EventBus.getDefault().post(
+                        new LengthZero(1));
+            } else if (newByte.length == (15 + lengthInt)) {// 如果总长度等于准备传输的长度+gps数据长度时执行
                 // 设备返回的byte //
                 byte[] returenByte = HwtxCommandUtility.extractBytesFromBytes(
                         newByte, 15, newByte.length - 15);
 
                 getHwtxDataGpsInfoDataComp(returenByte);
-            } else if (lengthInt == 0) {
-                EventBus.getDefault().post(
-                        new LengthZero(1));
             }
 
         } else if (Arrays.equals(tagByte, tagSetingGet)) {/** 获取设备参数表*/
@@ -1467,16 +1471,17 @@ public class BleCommon {
                     newByte, 9, 6);//// 6字节表示长度 private byte[] commandData = { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
             int lengthInt = HwtxCommandUtility.bytesToInt32(lengthByte);
             System.out.println("lengthInt:----------" + lengthInt);
-            if (newByte.length == (15 + lengthInt)) {// 如果总长度等于准备传输的长度（15为固定值）+备参数表数据长度时执行
+            if (lengthInt == 0) {
+                EventBus.getDefault().post(
+                        new LengthZero(2));
+            } else if (newByte.length == (15 + lengthInt)) {// 如果总长度等于准备传输的长度（15为固定值）+备参数表数据长度时执行
                 // 设备返回的byte //
                 byte[] returenByte = HwtxCommandUtility.extractBytesFromBytes(
                         newByte, 15, newByte.length - 15);
 
                 getReceiveMember(returenByte);
-            } else if (lengthInt == 0) {
-                EventBus.getDefault().post(
-                        new LengthZero(2));
             }
+
         } else if (Arrays.equals(tagByte, new byte[]{0, 0, 51, 0})) {/** --------------------------------------------------《GPS 数据测试》-----------------------------------------------------------*/
             getHwtxDataGpsInfoDataComp(newByte);
         } else if (Arrays.equals(tagByte, new byte[]{59, -92, 109, 0})) {/** --------------------------------------------------《同步队员信息表 数据测试》-----------------------------------------------------------*/

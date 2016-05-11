@@ -554,25 +554,28 @@ public class DiTuFragment extends BaseFragment implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_kaishihuaguiji:// 开始绘制轨迹 1为未开始状态 ，2为记录状态，3为暂停状态
-                // if (mGpSinfoDao.queryAll().size() < 5) {
-                SPUtils.put(getActivity(), "dt_status", JILUZHONG);
-                // 开始时间,每次根据当前这个时间来操作数据库
-                String start_time = TimeUtil.getDatetime();
-                SPUtils.put(getActivity(), "gps_start_time", start_time);
-                info = new GpsInfo();
-                info.setStart_time(start_time);
-                info.save();
-                /** 每次点开始的时候都是新增一个完整的轨迹对象 */
-                iv_kaishihuaguiji.setVisibility(View.GONE);
-                // 记录中按钮显示出来
-                iv_jilutinghuaguiji.setVisibility(View.VISIBLE);
-                // iv_jilutinghuaguiji.setVisibility(View.VISIBLE);
-                // 开启服务，记录轨迹到数据库
-                getActivity().startService(
-                        new Intent(getActivity(), GpsInfoCollectionService.class));
-                showToast("开始记录轨迹");
-                showTrack();//
-
+                if (TextUtils.isEmpty(mDeviceAddress)) {
+                    showToast("请先关联设备");
+                } else {
+                    // if (mGpSinfoDao.queryAll().size() < 5) {
+                    SPUtils.put(getActivity(), "dt_status", JILUZHONG);
+                    // 开始时间,每次根据当前这个时间来操作数据库
+                    String start_time = TimeUtil.getDatetime();
+                    SPUtils.put(getActivity(), "gps_start_time", start_time);
+                    info = new GpsInfo();
+                    info.setStart_time(start_time);
+                    info.save();
+                    /** 每次点开始的时候都是新增一个完整的轨迹对象 */
+                    iv_kaishihuaguiji.setVisibility(View.GONE);
+                    // 记录中按钮显示出来
+                    iv_jilutinghuaguiji.setVisibility(View.VISIBLE);
+                    // iv_jilutinghuaguiji.setVisibility(View.VISIBLE);
+                    // 开启服务，记录轨迹到数据库
+                    getActivity().startService(
+                            new Intent(getActivity(), GpsInfoCollectionService.class));
+                    showToast("开始记录轨迹");
+                    showTrack();//
+                }
                 break;
             case R.id.iv_zantinghuaguiji:// 可暂停绘制轨迹
                 // 关闭服务
@@ -644,18 +647,21 @@ public class DiTuFragment extends BaseFragment implements
             case R.id.toolbar_tv_right_cancle:
                 // 展示人员列表，这个列表对于队员来讲是来自蓝牙设备的，通过领队宝同步到同行宝 TODO
                 tuZhongUserListGet = LitepalUtil.getAllUserByActisleaveDrderByDistance();
-                if (rsv.getVisibility() == View.GONE) {
-                    //
-                    rsv.setVisibility(View.VISIBLE);
-                    rl.setVisibility(View.GONE);
-                    toolbar_tv_right_cancle.setText("地图");
-                    handlerlistNet.sendEmptyMessage(CommonUtility.SERVEROK3);
+                if (tuZhongUserListGet.size() <= 1) {
+                    showToast("当前没有队员，请添加队员后重试");
                 } else {
-                    toolbar_tv_right_cancle.setText("队员");
-                    rsv.setVisibility(View.GONE);
-                    rl.setVisibility(View.VISIBLE);
+                    if (rsv.getVisibility() == View.GONE) {
+                        //
+                        rsv.setVisibility(View.VISIBLE);
+                        rl.setVisibility(View.GONE);
+                        toolbar_tv_right_cancle.setText("地图");
+                        handlerlistNet.sendEmptyMessage(CommonUtility.SERVEROK3);
+                    } else {
+                        toolbar_tv_right_cancle.setText("队员");
+                        rsv.setVisibility(View.GONE);
+                        rl.setVisibility(View.VISIBLE);
+                    }
                 }
-
                 break;
             default:
                 break;
@@ -718,9 +724,9 @@ public class DiTuFragment extends BaseFragment implements
 //        handlerlistNet.sendEmptyMessage(CommonUtility.SERVEROK3);
         // 默认配置
 //        handlerlistNet.sendEmptyMessage(CommonUtility.SERVEROK5);
-        if (!App.getInstance().isTb_phonelocation()) {// 未开启状态
-            BleCommon.getInstance().getGPSDataTable();
-        }
+//        if (!App.getInstance().isTb_phonelocation()) {// 未开启状态
+//            BleCommon.getInstance().getGPSDataTable();
+//        }
 
     }
 
@@ -941,6 +947,7 @@ public class DiTuFragment extends BaseFragment implements
 
             @Override
             protected Void doInBackground(Void... params) {
+                if(getActivity()!=null){
                 resultPoints = new ArrayList<LatLng>();
                 String gps_start_time = (String) SPUtils.get(
                         getActivity(), "gps_start_time", "");
@@ -984,6 +991,7 @@ public class DiTuFragment extends BaseFragment implements
                         //
                         // }
                     }
+                }
                 }
                 return null;
             }
@@ -2607,6 +2615,7 @@ public class DiTuFragment extends BaseFragment implements
                     showTipSuccessDialog("自动重新关联失败，请手动关联");
                 }
                 cancleContact();
+
             } else if (connectTimes == 0) {
                 connectTimes++;
                 isConnect = false;
@@ -2625,6 +2634,7 @@ public class DiTuFragment extends BaseFragment implements
                                 showTipSuccessDialog("自动重新关联失败，请手动关联");
                             }
                             cancleContact();
+
                         }
                     }
                 }, 10000);
@@ -2636,6 +2646,10 @@ public class DiTuFragment extends BaseFragment implements
                 //cancleContact();
                 initBluetoothConnet();
                 mSVProgressHUD.showWithStatus("正在尝试重新关联中..");
+            }
+            mDeviceAddress = App.getInstance().getBleDuiYuanAddress();
+            if (TextUtils.isEmpty(mDeviceAddress)) {
+                mDeviceAddress = App.getInstance().getBleLingDuiDuiAddress();
             }
         }
     }
@@ -2660,7 +2674,7 @@ public class DiTuFragment extends BaseFragment implements
      * 初始化蓝牙相关
      */
     private void initBluetoothConnet() {
-        if (TextUtils.isEmpty(mDeviceAddress)) {
+        if (!TextUtils.isEmpty(mDeviceAddress)) {
             //STEP 1
             // 蓝牙相关
             BleCommon.getInstance().setCharacteristic(mDeviceAddress);
@@ -2701,7 +2715,7 @@ public class DiTuFragment extends BaseFragment implements
                     }
 
                 }
-            }, 3000);
+            }, 6000);
 
         }
     }

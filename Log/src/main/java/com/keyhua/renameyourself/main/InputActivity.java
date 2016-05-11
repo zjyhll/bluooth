@@ -164,6 +164,11 @@ public class InputActivity extends BaseActivity implements OnItemClickListener, 
                 showToast("获取LOG中..");
                 /**------------------------------------------------*/
                 BleCommon.getInstance().queryLOGO();
+                //每次发数据时打印时间
+                start_timeH = "\n"+ TimeUtil.getDatetimeLog("HH:mm:ss") + "\n";
+                ctv_bianhao.append(start_timeH);
+                writeTxtToFile(start_timeH, filePath, fileName);
+
                 String time = ctv_time.getText().toString();
                 int defInt = 0;
                 if (!TextUtils.isEmpty(time)) {
@@ -175,18 +180,22 @@ public class InputActivity extends BaseActivity implements OnItemClickListener, 
                 break;
             case 7://strLog = "";//7
                 strLog = event.getStrLog();
-                if (times == 0) {
-                    ctv_bianhao.append(start_timeH);
-                    writeTxtToFile(start_timeH, filePath, fileName);
-                    times++;
-                } else if (times == 30) {//每30次打一次时间
-                    times = 0;
-                } else {
-                    times++;
-                }
+//                if (times == 0) {
+//                    ctv_bianhao.append(start_timeH);
+//                    writeTxtToFile(start_timeH, filePath, fileName);
+//                    times++;
+//                } else if (times == 30) {//每30次打一次时间
+//                    times = 0;
+//                } else {
+//                    times++;
+//                }
                 break;
             case 8:
                 BleCommon.getInstance().queryLOGO();
+                //每次发数据时打印时间
+                start_timeH ="\n"+ TimeUtil.getDatetimeLog("HH:mm:ss") + "\n";
+                ctv_bianhao.append(start_timeH);
+                writeTxtToFile(start_timeH, filePath, fileName);
                 break;
         }
         ctv_bianhao.append(strLog);
@@ -295,7 +304,7 @@ public class InputActivity extends BaseActivity implements OnItemClickListener, 
                 String start_timeY2 = TimeUtil.getDatetimeLog("yyyyMMdd_HHmmss");
                 String logStr = start_timeH + start_timeY + "," + bluetoothdeviceName + "\n";
                 ctv_bianhao.append(logStr);
-                fileName="log_sn"+bluetoothdeviceName+"_"+start_timeY2+".txt";
+                fileName = "log_sn" + bluetoothdeviceName + "_" + start_timeY2 + ".txt";
                 //写入文件中
                 writeTxtToFile(logStr, filePath, fileName);
                 break;

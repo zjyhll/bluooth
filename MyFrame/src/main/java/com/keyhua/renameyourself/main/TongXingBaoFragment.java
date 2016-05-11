@@ -182,6 +182,7 @@ public class TongXingBaoFragment extends BaseFragment implements OnItemClickList
     @Override
     public void onResume() {
         super.onResume();
+        resume = 0;
         mLeDeviceListAdapter = new LeDeviceListAdapter(getActivity());
         lv.setAdapter(mLeDeviceListAdapter);
         scanLeDevice(true);
@@ -255,8 +256,10 @@ public class TongXingBaoFragment extends BaseFragment implements OnItemClickList
             @Override
             public void run() {
                 if (isConnect == false) {
+                    if(getActivity()!=null){
                     //STEP 2
                     try {
+
                         getActivity().unregisterReceiver(BleCommon.getInstance().mGattUpdateReceiver);
                         getActivity().unbindService(BleCommon.getInstance().mServiceConnection);
                         if (BleCommon.getInstance().mBluetoothLeService != null) {
@@ -278,9 +281,10 @@ public class TongXingBaoFragment extends BaseFragment implements OnItemClickList
                     getActivity().bindService(gattServiceIntentAgin, BleCommon.getInstance().mServiceConnection,
                             Context.BIND_AUTO_CREATE);
                 }
+                }
 
             }
-        }, 3000);
+        }, 5000);
 
     }
 
@@ -297,6 +301,9 @@ public class TongXingBaoFragment extends BaseFragment implements OnItemClickList
             App.getInstance().setTb_phonelocation(false);
             showToast("关联成功");
 //            scanLeDevice(true);
+
+            onResume();
+            resume = 1;
             isConnect = true;
             if (status == 1) {
                 status = 0;
@@ -331,6 +338,7 @@ public class TongXingBaoFragment extends BaseFragment implements OnItemClickList
     @Subscribe
     public void onEventMainThread(LengthZero event) {
         mSVProgressHUD.dismiss();
+        isAddSuccess = true;
         switch (event.getWhitchInt()) {//1为gps数据表为空，2为队员信息表为空
             case 1:
                 showTipDialog("gps数据表为空");
@@ -404,7 +412,7 @@ public class TongXingBaoFragment extends BaseFragment implements OnItemClickList
                 tv_gl.setVisibility(View.VISIBLE);
                 tv_dk.setVisibility(View.GONE);
                 tv_glldj.setText("队员机");
-                cancleContact();
+                cancleContactSD();
                 //刷新列表
                 scanLeDevice(true);
                 isConnect = false;
@@ -625,6 +633,8 @@ public class TongXingBaoFragment extends BaseFragment implements OnItemClickList
         }
     }
 
+    private int resume = 0;
+
     private void scanLeDevice(final boolean enable) {
         if (getActivity() != null) {
             if (enable) {
@@ -634,9 +644,13 @@ public class TongXingBaoFragment extends BaseFragment implements OnItemClickList
                     public void run() {
                         mScanning = false;
                         mBluetoothAdapter.stopLeScan(mLeScanCallback);
+                        if(getActivity()!=null){
                         getActivity().invalidateOptionsMenu();
                         System.out.println("scanLeDevice");
-                        mSVProgressHUD.dismiss();
+                        if (resume == 0) {
+                            mSVProgressHUD.dismiss();
+                        }
+                        }
                     }
                 }, SCAN_PERIOD);
 
@@ -646,7 +660,9 @@ public class TongXingBaoFragment extends BaseFragment implements OnItemClickList
                 mScanning = false;
                 mBluetoothAdapter.stopLeScan(mLeScanCallback);
             }
+            if(getActivity()!=null){
             getActivity().invalidateOptionsMenu();
+        }
         }
     }
 
@@ -697,7 +713,7 @@ public class TongXingBaoFragment extends BaseFragment implements OnItemClickList
 
     //提示框
     public void showTipDialog(String str) {
-
+        if(getActivity()!=null){
         if (tiplertView != null) {
             tiplertView = null;
         }
@@ -709,5 +725,6 @@ public class TongXingBaoFragment extends BaseFragment implements OnItemClickList
                 tiplertView.show();
             }
         }, 1000);
+    }
     }
 }

@@ -396,6 +396,7 @@ public class BluetoothLeService extends Service {
                 int len = aa.length;
                 int flags = 0;
                 boolean f = false;
+                int fInt = 0;//发送失败的次数，10次则停止发送
                 do {
                     if (len <= 20) {
                         bb = new byte[len];
@@ -409,7 +410,7 @@ public class BluetoothLeService extends Service {
                     characteristic.setValue(bb);
                     f = mBluetoothGatt.writeCharacteristic(characteristic);
                     System.out.println("是否发送成功：" + f);
-                    int fInt = 0;//发送失败的次数，10次则停止发送
+
                     if (f) {// 发送成功时减20
                         fInt = 0;//发送成功置为0
                         if (len <= 20) {
@@ -421,9 +422,9 @@ public class BluetoothLeService extends Service {
                         len -= 20;
                     } else {
                         fInt++;//连续10次发送失败判定为连接断开
-                        if (fInt == 30) {
-                            EventBus.getDefault().post(
-                                    new ConnectBean(false));
+                        if (fInt == 200) {
+//                            EventBus.getDefault().post(
+//                                    new ConnectBean(false));
                             break;
                         }
                     }

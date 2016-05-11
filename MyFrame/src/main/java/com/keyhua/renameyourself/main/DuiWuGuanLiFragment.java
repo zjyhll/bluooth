@@ -42,6 +42,7 @@ import com.keyhua.renameyourself.main.le.BleCommon;
 import com.keyhua.renameyourself.main.le.BluetoothLeService;
 import com.keyhua.renameyourself.util.CommonUtility;
 import com.keyhua.renameyourself.util.DensityUtils;
+import com.keyhua.renameyourself.util.SPUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -223,6 +224,7 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
                 str += errorNumList.get(i) + "号";
             }
             if (TextUtils.isEmpty(str)) {
+                SPUtils.put(getActivity(),"istongbu",true);//设备参数表需要在同步队员信息表之后才能进行
 //                showToast("所有队员信息同步成功！");
                 tip = "所有队员信息同步成功！";
                 status = 2;
@@ -247,6 +249,7 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
         mSVProgressHUD.dismiss();
         status = 3;
         showTipDialog("数据获取完成");
+        SPUtils.put(getActivity(), "istongbu", true);//设备参数表需要在同步队员信息表之后才能进行
         //刷新列表
         mersTemp = DataSupport.where("tps_type=?", String.valueOf(CommonUtility.DUIYUAN)).find(SignUpUser.class);//找到所有队员
         tv_dynums.setText("队伍人数:" + (mersTemp.size() + 1) + "人");
@@ -265,9 +268,11 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
         mSVProgressHUD.dismiss();
         switch (event.getWhitchInt()) {//1为gps数据表为空，2为队员信息表为空
             case 1:
+                status = 6;
                 showTipDialog("gps数据表为空");
                 break;
             case 2:
+                status = 6;
                 showTipDialog("队员信息表为空");
                 break;
         }
@@ -277,6 +282,7 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
      * 初始化蓝牙相关
      */
     private void initBluetooth() {
+
         //STEP 1
         // 蓝牙相关
         BleCommon.getInstance().setCharacteristic(mDeviceAddress);
@@ -291,7 +297,9 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
 
             @Override
             public void run() {
+
                 if (isConnect == false) {
+                    if(getActivity()!=null){
                     //STEP 2
                     try {
                         getActivity().unregisterReceiver(BleCommon.getInstance().mGattUpdateReceiver);
@@ -314,6 +322,7 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
                             BluetoothLeService.class);
                     getActivity().bindService(gattServiceIntentAgin, BleCommon.getInstance().mServiceConnection,
                             Context.BIND_AUTO_CREATE);
+                }
                 }
             }
         }, 2500);
@@ -406,7 +415,7 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
         };
 
 // set creator
-        lv_home.setMenuCreator(creator);
+            lv_home.setMenuCreator(creator);
     }
 
 
@@ -447,8 +456,8 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
 
 
     @Override
-    public void onAttach(Activity context) {
-        super.onAttach(context);
+    public void onAttach(Activity context){
+            super.onAttach(context);
     }
 
     @Override
@@ -503,7 +512,7 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
                 tv_gl.setVisibility(View.VISIBLE);
                 tv_dk.setVisibility(View.GONE);
                 tv_glldj.setText("领队机");
-                cancleContact();
+                cancleContactSD();
                 break;
             case R.id.tv_gl:
                 Bundle b = new Bundle();
@@ -636,7 +645,7 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
 
     //提示框
     public void showTipDialog(String str) {
-
+        if(getActivity()!=null){
         if (tiplertView != null) {
             tiplertView = null;
         }
@@ -648,5 +657,6 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
                 tiplertView.show();
             }
         }, 1000);
+    }
     }
 }

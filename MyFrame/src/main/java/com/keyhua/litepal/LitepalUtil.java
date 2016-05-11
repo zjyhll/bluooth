@@ -29,6 +29,10 @@ public class LitepalUtil {
     //查找领队
     public static SignUpUser getLeader() {
         return DataSupport.where("tps_type= ?", String.valueOf(CommonUtility.LINGDUI)).find(SignUpUser.class).get(0);
+    }  //查找是否崔在领队
+
+    public static List<SignUpUser> getHasLeader() {
+        return DataSupport.where("tps_type= ?", String.valueOf(CommonUtility.LINGDUI)).find(SignUpUser.class);
     }
 
     //查找所有队员
@@ -38,13 +42,14 @@ public class LitepalUtil {
 
     //查找所有未离队并且有设备的的队员
     public static List<SignUpUser> getAllUserByActisleave() {
-        return DataSupport.where("act_isleave= ? and deviceReady= ?", String.valueOf(CommonUtility.GUIDUI), String.valueOf(1)).order("distance DESC").find(SignUpUser.class);
+//        return DataSupport.where("act_isleave= ? and deviceReady= ?", String.valueOf(CommonUtility.GUIDUI), String.valueOf(1)).order("distance DESC").find(SignUpUser.class);
+        return DataSupport.where("act_isleave= ? ", String.valueOf(CommonUtility.GUIDUI)).order("distance DESC").find(SignUpUser.class);
     }
 
     //查找所有队员以距离排序
     public static List<SignUpUser> getAllUserByActisleaveDrderByDistance() {
         //不加DESC就是降序
-        return DataSupport.where("deviceReady= ?", String.valueOf(1)).order("distance DESC").find(SignUpUser.class);
+        return DataSupport.order("distance DESC").find(SignUpUser.class);
     }
 
     //清除指定用户

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.bigkoo.alertview.AlertView;
 import com.example.importotherlib.R;
+import com.keyhua.litepal.LitepalUtil;
 import com.keyhua.litepal.SignUpUser;
 import com.keyhua.renameyourself.app.App;
 import com.keyhua.renameyourself.main.le.BleCommon;
@@ -33,6 +34,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.Toast;
+
+import org.litepal.crud.DataSupport;
 
 import in.srain.cube.image.ImageLoader;
 import in.srain.cube.image.ImageLoaderFactory;
@@ -128,11 +131,40 @@ public abstract class BaseFragment extends Fragment implements OnClickListener {
         App.getInstance().setBleLingDuiName("");
         App.getInstance().setBleDuiYuanAddress("");
         App.getInstance().setBleDuiYuanName("");
-        //更新领队的设备号
-        SignUpUser s = new SignUpUser();
-        s.setStrDeviceSN("");
-        s.updateAll("tps_type = ?", String.valueOf(CommonUtility.LINGDUI));
+        List<SignUpUser> l=LitepalUtil.getHasLeader();
+        if (l.size() != 0) {
+            //更新领队的设备号
+            SignUpUser s = new SignUpUser();
+            s.setStrDeviceSN("");
+            try {
+                s.updateAll("tps_type = ?", String.valueOf(CommonUtility.LINGDUI));
+            } catch (Exception e) {
+
+            }
+        }
+    }
+
+    /**
+     * 手动取消与蓝牙的关联
+     */
+    public void cancleContactSD() {
+        App.getInstance().setTb_phonelocation(true);
+        App.getInstance().setBleLingDuiAddress("");
+        App.getInstance().setBleLingDuiName("");
+        App.getInstance().setBleDuiYuanAddress("");
+        App.getInstance().setBleDuiYuanName("");
+        if (LitepalUtil.getHasLeader().size() != 0) {
+            //更新领队的设备号
+            SignUpUser s = new SignUpUser();
+            s.setStrDeviceSN("");
+            try {
+                s.updateAll("tps_type = ?", String.valueOf(CommonUtility.LINGDUI));
+            } catch (Exception e) {
+
+            }
+        }
         if (getActivity() != null) {
+
             try {
                 getActivity().unregisterReceiver(BleCommon.getInstance().mGattUpdateReceiver);
                 getActivity().unbindService(BleCommon.getInstance().mServiceConnection);

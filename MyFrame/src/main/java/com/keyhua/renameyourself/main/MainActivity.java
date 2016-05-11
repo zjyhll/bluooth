@@ -122,6 +122,7 @@ public class MainActivity extends BaseActivity implements
                                 mSVProgressHUD.showWithStatus("数据清除中..");
                                 deleteInt = CommonUtility.DUIYUAN;
                                 LitepalUtil.deleteUser(deleteInt);
+                                cancleContact();
                                 mSVProgressHUD.dismiss();
                                 showTipDialog("数据已清除");
                             } else {
@@ -132,6 +133,7 @@ public class MainActivity extends BaseActivity implements
                             if (LitepalUtil.getAllUser().size() > 0) {
                                 mSVProgressHUD.showWithStatus("数据清除中..");
                                 LitepalUtil.deleteAll();
+                                cancleContact();
                                 mSVProgressHUD.dismiss();
                                 showTipDialog("数据已清除");
                             } else {
@@ -304,6 +306,15 @@ public class MainActivity extends BaseActivity implements
                 rightButton(View.VISIBLE, "队员");
                 //关闭DrawerLayout回到主界面选中的tab的fragment页
                 mDrawerLayout.closeDrawer(ll_shenfen);
+
+                switch (App.getInstance().getIs_leader()) {
+                    case CommonUtility.LINGDUI:
+                        rg_button.setVisibility(View.GONE);
+                        break;
+                    case CommonUtility.DUIYUAN:
+                        rg_button.setVisibility(View.VISIBLE);
+                        break;
+                }
                 break;
             case R.id.tv_gongju:
                 radiobutton_select_one.setChecked(true);

@@ -11,6 +11,7 @@ import com.keyhua.renameyourself.alertview.*;
 import com.keyhua.renameyourself.app.App;
 import com.keyhua.renameyourself.base.BaseActivity;
 import com.keyhua.renameyourself.util.CommonUtility;
+import com.keyhua.renameyourself.util.SPUtils;
 
 public class IndexActivity extends BaseActivity {
     private TextView tv_ld = null;
@@ -50,6 +51,7 @@ public class IndexActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
+        SPUtils.put(IndexActivity.this, "istongbu", false);//每次登陆进去的默认值为false
         switch (v.getId()) {
             case R.id.tv_ld:
                 App.getInstance().setIs_leader(CommonUtility.LINGDUI);
