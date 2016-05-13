@@ -257,7 +257,15 @@ public class DiTuFragment extends BaseFragment implements
         // 轨迹信息数据库
         info = new GpsInfo();
         mGpSinfoDao = DataSupport.findAll(GpsInfo.class);
-
+        if (LitepalUtil.getpg() != null) {
+            TempTrace_data = LitepalUtil.getpg().getLocationInfo();
+            try {
+                arrayTempTrace_data = new JSONArray(TempTrace_data);
+            } catch (JSONException e) {
+                //
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -531,7 +539,7 @@ public class DiTuFragment extends BaseFragment implements
                     List<GpsInfo> dao = DataSupport.where("start_time=?", gps_start_time).find(GpsInfo.class);
                     if (dao.size() > 0) {
                         GpsInfo s = new GpsInfo();
-                        s.setName(dao.get(0).getEnd_time());
+                        s.setName(timeStr);
                         s.updateAll("start_time = ?", timeStr);
                     }
                 } catch (Exception e) {
@@ -947,51 +955,51 @@ public class DiTuFragment extends BaseFragment implements
 
             @Override
             protected Void doInBackground(Void... params) {
-                if(getActivity()!=null){
-                resultPoints = new ArrayList<LatLng>();
-                String gps_start_time = (String) SPUtils.get(
-                        getActivity(), "gps_start_time", "");
-                // 获取数据库的数据
-                List<GpsInfo> dao = DataSupport.where("start_time=?", gps_start_time).find(GpsInfo.class);
-                infos = new ArrayList<GpsInfo>();
-                if (dao.size() > 0) {
+                if (getActivity() != null) {
+                    resultPoints = new ArrayList<LatLng>();
+                    String gps_start_time = (String) SPUtils.get(
+                            getActivity(), "gps_start_time", "");
+                    // 获取数据库的数据
+                    List<GpsInfo> dao = DataSupport.where("start_time=?", gps_start_time).find(GpsInfo.class);
+                    infos = new ArrayList<GpsInfo>();
+                    if (dao.size() > 0) {
 
 
-                    infos.add(dao.get(0));
-                    if (infos.size() != 0 && infos.get(0) != null) {
-                        if (!TextUtils.isEmpty(infos.get(0).getLocationInfo())) {
-                            try {
-                                array = new JSONArray(infos.get(0)
-                                        .getLocationInfo());
-                                for (int i = 0; i < array.length(); i++) {
-                                    double myLongitude = array.getJSONObject(i)
-                                            .getDouble("longitude");
-                                    double myLatitude = array.getJSONObject(i)
-                                            .getDouble("latitude");
-                                    LatLng point = new LatLng(myLatitude,
-                                            myLongitude);
-                                    resultPoints.add(point);
-                                    point = null;
+                        infos.add(dao.get(0));
+                        if (infos.size() != 0 && infos.get(0) != null) {
+                            if (!TextUtils.isEmpty(infos.get(0).getLocationInfo())) {
+                                try {
+                                    array = new JSONArray(infos.get(0)
+                                            .getLocationInfo());
+                                    for (int i = 0; i < array.length(); i++) {
+                                        double myLongitude = array.getJSONObject(i)
+                                                .getDouble("longitude");
+                                        double myLatitude = array.getJSONObject(i)
+                                                .getDouble("latitude");
+                                        LatLng point = new LatLng(myLatitude,
+                                                myLongitude);
+                                        resultPoints.add(point);
+                                        point = null;
+                                    }
+                                } catch (NumberFormatException e) {
+                                    e.printStackTrace();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-                            } catch (NumberFormatException e) {
-                                e.printStackTrace();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
                             }
+                            // for (GpsInfo info : infos) {
+                            // double myLatitude =
+                            // Double.parseDouble(info.getLatitude());
+                            // double myLongitude = Double
+                            // .parseDouble(info.getLongitude());
+                            // LatLng point = new LatLng(myLatitude, myLongitude);
+                            // resultPoints.add(point);
+                            // // latLngs.add(point);
+                            // point = null;
+                            //
+                            // }
                         }
-                        // for (GpsInfo info : infos) {
-                        // double myLatitude =
-                        // Double.parseDouble(info.getLatitude());
-                        // double myLongitude = Double
-                        // .parseDouble(info.getLongitude());
-                        // LatLng point = new LatLng(myLatitude, myLongitude);
-                        // resultPoints.add(point);
-                        // // latLngs.add(point);
-                        // point = null;
-                        //
-                        // }
                     }
-                }
                 }
                 return null;
             }
@@ -1050,6 +1058,92 @@ public class DiTuFragment extends BaseFragment implements
 
     }
 
+    // 参考轨迹--------------------------------------------------------------------------------------
+    private List<LatLng> resultPointsTemp;
+    private Marker markerTemp = null;
+    private OverlayOptions overlayOptionsTemp = null;
+
+    /**
+     * 显示参考轨迹
+     */
+    private void showTrackTemp() {
+        resultPointsTemp = new ArrayList<LatLng>();
+        if (arrayTempTrace_data.length() != 0) {
+            try {
+                for (int i = 0; i < arrayTempTrace_data.length(); i++) {
+                    double TempLongitude = arrayTempTrace_data.getJSONObject(i)
+                            .getDouble("longitude");
+                    double TempLatitude = arrayTempTrace_data.getJSONObject(i)
+                            .getDouble("latitude");
+                    LatLng point = new LatLng(TempLatitude, TempLongitude);
+                    resultPointsTemp.add(point);
+                    point = null;
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // 数据库最后一个坐标的位置
+        if (arrayTempTrace_data != null) {
+            if (arrayTempTrace_data.length() >= 2) {
+                MapStatusUpdate u = null;
+                try {
+                    u = MapStatusUpdateFactory.newLatLng(new LatLng(
+                            arrayTempTrace_data.getJSONObject(0).getDouble(
+                                    "latitude"), arrayTempTrace_data
+                            .getJSONObject(0).getDouble("longitude")));
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mBaiduMap.setMapStatus(u);
+                // 折线显示
+                if (resultPointsTemp.size() >= 2) {
+                    OverlayOptions ooPolyline = new PolylineOptions().width(10)
+                            .color(0xAAFF0000).points(resultPointsTemp); //
+                    mBaiduMap.addOverlay(ooPolyline);
+                }
+                Log.i("onPostExecute", "onPostExecute()");
+                // 得到了所有信息之后才可点击显示队员按钮
+
+            }
+            // 显示出起点
+            for (int i = 0; i < resultPointsTemp.size(); i++) {
+                if (i == 0) {
+                    overlayOptionsTemp = new MarkerOptions()
+                            .position(resultPointsTemp.get(i)).icon(bdStart)
+                            .draggable(false).perspective(true);
+                    //
+                    markerTemp = (Marker) (mBaiduMap
+                            .addOverlay(overlayOptionsTemp));
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("info", "测试");
+                    markerTemp.setExtraInfo(bundle);
+
+                    mBaiduMap.addOverlay(overlayOptionsTemp);
+                }
+                // 显示出终点
+                if (i == resultPointsTemp.size() - 1) {
+                    overlayOptionsTemp = new MarkerOptions()
+                            .position(resultPointsTemp.get(i)).icon(bdEnd)
+                            .draggable(false).perspective(true);
+                    //
+                    markerTemp = (Marker) (mBaiduMap
+                            .addOverlay(overlayOptionsTemp));
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("info", "测试");
+                    markerTemp.setExtraInfo(bundle);
+
+                    mBaiduMap.addOverlay(overlayOptionsTemp);
+                }
+            }
+            // 显示出终点
+        }
+    }
 
     /**
      * 对地图的控制
@@ -1388,6 +1482,7 @@ public class DiTuFragment extends BaseFragment implements
             case R.id.tb_jhgj:// 计划轨迹
                 if (isChecked) {
                     // ll_ckgj.setVisibility(View.VISIBLE);
+                    showTrackTemp();
                     App.getInstance().setJiHuaGuiJi(true);
                 } else {
                     // ll_ckgj.setVisibility(View.GONE);

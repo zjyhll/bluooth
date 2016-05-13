@@ -81,7 +81,7 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
-        <service android:name="com.keyhua.renameyourself.main.service.GpsInfoCollectionService"></service>
+        <service android:name="com.keyhua.renameyourself.main.service.GpsInfoCollectionService" />
 
         <activity
             android:name="com.keyhua.renameyourself.main.DownOfflineActivity"
@@ -95,22 +95,27 @@
         <activity
             android:name="com.keyhua.renameyourself.main.MainActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.keyhua.renameyourself.main.LoginActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.keyhua.renameyourself.main.NewDuiYuanActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.keyhua.renameyourself.main.ChangeDuiYuanActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.keyhua.renameyourself.main.ContactMyGuardianAcitivty"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.keyhua.renameyourself.main.BaseMapDemo"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name="com.keyhua.renameyourself.main.PlanTrajectoryActivity"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.keyhua.renameyourself.main.UploadTrajectoryActivity"
+            android:screenOrientation="portrait" ></activity>
     </application>
 
 </manifest>

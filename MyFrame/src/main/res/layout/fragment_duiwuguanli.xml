@@ -97,6 +97,64 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@color/videoview">
+
+            <TextView
+                android:id="@+id/tv_jhgj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:singleLine="true"
+                android:padding="10dp"
+                android:maxLength="16"
+                android:text="点击按钮选择计划轨迹"
+                android:textColor="@color/content"
+                android:textSize="@dimen/size12" />
+
+            <TextView
+                android:id="@+id/btn_jhgj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/btn_sd"
+                android:background="@drawable/btn_ok_selector"
+                android:gravity="center_vertical"
+                android:paddingBottom="4dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="4dp"
+                android:singleLine="true"
+                android:text="计划轨迹"
+                android:textColor="@color/white"
+                android:textColorHint="@color/transparent3"
+                android:textSize="@dimen/size14" />
+
+            <TextView
+                android:id="@+id/btn_sd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/btn_ok_selector"
+                android:gravity="center_vertical"
+                android:paddingBottom="4dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="4dp"
+                android:singleLine="true"
+                android:text="收队"
+                android:textColor="@color/white"
+                android:textColorHint="@color/transparent3"
+                android:textSize="@dimen/size14" />
+
+        </RelativeLayout>
+
         <com.baoyz.swipemenulistview.SwipeMenuListView
             android:id="@+id/lv_home"
             android:layout_width="match_parent"
@@ -120,4 +178,5 @@
         android:layout_marginRight="16dp"
         android:src="@mipmap/tianjia_tongxingbao"
         app:backgroundTint="#aaaaaa" />
+
 </android.support.design.widget.CoordinatorLayout>

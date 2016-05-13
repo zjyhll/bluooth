@@ -444,7 +444,12 @@ public abstract class BaseActivity extends AppCompatActivity implements OnClickL
         }
     }
 
+    //右上角按钮是否显示
 
+    public void rightButton(int showInt, String str) {
+        toolbar_tv_right_cancle.setVisibility(showInt);
+        toolbar_tv_right_cancle.setText(str);
+    }
     // OtherActivity关联
     public void initFooterOther(String str1, String str2, String str3) {
     }

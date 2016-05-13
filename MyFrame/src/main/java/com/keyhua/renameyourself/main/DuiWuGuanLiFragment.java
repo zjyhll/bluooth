@@ -29,6 +29,7 @@ import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.example.importotherlib.R;
 import com.keyhua.litepal.GpsInfo;
 import com.keyhua.litepal.LitepalUtil;
+import com.keyhua.litepal.PlanGpsInfo;
 import com.keyhua.litepal.SignUpUser;
 import com.keyhua.renameyourself.app.App;
 import com.keyhua.renameyourself.base.BaseFragment;
@@ -74,6 +75,9 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
     private TextView tv_dk = null;//断开领队机
     private TextView tv_hq = null;//获取数据
     private TextView tv_gl = null;//关联领队机
+    private TextView tv_jhgj = null;//显示计划轨迹概略
+    private TextView btn_jhgj = null;//选择计划轨迹的按钮
+    private TextView btn_sd = null;//收队的按钮
     private long id = 0;//数据库中对应的id
     private String mDeviceAddress = null;// 蓝牙地址
     private String mDeviceName = null;// 蓝牙名
@@ -109,6 +113,12 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
             mers.clear();
             mers.addAll(mersTemp);
             listadapter.notifyDataSetChanged();
+        }
+        PlanGpsInfo p = LitepalUtil.getpg();
+        if (p != null) {
+            tv_jhgj.setText("已选择轨迹：" + p.getName());
+        } else {
+            tv_jhgj.setText("点击按钮选择计划轨迹");
         }
     }
 
@@ -224,7 +234,7 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
                 str += errorNumList.get(i) + "号";
             }
             if (TextUtils.isEmpty(str)) {
-                SPUtils.put(getActivity(),"istongbu",true);//设备参数表需要在同步队员信息表之后才能进行
+                SPUtils.put(getActivity(), "istongbu", true);//设备参数表需要在同步队员信息表之后才能进行
 //                showToast("所有队员信息同步成功！");
                 tip = "所有队员信息同步成功！";
                 status = 2;
@@ -299,30 +309,30 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
             public void run() {
 
                 if (isConnect == false) {
-                    if(getActivity()!=null){
-                    //STEP 2
-                    try {
-                        getActivity().unregisterReceiver(BleCommon.getInstance().mGattUpdateReceiver);
-                        getActivity().unbindService(BleCommon.getInstance().mServiceConnection);
-                        if (BleCommon.getInstance().mBluetoothLeService != null) {
-                            BleCommon.getInstance().mBluetoothLeService.disconnect();
-                            BleCommon.getInstance().mBluetoothLeService.close();
-                            BleCommon.getInstance().mBluetoothLeService = null;
+                    if (getActivity() != null) {
+                        //STEP 2
+                        try {
+                            getActivity().unregisterReceiver(BleCommon.getInstance().mGattUpdateReceiver);
+                            getActivity().unbindService(BleCommon.getInstance().mServiceConnection);
+                            if (BleCommon.getInstance().mBluetoothLeService != null) {
+                                BleCommon.getInstance().mBluetoothLeService.disconnect();
+                                BleCommon.getInstance().mBluetoothLeService.close();
+                                BleCommon.getInstance().mBluetoothLeService = null;
+                            }
+                        } catch (Exception e) {
+                            //需要完全断开连接才能再次关联
                         }
-                    } catch (Exception e) {
-                        //需要完全断开连接才能再次关联
+                        //STEP 3
+                        // 蓝牙相关
+                        BleCommon.getInstance().setCharacteristic(mDeviceAddress);
+                        // 广播接收器
+                        getActivity().registerReceiver(BleCommon.getInstance().mGattUpdateReceiver,
+                                BleCommon.getInstance().makeGattUpdateIntentFilter());
+                        Intent gattServiceIntentAgin = new Intent(getActivity(),
+                                BluetoothLeService.class);
+                        getActivity().bindService(gattServiceIntentAgin, BleCommon.getInstance().mServiceConnection,
+                                Context.BIND_AUTO_CREATE);
                     }
-                    //STEP 3
-                    // 蓝牙相关
-                    BleCommon.getInstance().setCharacteristic(mDeviceAddress);
-                    // 广播接收器
-                    getActivity().registerReceiver(BleCommon.getInstance().mGattUpdateReceiver,
-                            BleCommon.getInstance().makeGattUpdateIntentFilter());
-                    Intent gattServiceIntentAgin = new Intent(getActivity(),
-                            BluetoothLeService.class);
-                    getActivity().bindService(gattServiceIntentAgin, BleCommon.getInstance().mServiceConnection,
-                            Context.BIND_AUTO_CREATE);
-                }
                 }
             }
         }, 2500);
@@ -338,6 +348,9 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
         EventBus.getDefault().register(this);
 
         tv_dynums = (TextView) getActivity().findViewById(R.id.tv_dynums);
+        tv_jhgj = (TextView) getActivity().findViewById(R.id.tv_jhgj);
+        btn_jhgj = (TextView) getActivity().findViewById(R.id.btn_jhgj);
+        btn_sd = (TextView) getActivity().findViewById(R.id.btn_sd);
         tv_hq = (TextView) getActivity().findViewById(R.id.tv_hq);
         tv_dk = (TextView) getActivity().findViewById(R.id.tv_dk);
         tv_gl = (TextView) getActivity().findViewById(R.id.tv_gl);
@@ -368,6 +381,7 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
             tv_dk.setVisibility(View.GONE);
             tv_glldj.setText("领队机");
         }
+
     }
 
     @Override
@@ -415,7 +429,7 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
         };
 
 // set creator
-            lv_home.setMenuCreator(creator);
+        lv_home.setMenuCreator(creator);
     }
 
 
@@ -426,6 +440,8 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
         fab.setOnClickListener(this);
         tv_hq.setOnClickListener(this);
         toolbar_tv_right_cancle.setOnClickListener(this);
+        btn_jhgj.setOnClickListener(this);
+        btn_sd.setOnClickListener(this);
 
         // Right
 //        lv_home.setSwipeDirection(SwipeMenuListView.DIRECTION_RIGHT);
@@ -456,8 +472,8 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
 
 
     @Override
-    public void onAttach(Activity context){
-            super.onAttach(context);
+    public void onAttach(Activity context) {
+        super.onAttach(context);
     }
 
     @Override
@@ -519,6 +535,12 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
                 //告诉关联界面是由该界面跳入
                 b.putBoolean("fromTuZhong", true);
                 openActivity(ContactMyGuardianAcitivty.class, b);
+                break;
+            case R.id.btn_jhgj:
+                openActivity(PlanTrajectoryActivity.class);
+                break;
+            case R.id.btn_sd:
+                openActivity(UploadTrajectoryActivity.class);
                 break;
         }
     }
@@ -645,18 +667,18 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
 
     //提示框
     public void showTipDialog(String str) {
-        if(getActivity()!=null){
-        if (tiplertView != null) {
-            tiplertView = null;
-        }
-        tiplertView = new AlertView("温馨提示", str, null, new String[]{"确定"}, null, getActivity(), AlertView.Style.Alert, this).setCancelable(true).setOnDismissListener(this);
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                tiplertView.show();
+        if (getActivity() != null) {
+            if (tiplertView != null) {
+                tiplertView = null;
             }
-        }, 1000);
-    }
+            tiplertView = new AlertView("温馨提示", str, null, new String[]{"确定"}, null, getActivity(), AlertView.Style.Alert, this).setCancelable(true).setOnDismissListener(this);
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    tiplertView.show();
+                }
+            }, 1000);
+        }
     }
 }

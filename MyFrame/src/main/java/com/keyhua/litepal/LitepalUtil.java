@@ -22,7 +22,12 @@ public class LitepalUtil {
 
     //根据tps_idid查询指定用户
     public static SignUpUser getAllUserByTpsid(String tps_id) {
-        return DataSupport.where("tps_id=?", tps_id).find(SignUpUser.class).get(0);
+        if (DataSupport.where("tps_id=?", tps_id).find(SignUpUser.class).size() > 0) {
+            return DataSupport.where("tps_id=?", tps_id).find(SignUpUser.class).get(0);
+        } else {
+            return null;
+        }
+
     }
 
 
@@ -60,6 +65,29 @@ public class LitepalUtil {
 
     public static int deleteAll() {
         DataSupport.deleteAll(GpsInfo.class);
+        DataSupport.deleteAll(PlanGpsInfo.class);
         return DataSupport.deleteAll(SignUpUser.class);
+    }
+
+
+    //收队时清除除了领队以外的所有用户
+    public static int deleteAllBesideLeader() {
+        DataSupport.deleteAll(GpsInfo.class);
+        DataSupport.deleteAll(PlanGpsInfo.class);
+        return DataSupport.deleteAll(SignUpUser.class, "tps_type = ?", String.valueOf(CommonUtility.DUIYUAN));
+    }
+
+    public static int deletePlanGps() {
+        return DataSupport.deleteAll(PlanGpsInfo.class);
+    }
+
+    //查询当前的计划轨迹
+    public static PlanGpsInfo getpg() {
+        if (DataSupport.findAll(PlanGpsInfo.class) != null && DataSupport.findAll(PlanGpsInfo.class).size() != 0) {
+            return DataSupport.findAll(PlanGpsInfo.class).get(0);
+        } else {
+            return null;
+        }
+
     }
 }

@@ -1036,12 +1036,14 @@ public class BleCommon {
             int tps_id = indexGpsInfoArray
                     .get(i).getNewFlaguDevNumInGroupU().getDevNumInGroup();
             SignUpUser s = LitepalUtil.getAllUserByTpsid(String.valueOf(tps_id));
+            if(s!=null){
             String deviceSN = s.getStrDeviceSN();
             String LingDuiNameSN = App.getInstance().getBleLingDuiName();
             String DuiYuanNameSN = App.getInstance().getBleDuiYuanName();
             //通过设备参数号找到对应的当前设备的队员
             if ((TextUtils.equals(deviceSN, LingDuiNameSN) || (TextUtils.equals(deviceSN, DuiYuanNameSN)))) {
                 devNumInGroupInt = i;
+            }
             }
         }
         hwtxDataGrpGpsInfoItem = indexGpsInfoArray.get(devNumInGroupInt); // TODO

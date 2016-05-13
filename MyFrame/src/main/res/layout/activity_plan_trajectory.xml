@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.keyhua.renameyourself.main.UploadTrajectoryActivity">
+
+    <include
+        android:id="@+id/includeL"
+        layout="@layout/include_head"></include>
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/includeL"
+        android:background="@color/down"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <com.keyhua.renameyourself.view.CleareditTextView
+            android:id="@+id/search_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/solid_video"
+            android:drawableLeft="@mipmap/shousuo"
+            android:hint="输入计划轨迹名称"
+            android:inputType="text"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:textColorHighlight="@color/head_edit"
+            android:textColorHint="@color/head_edit"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btn_sd"
+            android:layout_weight="0"
+            android:background="@drawable/btn_ok_selector"
+            android:gravity="center_vertical"
+            android:paddingBottom="4dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:singleLine="true"
+            android:text="搜索"
+            android:textColor="@color/white"
+            android:textColorHint="@color/transparent3"
+            android:textSize="@dimen/size14" />
+    </LinearLayout>
+
+    <com.keyhua.renameyourself.view.MyListView
+        android:id="@+id/lv_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ll"
+        android:background="@color/transparent"
+        android:cacheColorHint="@color/transparent"
+        android:descendantFocusability="blocksDescendants"
+        android:divider="@color/videoview"
+        android:dividerHeight="0.5dp"
+        android:listSelector="@color/transparent"
+        android:overScrollMode="never" />
+
+    <FrameLayout
+        android:id="@+id/parent_pic"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/bg_pic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ff000000" />
+
+        <com.bm.library.PhotoView
+            android:id="@+id/pv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter" />
+    </FrameLayout>
+</RelativeLayout>
