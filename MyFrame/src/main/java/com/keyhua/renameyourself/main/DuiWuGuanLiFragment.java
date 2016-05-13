@@ -540,7 +540,12 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
                 openActivity(PlanTrajectoryActivity.class);
                 break;
             case R.id.btn_sd:
-                openActivity(UploadTrajectoryActivity.class);
+                if (mersTemp.size() == 0) {
+                    status=7;
+                    showTipDialog("当前队伍没有队员，是否进入收队界面");
+                } else {
+                    openActivity(UploadTrajectoryActivity.class);
+                }
                 break;
         }
     }
@@ -590,6 +595,20 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
                     //先删除所有队员
                     LitepalUtil.deleteUser(CommonUtility.DUIYUAN);
                     BleCommon.getInstance().getGroupInfoAllBtApp();
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7://收队操作
+                    new Handler().postDelayed(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            openActivity(UploadTrajectoryActivity.class);
+                        }
+                    }, 1000);
+
                     break;
             }
 
@@ -671,14 +690,14 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
             if (tiplertView != null) {
                 tiplertView = null;
             }
-            tiplertView = new AlertView("温馨提示", str, null, new String[]{"确定"}, null, getActivity(), AlertView.Style.Alert, this).setCancelable(true).setOnDismissListener(this);
+            tiplertView = new AlertView("温馨提示", str, "取消", new String[]{"确定"}, null, getActivity(), AlertView.Style.Alert, this).setCancelable(true).setOnDismissListener(this);
             new Handler().postDelayed(new Runnable() {
 
                 @Override
                 public void run() {
                     tiplertView.show();
                 }
-            }, 1000);
+            }, 800);
         }
     }
 }
