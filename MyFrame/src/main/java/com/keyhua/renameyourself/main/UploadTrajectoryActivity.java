@@ -35,6 +35,7 @@ import com.keyhua.renameyourself.app.App;
 import com.keyhua.renameyourself.base.BaseActivity;
 import com.keyhua.renameyourself.main.client.JSONRequestSender;
 import com.keyhua.renameyourself.util.CommonUtility;
+import com.keyhua.renameyourself.util.SPUtils;
 import com.keyhua.renameyourself.view.MyListView;
 
 import org.litepal.crud.DataSupport;
@@ -101,11 +102,11 @@ public class UploadTrajectoryActivity extends BaseActivity implements OnItemClic
 
     public class MYAdpter extends BaseAdapter {
         private Context context = null;
-        public List<GpsInfo> mGpSinfoDao = null;
+//        public List<GpsInfo> mGpSinfoDao = null;
 
         public MYAdpter(Context context, List<GpsInfo> mGpSinfoDao) {
             this.context = context;
-            this.mGpSinfoDao = mGpSinfoDao;
+//            this.mGpSinfoDao = mGpSinfoDao;
         }
 
         @Override
@@ -169,11 +170,13 @@ public class UploadTrajectoryActivity extends BaseActivity implements OnItemClic
                         GpsInfo g = new GpsInfo();
                         g.setIsChecked("2");
                         g.update(id);
+                        mGpSinfoDao = DataSupport.findAll(GpsInfo.class);
                     } else {
                         finalHolder.iv_check.setImageResource(R.mipmap.collection_c);
                         GpsInfo g = new GpsInfo();
                         g.setIsChecked("1");
                         g.update(id);
+                        mGpSinfoDao = DataSupport.findAll(GpsInfo.class);
                     }
                 }
             });
@@ -262,6 +265,12 @@ public class UploadTrajectoryActivity extends BaseActivity implements OnItemClic
             switch (msg.what) {
                 case CommonUtility.SERVEROK1:
                     LitepalUtil.deleteAllBesideLeader();
+                    App.getInstance().setTb_phonelocation(true);
+                    App.getInstance().setBleLingDuiAddress("");
+                    App.getInstance().setBleLingDuiName("");
+                    App.getInstance().setBleDuiYuanAddress("");
+                    App.getInstance().setBleDuiYuanName("");
+                    SPUtils.put(UploadTrajectoryActivity.this, "showAllPeople", false);
                     mSVProgressHUD.dismiss();
                     showToast("收队成功");
                     finish();
@@ -274,6 +283,10 @@ public class UploadTrajectoryActivity extends BaseActivity implements OnItemClic
                     break;
                 case CommonUtility.SERVERERRORLOGIN:
                     mSVProgressHUD.dismiss();
+                    showToast("登录失败，请重新登录");
+                    Bundle b = new Bundle();
+                    b.putString("autnotok", "1");
+                    openActivity(LoginActivity.class, b);
                     break;
                 case CommonUtility.SERVERERROR:
                     LitepalUtil.deleteAllBesideLeader();

@@ -39,6 +39,7 @@ import com.keyhua.renameyourself.main.eventBusBean.InitBluetoothBean;
 import com.keyhua.renameyourself.main.eventBusBean.LengthZero;
 import com.keyhua.renameyourself.main.eventBusBean.MemberInfoBean;
 import com.keyhua.renameyourself.main.eventBusBean.QueryModeBean;
+import com.keyhua.renameyourself.main.eventBusBean.UpDataList;
 import com.keyhua.renameyourself.main.le.BleCommon;
 import com.keyhua.renameyourself.main.le.BluetoothLeService;
 import com.keyhua.renameyourself.util.CommonUtility;
@@ -102,6 +103,11 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         //领队机设备状态
@@ -109,11 +115,11 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
         mDeviceAddress = App.getInstance().getBleLingDuiDuiAddress();
         mersTemp = DataSupport.where("tps_type=?", String.valueOf(CommonUtility.DUIYUAN)).find(SignUpUser.class);//找到所有队员
         tv_dynums.setText("队伍人数:" + (mersTemp.size() + 1) + "人");
-        if (mersTemp.size() > 0) {
-            mers.clear();
-            mers.addAll(mersTemp);
-            listadapter.notifyDataSetChanged();
-        }
+//        if (mersTemp.size() > 0) {
+        mers.clear();
+        mers.addAll(mersTemp);
+        listadapter.notifyDataSetChanged();
+//        }
         PlanGpsInfo p = LitepalUtil.getpg();
         if (p != null) {
             tv_jhgj.setText("已选择轨迹：" + p.getName());
@@ -286,6 +292,14 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
                 showTipDialog("队员信息表为空");
                 break;
         }
+    }
+
+    /**
+     * 刷新list
+     */
+    @Subscribe
+    public void onEventMainThread(UpDataList event) {
+        onStart();
     }
 
     /**
@@ -541,7 +555,7 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
                 break;
             case R.id.btn_sd:
                 if (mersTemp.size() == 0) {
-                    status=7;
+                    status = 7;
                     showTipDialog("当前队伍没有队员，是否进入收队界面");
                 } else {
                     openActivity(UploadTrajectoryActivity.class);
@@ -559,6 +573,12 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
     public void onItemClick(Object o, int position) {
         if (o == deleteAlertView && position != AlertView.CANCELPOSITION) {
             DataSupport.delete(SignUpUser.class, id);
+            mersTemp = LitepalUtil.getDuiyuan();//找到所有队员
+            for (int i = 0; i < mersTemp.size(); i++) {
+                SignUpUser s = new SignUpUser();
+                s.setTps_id(i+2);
+                s.update(mersTemp.get(i).getId());
+            }
             mersTemp = LitepalUtil.getDuiyuan();//找到所有队员
             tv_dynums.setText("队伍人数:" + (mersTemp.size() + 1) + "人");
             mers.clear();

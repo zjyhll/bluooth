@@ -25,12 +25,18 @@ import com.keyhua.renameyourself.app.App;
 import com.keyhua.renameyourself.base.BackHandledInterface;
 import com.keyhua.renameyourself.base.BaseActivity;
 import com.keyhua.renameyourself.base.BaseFragment;
+import com.keyhua.renameyourself.main.eventBusBean.GpsBean;
+import com.keyhua.renameyourself.main.eventBusBean.UpDataList;
 import com.keyhua.renameyourself.main.le.BleCommon;
 import com.keyhua.renameyourself.util.CommonUtility;
 import com.bigkoo.alertview.OnDismissListener;
 import com.bigkoo.alertview.OnItemClickListener;
+import com.keyhua.renameyourself.util.SPUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.litepal.crud.DataSupport;
+
+import java.util.List;
 
 public class MainActivity extends BaseActivity implements
         BackHandledInterface, OnItemClickListener, OnDismissListener {
@@ -51,6 +57,7 @@ public class MainActivity extends BaseActivity implements
     private SVProgressHUD mSVProgressHUD;
     private AlertView tiplertView;//避免创建重复View，先创建View，然后需要的时候show出来，推荐这个做法
     private AlertView outlertView;//避免创建重复View，先创建View，然后需要的时候show出来，推荐这个做法
+    private AlertView outorsdlertView;//避免创建重复View，先创建View，然后需要的时候show出来，推荐这个做法
     private TextView left_banbenhao;// 版本号
 
 
@@ -102,6 +109,21 @@ public class MainActivity extends BaseActivity implements
                 outlertView.show();
             }
         }, 1000);
+    }  //提示框
+
+    public void showOutorSDDialog(String str) {
+
+        if (outorsdlertView != null) {
+            outorsdlertView = null;
+        }
+        outorsdlertView = new AlertView("温馨提示", str, "收队", new String[]{"退出"}, null, this, AlertView.Style.Alert, this).setCancelable(false).setOnDismissListener(this);
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                outorsdlertView.show();
+            }
+        }, 0);
     }
 
     @Override
@@ -125,6 +147,10 @@ public class MainActivity extends BaseActivity implements
                                 cancleContact();
                                 mSVProgressHUD.dismiss();
                                 showTipDialog("数据已清除");
+//                                if (frgContent instanceof DuiWuGuanLiFragment) {
+                                EventBus.getDefault().post(
+                                        new UpDataList());
+//                                }
                             } else {
                                 showTipDialog("当前没有队员");
                             }
@@ -147,6 +173,12 @@ public class MainActivity extends BaseActivity implements
                     mSVProgressHUD.dismiss();
                     showOutDialog("数据已清除");
                     break;
+                case 3:
+                    frgContent = new DiTuFragment();
+                    title = "途中";
+                    switchConent(frgContent, title);
+                    mDrawerLayout.closeDrawer(ll_shenfen);
+                    break;
                 default:
                     break;
             }
@@ -154,6 +186,14 @@ public class MainActivity extends BaseActivity implements
         } else if (o == outlertView && position != AlertView.CANCELPOSITION) {
             openActivity(IndexActivity.class);
             finish();
+        } else if (o == outorsdlertView && position != AlertView.CANCELPOSITION) {//退出
+            LitepalUtil.deleteAll();
+            mSVProgressHUD.dismiss();
+            showOutDialog("数据已清除");
+        } else if (o == outorsdlertView && position == AlertView.CANCELPOSITION) {//收队
+            frgContent = new DuiWuGuanLiFragment();
+            switchConent(frgContent, "途中");
+            mDrawerLayout.closeDrawer(ll_shenfen);
         }
     }
 
@@ -338,8 +378,35 @@ public class MainActivity extends BaseActivity implements
                 mDrawerLayout.closeDrawer(ll_shenfen);
                 break;
             case R.id.tv_shenfen:
-                status = 2;
-                showTipDialog("退出会清除数据，是否退出？");
+                switch (App.getInstance().getIs_leader()) {
+                    case CommonUtility.LINGDUI:
+                        if ((Integer) SPUtils.get(MainActivity.this, "dt_status", 1) == 1) {//轨迹未在记录中
+                            List<SignUpUser> l = LitepalUtil.getDuiyuan();
+                            if (l.size() == 0) {
+                                status = 2;
+                                showTipDialog("退出会清除数据，是否退出？");
+                            } else {
+                                showOutorSDDialog("当前已有队伍，是否收队？还是直接清除数据退出？");
+                            }
+                        } else {//轨迹在记录中
+                            status = 3;
+                            showTipDialog("请先到地图界面停止轨迹录制！");
+                        }
+
+                        break;
+                    case CommonUtility.DUIYUAN:
+                        if ((Integer) SPUtils.get(MainActivity.this, "dt_status", 1) == 1) {//轨迹未在记录中
+                            status = 2;
+                            showTipDialog("退出会清除数据，是否退出？");
+                        } else {//轨迹在记录中
+                            status = 3;
+                            showTipDialog("请先到地图界面停止轨迹录制！");
+                        }
+
+                        break;
+                }
+
+
                 break;
             case R.id.tv_clean:
                 status = 1;
@@ -352,8 +419,6 @@ public class MainActivity extends BaseActivity implements
         }
 
     }
-
-
 
 
     @Override

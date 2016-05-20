@@ -50,13 +50,27 @@ public class PlanTrajectoryActivity extends BaseActivity {
     private MYAdpter listadapter = null;
     private PhotoView pv = null;
     private FrameLayout parent_pic = null;
-
+    PlanGpsInfo p=null;//已选计划轨迹
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plan_trajectory);
         initHeaderOther("", "选择计划轨迹", true, false, false);
         init();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        p = LitepalUtil.getpg();
+//        updateList();
+    }
+
+    public void updateList() {
+        mers.addAll(mersTemp);
+        nameStr = "";
+        search_edit.setText("");
+        listadapter.notifyDataSetChanged();
     }
 
     @Override
@@ -143,6 +157,15 @@ public class PlanTrajectoryActivity extends BaseActivity {
                 holder = (ViewHolder) convertView.getTag();
             }
             holder.tv_gjm.setText(mers.get(position).getName());
+            if(p!=null&&p.getTrace_id()!=null&&mers.get(position).getTrace_id()==p.getTrace_id()){
+                holder.btn_xz.setText("已选择");
+                holder.btn_xz.setClickable(false);
+                holder.btn_xz.setBackgroundResource(R.drawable.btn_ok_selector_hui);
+            }else{
+                holder.btn_xz.setText("选择");
+                holder.btn_xz.setBackgroundResource(R.drawable.btn_ok_selector);
+                holder.btn_xz.setClickable(true);
+            }
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -262,18 +285,19 @@ public class PlanTrajectoryActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case CommonUtility.SERVEROK1:
-                    mers.addAll(mersTemp);
-                    nameStr = "";
-                    search_edit.setText("");
-                    listadapter.notifyDataSetChanged();
+                    updateList();
                     break;
                 case CommonUtility.ChANNELRSERVERERROR:
+
+                    break;
+                case CommonUtility.SERVERERRORLOGIN:
                     showToast("登录失败，请重新登录");
                     if (isshowdialog()) {
                         closedialog();
                     }
-                    break;
-                case CommonUtility.SERVERERRORLOGIN:
+                    Bundle b = new Bundle();
+                    b.putString("autnotok", "1");
+                    openActivity(LoginActivity.class, b);
                     break;
                 case CommonUtility.SERVERERROR:
                     break;

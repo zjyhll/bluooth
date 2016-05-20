@@ -1482,8 +1482,13 @@ public class DiTuFragment extends BaseFragment implements
             case R.id.tb_jhgj:// 计划轨迹
                 if (isChecked) {
                     // ll_ckgj.setVisibility(View.VISIBLE);
-                    showTrackTemp();
-                    App.getInstance().setJiHuaGuiJi(true);
+                    if(LitepalUtil.getpg()!=null){
+                        showTrackTemp();
+                        App.getInstance().setJiHuaGuiJi(true);
+                    }else{
+                        showToast("你还没有选择计划轨迹！");
+                        App.getInstance().setJiHuaGuiJi(false);
+                    }
                 } else {
                     // ll_ckgj.setVisibility(View.GONE);
                     getNowTrack();

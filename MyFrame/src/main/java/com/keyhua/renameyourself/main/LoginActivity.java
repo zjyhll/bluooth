@@ -54,6 +54,7 @@ public class LoginActivity extends BaseActivity {
     // login为1的时候是从欢迎界面跳过来的
     private int login = 0;
     private SVProgressHUD mSVProgressHUD;
+    private String autnotok = "";//判断是否是因为登录失效跳到这里的
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +64,7 @@ public class LoginActivity extends BaseActivity {
                         | WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         setContentView(R.layout.activity_login);
         mSVProgressHUD = new SVProgressHUD(this);
+        autnotok = getIntent().getStringExtra("autnotok");
         init();
     }
 
@@ -315,7 +317,9 @@ public class LoginActivity extends BaseActivity {
                         s.setIsUsedByCurrentDevice(CommonUtility.SELF);
                         s.save();
                     }
-                    openActivity(MainActivity.class);
+                    if (TextUtils.isEmpty(autnotok)) {//为空，则不是aut失效的原因
+                        openActivity(MainActivity.class);
+                    }
                     finish();
                     break;
                 case CommonUtility.ChANNELRSERVERERROR:

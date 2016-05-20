@@ -88,6 +88,10 @@ public class LitepalUtil {
         } else {
             return null;
         }
-
     }
+
+    //获取当前需要上传的轨迹
+//    public static List<GpsInfo> getUpdataGpsInfo() {
+//        return DataSupport.where("name!= ? and start_time!= ? and end_time!= ?", "null,null,null").find(GpsInfo.class);
+//    }
 }

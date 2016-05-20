@@ -307,7 +307,7 @@ public class HuoDongSheZhiFragment extends BaseFragment implements OnItemClickLi
                             showToast("GPS工作间隔范围为1到60");
                             return;
                         }
-                        if (bHktAtInterval < 5 || bHktAtInterval > 60) {
+                        if (bHktAtInterval < 1 || bHktAtInterval > 60) {
                             showToast("广播时间间隔范围为5到60");// 广播时间间隔[5,60]
                             return;
                         }
