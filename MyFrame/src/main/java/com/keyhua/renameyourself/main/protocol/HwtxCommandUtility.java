@@ -1,5 +1,6 @@
 package com.keyhua.renameyourself.main.protocol;
 
+import java.util.Arrays;
 import java.util.IllegalFormatCodePointException;
 
 public class HwtxCommandUtility {
@@ -80,7 +81,6 @@ public class HwtxCommandUtility {
 
 	// 将整形数转换为字节流，注意只取整形数的低32bit，如果是64位整形，则超出部分会被丢掉
 	public static byte[] int32ToBytes(Integer value) {
-
 		byte bytes[] = new byte[4];
 
 		bytes[0] = (byte) (value & 0xFF);

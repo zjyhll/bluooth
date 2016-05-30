@@ -62,6 +62,7 @@ public class CommonUtility {
     public static final String LINGDUISTR = "是否离队";//是否离队
     public static final String GUIDUISTR = "是否归队";//归队
     public static final String DUIWUGUANLI = "请先关联领队机";//
+    public static final int SHILIAN = 1;//
     // 跳转活动详情标识
     public static final int XianShiTab_False = 1102;// 显示下方的tab
     public static final int XianShiTab_SheZhi = 1103;// 整队出行活动管理

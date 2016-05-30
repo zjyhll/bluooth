@@ -1482,10 +1482,10 @@ public class DiTuFragment extends BaseFragment implements
             case R.id.tb_jhgj:// 计划轨迹
                 if (isChecked) {
                     // ll_ckgj.setVisibility(View.VISIBLE);
-                    if(LitepalUtil.getpg()!=null){
+                    if (LitepalUtil.getpg() != null) {
                         showTrackTemp();
                         App.getInstance().setJiHuaGuiJi(true);
-                    }else{
+                    } else {
                         showToast("你还没有选择计划轨迹！");
                         App.getInstance().setJiHuaGuiJi(false);
                     }
@@ -2163,7 +2163,15 @@ public class DiTuFragment extends BaseFragment implements
 
             }
             // 展示所有失联人员
-            if (listShilianbean.size() > 0) {//当有队员处于失联，与目前失联提示一样，多个队员失联的时候显示最严重的。
+            String shilianStr = "";
+            for (int i = 0; i < tuZhongUserListGet.size(); i++) {
+                if (tuZhongUserListGet.get(i).getAct_shilian() == 1) {
+                    shilianStr += tuZhongUserListGet.get(i).getU_nickname() + "、";
+                }
+            }
+            if (!TextUtils.isEmpty(shilianStr)) {
+                tv_tishi.setText("【数传失联】\t" + shilianStr);
+            } else if (listShilianbean.size() > 0) {//当有队员处于失联，与目前失联提示一样，多个队员失联的时候显示最严重的。
                 tv_tishi.setText("\n【失联】\t"
                         + listShilianbean.get(positionL).getNameTempLong()
                         + " \t距离:"
@@ -2616,6 +2624,11 @@ public class DiTuFragment extends BaseFragment implements
                             s.setUser_longitude(String.valueOf(gpsLongitude));
                             s.setLocation_time(String.valueOf(gpsTime));
 
+                            if (TextUtils.equals(gpsTimeYearStr, "4095")) {//表示该队员失联，提示【数传失联】xx xxm
+                                s.setAct_shilian(CommonUtility.SHILIAN);
+                            } else {
+                                s.setToDefault("act_shilian");
+                            }
                             if (hasLeave && siU.getTps_type() != CommonUtility.LINGDUI) {
                                 s.setAct_isleave(CommonUtility.LIDUI);
                             } else {

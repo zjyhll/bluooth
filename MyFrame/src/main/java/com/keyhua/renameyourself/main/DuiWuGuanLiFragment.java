@@ -554,11 +554,23 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
                 openActivity(PlanTrajectoryActivity.class);
                 break;
             case R.id.btn_sd:
-                if (mersTemp.size() == 0) {
-                    status = 7;
-                    showTipDialog("当前队伍没有队员，是否进入收队界面");
+                List<SignUpUser> l = LitepalUtil.getDuiyuan();
+                String lName = "";
+                for (int i = 0; i < l.size(); i++) {
+                    if (l.get(i).getAct_isleave() == 1) {
+                        lName += l.get(i).getU_nickname() + "、";
+                    }
+                }
+                if (!TextUtils.isEmpty(lName)) {
+                    status = 8;
+                    showTipDialog("当前" + lName + "队员离队，需先归队或者删除");
                 } else {
-                    openActivity(UploadTrajectoryActivity.class);
+                    if (mersTemp.size() == 0) {
+                        status = 7;
+                        showTipDialog("当前队伍没有队员，是否进入收队界面");
+                    } else {
+                        openActivity(UploadTrajectoryActivity.class);
+                    }
                 }
                 break;
         }
@@ -576,7 +588,7 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
             mersTemp = LitepalUtil.getDuiyuan();//找到所有队员
             for (int i = 0; i < mersTemp.size(); i++) {
                 SignUpUser s = new SignUpUser();
-                s.setTps_id(i+2);
+                s.setTps_id(i + 2);
                 s.update(mersTemp.get(i).getId());
             }
             mersTemp = LitepalUtil.getDuiyuan();//找到所有队员
@@ -629,6 +641,8 @@ public class DuiWuGuanLiFragment extends BaseFragment implements OnItemClickList
                         }
                     }, 1000);
 
+                    break;
+                case 8:
                     break;
             }
 

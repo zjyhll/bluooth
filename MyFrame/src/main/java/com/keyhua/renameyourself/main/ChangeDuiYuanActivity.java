@@ -189,7 +189,9 @@ public class ChangeDuiYuanActivity extends BaseActivity implements OnItemClickLi
                 break;
             case R.id.tv_liduibtn:
                 numStr = tv_snnum.getText().toString();
-                if (!TextUtils.isEmpty(LitepalUtil.getLeader().getStrDeviceSN())) {
+                if (TextUtils.isEmpty(numStr)) {
+                    showToast("请先添加同行宝设备");
+                } else if (!TextUtils.isEmpty(LitepalUtil.getLeader().getStrDeviceSN())) {
                     mSVProgressHUD.showWithStatus("离队中...");
                     BleCommon.getInstance().liDui(numStr.substring(4));
 

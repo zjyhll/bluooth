@@ -18,9 +18,18 @@ public class SignUpUser extends DataSupport {
     private double distance = 0;
     private String location_time = "";
     private Integer isUsedByCurrentDevice = 0;//判断该tps_id是否是当前手机使用,列表中代表自己,1为自己，整个数据表中只会存在一个为1,0为其他人.每台手机只会指定一个用户
+    private Integer act_shilian = 0;// 是否失联(1)或为未失联(0)
 
     public Integer getDeviceReady() {
         return deviceReady;
+    }
+
+    public Integer getAct_shilian() {
+        return act_shilian;
+    }
+
+    public void setAct_shilian(Integer act_shilian) {
+        this.act_shilian = act_shilian;
     }
 
     public void setDeviceReady(Integer deviceReady) {
